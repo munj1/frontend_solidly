@@ -2,7 +2,7 @@ import { defineConfig } from '@dethcrypto/eth-sdk'
 
 export default defineConfig({
   contracts: {
-    mainnet: {
+    mainnetSolidlyETH: {
       dai: '0x6b175474e89094c44da98b954eedeac495271d0f',
       SolidlyLens: '0x18f7722a4fd1d7c59f80258542500024f0b97570',
       SolidlyLensInterface: '0xd688d43cccf804c2604d6d6386eb827c7d5b2225',
@@ -47,6 +47,24 @@ export default defineConfig({
       BaseV2MinterInterface: '0x9b94b045289b17a4cd1a556f090d294ed5cb8120',
       MerkleDistributorVeSolid: '0xc351cf5adcb3d75cd68661f4a1ae50a9d058d521',
       MerkleDistributor: '0x67977f219c5dd5ea1ac13910efab246af70afca1'
+    },
+
+    arbitrumGoerli: {
+      arbitrumGoerli: {
+        Velo: '0x41754Fd93201B64Cd7633a8e8f861D47594b29A8',
+        GaugeFactory: '0x30Ba274c119865312c1417b6E1Be6C98DAceb6B2',
+        BribeFactory: '0x4871E36eDEB6750e47f616C57e70a978ac9a9003',
+        PairFactory: '0xB4AD2aAC39268687D62b36BD69fC532862CF6590',
+        Router: '0x1584d57c849797fb752d3dc5071F49B59D6C7416',
+        VelodromeLibrary: '0x83c08EE991D0010208a117b84F7ea412373AEB90',
+        VeArtProxy: '0x944AF7785d57bcfC00e95388453B93DAD373216e',
+        VotingEscrow: '0x2B0BB6962e89bD5FE9510Ff09Af8D709be21AAD7',
+        RewardsDistributor: '0xf4F344Cfa1A82eDD37C96E879f01D9CA03f385b9',
+        Voter: '0x9f7fdaB9317f1442808B90B819Ed0a4eF4f74994',
+        Minter: '0x52A18b2386D6221Cf9DbcD4790456a23249e5279',
+        RedemptionReceiver: '0xfe873D4923b343F0D6BD98045a9C82D8dDEC511E',
+        VeloGovernor: '0x0bd9d21b40428a650DbFC0F7bd3F7B6FA321F915'
+      }
     }
   },
   rpc: {
