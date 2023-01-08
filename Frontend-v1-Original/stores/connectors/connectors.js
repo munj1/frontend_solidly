@@ -7,7 +7,9 @@ import { NetworkConnector } from '@web3-react/network-connector'
 const POLLING_INTERVAL = 12000
 const RPC_URLS = {
   250: 'https://rpc.ftm.tools',
-  4002: 'https://rpc.testnet.fantom.network'
+  4002: 'https://rpc.testnet.fantom.network',
+  42161: `https://arb-mainnet.g.alchemy.com/v2/${process.env.ALCHEMY_MAINNET_ARBITRUM_API_KEY}`,
+  421613: 'https://arb-goerli.g.alchemy.com/v2/JW-n2dVWqUeU-bdj_MKeq2qs3LupK8CS'
 }
 
 let obj = {}
@@ -15,6 +17,29 @@ if (process.env.NEXT_PUBLIC_CHAINID == 250) {
   obj = { 250: RPC_URLS[250] }
 } else {
   obj = { 4002: RPC_URLS[4002] }
+}
+
+// else if statement
+
+// change to case statement add arb & arb goerli + keep fantom & fantom testnet
+
+let caseObj = {}
+
+switch (process.env.NEXT_PUBLIC_CHAINID) {
+  case 250: //arb
+    obj = { 250: RPC_URLS[250] }
+    break
+  case 250: // arb goerli
+    obj = { 250: RPC_URLS[250] }
+    break
+  case 250: // fantom
+    obj = { 250: RPC_URLS[250] }
+    break
+  case 4002: // fantom testnet
+    obj = { 4002: RPC_URLS[4002] }
+    break
+  default:
+    obj = { 250: RPC_URLS[250] }
 }
 
 export const network = new NetworkConnector({ urls: obj })
