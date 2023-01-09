@@ -12,9 +12,16 @@ const RPC_URLS = {
   421613: 'https://arb-goerli.g.alchemy.com/v2/JW-n2dVWqUeU-bdj_MKeq2qs3LupK8CS'
 }
 
+// let obj = {}
+// if (process.env.NEXT_PUBLIC_CHAINID == 250) {
+//   obj = { 250: RPC_URLS[250] }
+// } else {
+//   obj = { 4002: RPC_URLS[4002] }
+// }
+
 let obj = {}
-if (process.env.NEXT_PUBLIC_CHAINID == 250) {
-  obj = { 250: RPC_URLS[250] }
+if (process.env.NEXT_PUBLIC_CHAINID == 421613) {
+  obj = { 421613: RPC_URLS[421613] }
 } else {
   obj = { 4002: RPC_URLS[4002] }
 }
@@ -26,11 +33,11 @@ if (process.env.NEXT_PUBLIC_CHAINID == 250) {
 let caseObj = {}
 
 switch (process.env.NEXT_PUBLIC_CHAINID) {
-  case 250: //arb
-    obj = { 250: RPC_URLS[250] }
+  case 42161: //arb
+    obj = { 42161: RPC_URLS[250] }
     break
-  case 250: // arb goerli
-    obj = { 250: RPC_URLS[250] }
+  case 421613: // arb goerli
+    obj = { 421613: RPC_URLS[250] }
     break
   case 250: // fantom
     obj = { 250: RPC_URLS[250] }
@@ -51,7 +58,9 @@ export const injected = new InjectedConnector({
 export const walletconnect = new WalletConnectConnector({
   rpc: {
     250: RPC_URLS[250],
-    4002: RPC_URLS[4002]
+    4002: RPC_URLS[4002],
+    42161: RPC_URLS[42161],
+    421613: RPC_URLS[421613]
   },
   chainId: parseInt(process.env.NEXT_PUBLIC_CHAINID),
   bridge: 'https://bridge.walletconnect.org',

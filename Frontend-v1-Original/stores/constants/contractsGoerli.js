@@ -1,6 +1,6 @@
-import abis from '../abis'
+import abis from '../abi-goerli'
 
-export const GOV_TOKEN_ADDRESS = '0x41754Fd93201B64Cd7633a8e8f861D47594b29A8'
+export const GOV_TOKEN_ADDRESS = '0x226556899E30A1b67063F50C8397F8dfEc307f51'
 export const GOV_TOKEN_NAME = 'Solid'
 export const GOV_TOKEN_SYMBOL = 'SOLID'
 export const GOV_TOKEN_DECIMALS = 18
@@ -14,13 +14,13 @@ export const VE_TOKEN_DECIMALS = 18
 export const VE_TOKEN_LOGO = 'https://prod.solidly.exchange/Solidly-O.svg'
 export const VE_TOKEN_ABI = abis.veTokenABI
 
-export const WFTM_ADDRESS = '0x21be370d5312f44cb42ce377bc9b8a0cef1a4c83'
-export const WFTM_NAME = 'Wrapped Fantom'
+export const WFTM_ADDRESS = ''
+export const WFTM_NAME = 'Wrapped Goerli ETH'
 export const WFTM_SYMBOL = 'WFTM'
 export const WFTM_DECIMALS = 18
 export const WFTM_ABI = abis.wftmABI
 
-export const FTM_ADDRESS = 'FTM'
+export const FTM_ADDRESS = 'Goerli ETH'
 export const FTM_NAME = 'Fantom'
 export const FTM_SYMBOL = 'FTM'
 export const FTM_DECIMALS = 18
@@ -30,13 +30,13 @@ export const FTM_LOGO =
 export const FACTORY_ADDRESS = '0x3fAaB499b519fdC5819e3D7ed0C26111904cbc28'
 export const FACTORY_ABI = abis.factoryABI
 
-export const ROUTER_ADDRESS = '0xa38cd27185a464914D3046f0AB9d43356B34829D'
+export const ROUTER_ADDRESS = '0xdb9e8e90326F2e7Bb9812Db2424A1F3E11ac5289'
 export const ROUTER_ABI = abis.routerABI
-
-export const VE_DIST_ADDRESS = '0xA5CEfAC8966452a78d6692837b2ba83d19b57d07'
+// using rewards distributer here need to double check if correct
+export const VE_DIST_ADDRESS = '0xa41c0f64dA9a1Dc720A7a2e98D8F11e6221565C4'
 export const VE_DIST_ABI = abis.veDistABI
 
-export const VOTER_ADDRESS = '0xdC819F5d05a6859D2faCbB4A44E5aB105762dbaE'
+export const VOTER_ADDRESS = '0x72291abCc0fCAc0E36CE45eb4A6bC40c67Fe5e2b'
 export const VOTER_ABI = abis.voterABI
 
 export const ERC20_ABI = abis.erc20ABI
@@ -45,6 +45,4 @@ export const GAUGE_ABI = abis.gaugeABI
 export const BRIBE_ABI = abis.bribeABI
 export const TOKEN_ABI = abis.tokenABI
 
-export const MULTICALL_ADDRESS = '0x11473d6e641df17cd6331d45b135e35b49edbea8'
-// https://ftmscan.com/address/0x11473d6e641df17cd6331d45b135e35b49edbea8#code
-// not sure what multicall is / does???
+// export const MULTICALL_ADDRESS = ''
