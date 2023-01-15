@@ -1,6 +1,6 @@
 import BigNumber from 'bignumber.js'
 import * as contractsTestnet from './contractsTestnet'
-import * as contracts from './contractsGoerli'
+import * as contracts from './contracts'
 // import * as contracts from './contracts'
 import * as actions from './actions'
 
@@ -14,7 +14,7 @@ if (isTestnet) {
   // scan = 'https://testnet.ftmscan.com/'
   scan = 'https://goerli.arbiscan.io/'
   // cont = contractsTestnet
-  cont = contractsGoerli
+  cont = contracts
 }
 
 console.log('we are on this chain:', cont)
