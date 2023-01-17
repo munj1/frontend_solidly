@@ -17,8 +17,6 @@ if (isTestnet) {
   cont = contracts
 }
 
-console.log('we are on this chain:', cont)
-
 export const ETHERSCAN_URL = scan
 
 export const CONTRACTS = cont

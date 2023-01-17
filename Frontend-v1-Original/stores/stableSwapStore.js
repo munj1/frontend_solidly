@@ -7,11 +7,9 @@ import { formatCurrency } from '../utils'
 import stores from './'
 
 import BigNumber from 'bignumber.js'
+import tokenlist from '../token-list.json';
+
 const fetch = require('node-fetch')
-
-// console log process.env
-
-console.log('process.env dunks', process.env.NEXT_PUBLIC_API_TOKEN)
 
 class Store {
   constructor (dispatcher, emitter) {
@@ -935,18 +933,18 @@ class Store {
 
   _getBaseAssets = async () => {
     try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API}/api/v1/baseAssets`,
-        {
-          method: 'get',
-          headers: {
-            Authorization: `Basic ${process.env.NEXT_PUBLIC_API_TOKEN}`
-          }
-        }
-      )
-      const baseAssetsCall = await response.json()
+      // const response = await fetch(
+      //   `${process.env.NEXT_PUBLIC_API}/api/v1/baseAssets`,
+      //   {
+      //     method: 'get',
+      //     headers: {
+      //       Authorization: `Basic ${process.env.NEXT_PUBLIC_API_TOKEN}`
+      //     }
+      //   }
+      // )
+      // const baseAssetsCall = await response.json()
 
-      let baseAssets = baseAssetsCall.data
+      let baseAssets = tokenlist;
       // here is the issue
       const nativeFTM = {
         address: CONTRACTS.FTM_ADDRESS,
