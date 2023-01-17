@@ -7,7 +7,8 @@ import { formatCurrency } from '../utils'
 import stores from './'
 
 import BigNumber from 'bignumber.js'
-import tokenlist from '../token-list.json';
+// import tokenlist from '../token-list.json';
+import tokenlist from '../goerli-arb-token-list.json';
 
 const fetch = require('node-fetch')
 
@@ -544,10 +545,10 @@ class Store {
   }
 
   getPair = async (addressA, addressB, stab) => {
-    if (addressA === 'FTM') {
+    if (addressA === 'AGOR') {
       addressA = CONTRACTS.WFTM_ADDRESS
     }
-    if (addressB === 'FTM') {
+    if (addressB === 'AGOR') {
       addressB = CONTRACTS.WFTM_ADDRESS
     }
 
@@ -1322,7 +1323,7 @@ class Store {
       const baseAssetsBalances = await Promise.all(
         baseAssets.map(async asset => {
           try {
-            if (asset.address === 'FTM') {
+            if (asset.address === 'AGOR') {
               let bal = await web3.eth.getBalance(account.address)
               return {
                 balanceOf: bal,
@@ -1443,10 +1444,10 @@ class Store {
 
       let toki0 = token0.address
       let toki1 = token1.address
-      if (token0.address === 'FTM') {
+      if (token0.address === 'AGOR') {
         toki0 = CONTRACTS.WFTM_ADDRESS
       }
-      if (token1.address === 'FTM') {
+      if (token1.address === 'AGOR') {
         toki1 = CONTRACTS.WFTM_ADDRESS
       }
 
@@ -1712,10 +1713,10 @@ class Store {
           // GET PAIR FOR NEWLY CREATED LIQUIDITY POOL
           let tok0 = token0.address
           let tok1 = token1.address
-          if (token0.address === 'FTM') {
+          if (token0.address === 'AGOR') {
             tok0 = CONTRACTS.WFTM_ADDRESS
           }
-          if (token1.address === 'FTM') {
+          if (token1.address === 'AGOR') {
             tok1 = CONTRACTS.WFTM_ADDRESS
           }
           const pairFor = await factoryContract.methods
@@ -1879,10 +1880,10 @@ class Store {
 
       let toki0 = token0.address
       let toki1 = token1.address
-      if (token0.address === 'FTM') {
+      if (token0.address === 'AGOR') {
         toki0 = CONTRACTS.WFTM_ADDRESS
       }
-      if (token1.address === 'FTM') {
+      if (token1.address === 'AGOR') {
         toki1 = CONTRACTS.WFTM_ADDRESS
       }
 
@@ -2136,10 +2137,10 @@ class Store {
           // GET PAIR FOR NEWLY CREATED LIQUIDITY POOL
           let tok0 = token0.address
           let tok1 = token1.address
-          if (token0.address === 'FTM') {
+          if (token0.address === 'AGOR') {
             tok0 = CONTRACTS.WFTM_ADDRESS
           }
-          if (token1.address === 'FTM') {
+          if (token1.address === 'AGOR') {
             tok1 = CONTRACTS.WFTM_ADDRESS
           }
           const pairFor = await factoryContract.methods
@@ -3059,10 +3060,10 @@ class Store {
       let addy0 = token0.address
       let addy1 = token1.address
 
-      if (token0.address === 'FTM') {
+      if (token0.address === 'AGOR') {
         addy0 = CONTRACTS.WFTM_ADDRESS
       }
-      if (token1.address === 'FTM') {
+      if (token1.address === 'AGOR') {
         addy1 = CONTRACTS.WFTM_ADDRESS
       }
 
@@ -3755,10 +3756,10 @@ class Store {
       let addy0 = fromAsset.address
       let addy1 = toAsset.address
 
-      if (fromAsset.address === 'FTM') {
+      if (fromAsset.address === 'AGOR') {
         addy0 = CONTRACTS.WFTM_ADDRESS
       }
-      if (toAsset.address === 'FTM') {
+      if (toAsset.address === 'AGOR') {
         addy1 = CONTRACTS.WFTM_ADDRESS
       }
 

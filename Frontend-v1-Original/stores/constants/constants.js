@@ -1,5 +1,5 @@
 import BigNumber from 'bignumber.js'
-import * as contractsTestnet from './contractsTestnet'
+import * as contractsTestnet from './contractsGoerli'
 import * as contracts from './contracts'
 // import * as contracts from './contracts'
 import * as actions from './actions'
@@ -13,8 +13,8 @@ let cont = contracts
 if (isTestnet) {
   // scan = 'https://testnet.ftmscan.com/'
   scan = 'https://goerli.arbiscan.io/'
-  // cont = contractsTestnet
-  cont = contracts
+  cont = contractsTestnet
+  //cont = contracts
 }
 
 export const ETHERSCAN_URL = scan

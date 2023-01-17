@@ -20,11 +20,11 @@ const RPC_URLS = {
 // }
 
 let obj = {}
-if (process.env.NEXT_PUBLIC_CHAINID == 421613) {
-  obj = { 421613: RPC_URLS[421613] }
-} else {
-  obj = { 4002: RPC_URLS[4002] }
-}
+// if (process.env.NEXT_PUBLIC_CHAINID == 421613) {
+//   obj = { 421613: RPC_URLS[421613] }
+// } else {
+//   obj = { 4002: RPC_URLS[4002] }
+// }
 
 // else if statement
 
@@ -37,7 +37,7 @@ switch (process.env.NEXT_PUBLIC_CHAINID) {
     obj = { 42161: RPC_URLS[250] }
     break
   case 421613: // arb goerli
-    obj = { 421613: RPC_URLS[250] }
+    obj = { 421613: RPC_URLS[421613] }
     break
   case 250: // fantom
     obj = { 250: RPC_URLS[250] }

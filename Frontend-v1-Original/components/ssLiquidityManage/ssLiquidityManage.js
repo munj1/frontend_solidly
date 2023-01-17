@@ -229,10 +229,10 @@ export default function ssLiquidityManage() {
     let addy0 = assetA.address
     let addy1 = assetB.address
 
-    if(assetA.address === 'FTM') {
+    if(assetA.address === 'AGOR') {
       addy0 = CONTRACTS.WFTM_ADDRESS
     }
-    if(assetB.address === 'FTM') {
+    if(assetB.address === 'AGOR') {
       addy1 = CONTRACTS.WFTM_ADDRESS
     }
 
