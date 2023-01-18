@@ -9,7 +9,7 @@ const RPC_URLS = {
   250: 'https://rpc.ftm.tools',
   4002: 'https://rpc.testnet.fantom.network',
   42161: `https://arb-mainnet.g.alchemy.com/v2/${process.env.ALCHEMY_MAINNET_ARBITRUM_API_KEY}`,
-  421613: 'https://arb-goerli.g.alchemy.com/v2/JW-n2dVWqUeU-bdj_MKeq2qs3LupK8CS'
+  421613: 'https://arb-goerli.g.alchemy.com/v2/DYui84snckNK6aQUTLWXRUBGvCuUw9nJ'
 }
 
 // let obj = {}

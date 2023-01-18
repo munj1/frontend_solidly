@@ -8,7 +8,7 @@ import stores from './'
 
 import BigNumber from 'bignumber.js'
 // import tokenlist from '../token-list.json';
-import tokenlist from '../goerli-arb-token-list.json';
+import tokenlist from '../goerli-arb-token-list.json'
 
 const fetch = require('node-fetch')
 
@@ -178,6 +178,8 @@ class Store {
       }
       return ass.address.toLowerCase() === address.toLowerCase()
     })
+
+    console.log('dunks the asset', TheAsset)
 
     if (!theAsset || theAsset.length === 0) {
       return null
@@ -545,10 +547,10 @@ class Store {
   }
 
   getPair = async (addressA, addressB, stab) => {
-    if (addressA === 'AGOR') {
+    if (addressA === 'FTM') {
       addressA = CONTRACTS.WFTM_ADDRESS
     }
-    if (addressB === 'AGOR') {
+    if (addressB === 'FTM') {
       addressB = CONTRACTS.WFTM_ADDRESS
     }
 
@@ -792,6 +794,8 @@ class Store {
       let localBaseAssets = []
       const localBaseAssetsString = localStorage.getItem('stableSwap-assets')
 
+      console.log('localbaseassets', localBaseAssetsString)
+
       if (localBaseAssetsString && localBaseAssetsString !== '') {
         localBaseAssets = JSON.parse(localBaseAssetsString)
 
@@ -945,7 +949,7 @@ class Store {
       // )
       // const baseAssetsCall = await response.json()
 
-      let baseAssets = tokenlist;
+      let baseAssets = tokenlist
       // here is the issue
       const nativeFTM = {
         address: CONTRACTS.FTM_ADDRESS,

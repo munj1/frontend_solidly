@@ -14,5 +14,21 @@
     "decimals": 6,
     "chainId": 421613,
     "logoURI": "https://ethereum-optimism.github.io/logos/USDC.png"
+  },
+  {
+    "name": "WRAPPED ETH",
+    "address": "0xC033378c6eEa969C001CE9438973ca4d6460999a",
+    "symbol": "WETH",
+    "decimals": 6,
+    "chainId": 421613,
+    "logoURI": "https://ethereum-optimism.github.io/logos/USDC.png"
+  },
+  {
+    "name": "VELO",
+    "address": "0x84Ca387E7ede764A3284c67Ff8c68a305a9030a0",
+    "symbol": "VELO",
+    "decimals": 6,
+    "chainId": 421613,
+    "logoURI": "https://ethereum-optimism.github.io/logos/USDC.png"
   }
 ]
