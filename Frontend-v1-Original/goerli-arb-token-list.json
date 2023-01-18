@@ -1,6 +1,6 @@
 [
   {
-    "name": "FAKE DAI",
+    "name": "FAKE test DAI",
     "address": "0xE65A051E0ae02eB66a11c73B2BA14021B5aadAEE",
     "symbol": "DAI",
     "decimals": 18,
@@ -25,9 +25,17 @@
   },
   {
     "name": "VELO",
-    "address": "0x84Ca387E7ede764A3284c67Ff8c68a305a9030a0",
+    "address": "0xC33f7f83CbB021846Cb9c58f2d8E3df428dbC8C1",
     "symbol": "VELO",
     "decimals": 6,
+    "chainId": 421613,
+    "logoURI": "https://ethereum-optimism.github.io/logos/USDC.png"
+  },
+  {
+    "name": "AGG",
+    "address": "0x10663b695b8f75647bD3FF0ff609e16D35BbD1eC",
+    "symbol": "AGG",
+    "decimals": 18,
     "chainId": 421613,
     "logoURI": "https://ethereum-optimism.github.io/logos/USDC.png"
   }

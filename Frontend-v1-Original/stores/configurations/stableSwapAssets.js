@@ -42,5 +42,13 @@ export default [
     symbol: 'BaseV1',
     decimals: 18,
     logo: ''
+  },
+  // after here is arb mainnet assets for now
+  {
+    address: '0x10663b695b8f75647bD3FF0ff609e16D35BbD1eC', // this is FLOW / velo / solid etc found in FTM scan https://ftmscan.com/address/0xd3C885b06E9308ed1BC0f4EEF9bAee17652Ed747
+    name: 'AmpliFi',
+    symbol: 'AGG',
+    decimals: 18,
+    logo: ''
   }
 ]

@@ -8,7 +8,8 @@ import stores from './'
 
 import BigNumber from 'bignumber.js'
 // import tokenlist from '../token-list.json';
-import tokenlist from '../goerli-arb-token-list.json'
+// import tokenlist from '../goerli-arb-token-list.json'
+import tokenlist from '../mainnet-arb-token-list.json'
 
 const fetch = require('node-fetch')
 
