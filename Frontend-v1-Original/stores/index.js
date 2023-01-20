@@ -10,9 +10,6 @@ const emitter = new Emitter()
 const accountStore = new AccountStore(dispatcher, emitter)
 const stableSwapStore = new StableSwapStore(dispatcher, emitter)
 
-console.log('accountStore', accountStore)
-console.log('stableSwapStore', stableSwapStore)
-
 export default {
   accountStore: accountStore,
   stableSwapStore: stableSwapStore,

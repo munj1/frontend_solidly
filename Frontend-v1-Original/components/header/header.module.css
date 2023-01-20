@@ -48,10 +48,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 4px;
+  gap: 8px;
 }
 
 .logoText {
+  font-size: 1.5rem !important;
+  font-weight: 700 !important;
 }
 
 .networkIcon {
@@ -115,7 +117,7 @@
   align-items: center;
   margin-left: 14px !important;
   min-height: 50px;
-  background-color: rgb(33, 43, 72) !important;
+  background-color: #040105 !important;
   border: 0 !important;
   border-radius: 40px !important;
   color: rgba(255, 255, 255, 0.87) !important;

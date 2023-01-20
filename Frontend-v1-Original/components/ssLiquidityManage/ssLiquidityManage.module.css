@@ -269,7 +269,7 @@
 }
 
 .buttonOverride {
-  background: rgb(23, 52, 72) !important;
+  background: #272826 !important;
   color: rgb(6, 211, 215) !important;
   font-weight: 700 !important;
 }
@@ -316,7 +316,7 @@
   border-radius: 10px;
   width: 100%;
   align-items: center;
-  background: rgb(33, 43, 72);
+  background: #272826;
 }
 
 .massiveInputAssetSelect {

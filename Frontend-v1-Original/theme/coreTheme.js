@@ -7,7 +7,7 @@ export const colors = {
 
 const coreTheme = {
   shape: {
-    borderRadius: '0px'
+    borderRadius: '10px'
   },
   typography: {
     fontFamily: [

@@ -31,6 +31,9 @@ export default function Layout({
         <meta name="og:title" content="Velocimeter" />
         <meta name="twitter:card" content="summary_large_image" />
       </Head>
+      <div className={classes.background} />
+      <div className={classes.greyGlow} />
+      <div className={classes.greenGlow} />
       <div className={classes.content}>
         {!configure && (
           <Header backClicked={backClicked} changeTheme={changeTheme} title={ title } />

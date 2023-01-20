@@ -24,7 +24,7 @@ import classes from './header.module.css';
 function SiteLogo(props) {
   const { color, className } = props;
   return (
-    <Image className={className} src='/images/vcm_logo.jpg' height={32} width={32} />
+    <Image className={className} src='/images/vcm_logo.jpg' height={48} width={48} />
   );
 }
 
@@ -44,6 +44,7 @@ const StyledMenu = withStyles({
     border: '1px solid rgba(126,153,176,0.2)',
     marginTop: '10px',
     minWidth: '230px',
+    background: "#040105",
   },
 })((props) => (
   <Menu
