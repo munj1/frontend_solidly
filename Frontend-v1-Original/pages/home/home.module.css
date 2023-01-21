@@ -151,10 +151,10 @@
     height: 600px;
     width: 600px;
     position: absolute;
-    top: 50%;
+    top: 5%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background-image: url('/images/sphere_001.png');
+    background-image: url('/images/s.png');
     background-size: cover;
     background-repeat: no-repeat;
     z-index: 1;

@@ -32,12 +32,12 @@
 
 .sphere {
   position: absolute;
-  top: 50%;
+  top: 5%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 420px;
-  height: 420px;
-  background-image: url('/images/sphere_001.png');
+  width: 620px;
+  height: 620px;
+  background-image: url('../../images/s.png');
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
