@@ -5,24 +5,7 @@
   width: 100%;
   display: flex;
   position: relative;
-  /* background-image: url("/images/solid_background.png");
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-attachment: fixed; */
 }
-
-/* .container::before {
-  position: absolute;
-  pointer-events: none;
-  content: "";
-  bottom: 1rem;
-  left: 1rem;
-  width: 512px;
-  height: 512px;
-  background-image: url("/images/lab_resized.png");
-  background-size: cover;
-  background-repeat: no-repeat;
-} */
 
 .background {
   position: absolute;
@@ -59,30 +42,6 @@
   opacity: 0.5;
   z-index: -1;
 }
-/* .container::after {
-  position: absolute;
-  pointer-events: none;
-  content: "";
-  bottom: 1rem;
-  left: 1rem;
-  width: 512px;
-  height: 512px;
-  background-color: #d6d6d6;
-  filter: blur(256px);
-  opacity: 0.5;
-}
-.container::before {
-  position: absolute;
-  pointer-events: none;
-  content: "";
-  top: 1rem;
-  right: 1rem;
-  width: 512px;
-  height: 512px;
-  background-color: rgb(142, 241, 90);
-  filter: blur(256px);
-  opacity: 0.5;
-} */
 
 .content {
   flex: 1;

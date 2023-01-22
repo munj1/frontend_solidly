@@ -370,7 +370,7 @@ const useStyles = makeStyles((theme) => ({
   buttonOverride: {
     width: '100%',
     color: 'rgb(6, 211, 215)',
-    background: 'rgb(23, 52, 72)',
+    background: '#272826',
     fontWeight: '700',
     '&:hover': {
       background: 'rgb(19, 44, 60)'
@@ -388,7 +388,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'flex-end'
   },
   filterButton: {
-    background: '#111729',
+    background: '#272826',
     border: '1px solid rgba(126,153,176,0.3)',
     color: '#06D3D7',
     width: '100%',
@@ -548,7 +548,6 @@ const EnhancedTableToolbar = (props) => {
           startIcon={<AddCircleOutlineIcon />}
           size='large'
           className={ classes.buttonOverride }
-          color='primary'
           onClick={ onCreate }
         >
           <Typography className={ classes.actionButtonText }>Add Liquidity</Typography>

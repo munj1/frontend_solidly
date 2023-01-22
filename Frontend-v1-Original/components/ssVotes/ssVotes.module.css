@@ -26,7 +26,7 @@
 .actionButtons {
   padding: 10px 0;
   min-width: 560px !important;
-  background: #11172a !important;
+  background: #0e110c !important;
   position: fixed;
   bottom: 30px;
   left: 50%;
@@ -83,7 +83,7 @@
 
 
 .buttonOverrideFixed {
-  background: rgb(23, 52, 72) !important;
+  background: #272826 !important;
   color: rgb(6, 211, 215) !important;
   font-weight: 700 !important;
   min-width: 200px !important;
@@ -120,7 +120,7 @@
   border-radius: 10px;
   width: 100%;
   align-items: center;
-  background: rgb(33, 43, 72);
+  background: #272826;
   padding: 0 20px;
 }
 
@@ -178,7 +178,7 @@
   .actionButtons {
     padding: 10px 0;
     min-width: 100% !important;
-    background: #11172a !important;
+    background: #0e110c !important;
     position: fixed;
     bottom: 0px;
     left: 0;
