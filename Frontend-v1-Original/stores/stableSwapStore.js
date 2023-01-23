@@ -1328,7 +1328,7 @@ class Store {
       const baseAssetsBalances = await Promise.all(
         baseAssets.map(async asset => {
           try {
-            if (asset.address === 'AGOR') {
+            if (asset.address === 'ETH') {
               let bal = await web3.eth.getBalance(account.address)
               return {
                 balanceOf: bal,

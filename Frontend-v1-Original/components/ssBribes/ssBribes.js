@@ -91,6 +91,7 @@ export default function ssBribes () {
           </Button>
         </Grid>
       </Grid>
+      <div style='margin-top: 20px'></div>
       <div className={classes.bribesContainer}>
         {pairs &&
           pairs &&
