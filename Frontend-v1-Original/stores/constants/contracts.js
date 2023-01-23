@@ -20,12 +20,12 @@ export const WFTM_SYMBOL = 'WFTM'
 export const WFTM_DECIMALS = 18
 export const WFTM_ABI = abis.wftmABI
 
-export const FTM_ADDRESS = 'FTM'
-export const FTM_NAME = 'Fantom'
-export const FTM_SYMBOL = 'FTM'
+export const FTM_ADDRESS = 'ETH'
+export const FTM_NAME = 'ETH'
+export const FTM_SYMBOL = 'ETH'
 export const FTM_DECIMALS = 18
 export const FTM_LOGO =
-  'https://assets.coingecko.com/coins/images/4001/large/Fantom.png'
+  'https://assets.coingecko.com/coins/images/279/large/ethereum.png'
 
 // BaseV1Factory checked here: https://ftmscan.com/address/0x3fAaB499b519fdC5819e3D7ed0C26111904cbc28#code
 export const FACTORY_ADDRESS = '0xA2db791281CdeeBb1EEDc78a34989df2Bfd479bE' // pretty sure on this one not 100% tho..

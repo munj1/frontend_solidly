@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, forwardRef } from "react";
 import { Typography, DialogContent, Dialog, Slide, IconButton } from "@mui/material";
 import { OpenInNew, Close } from '@mui/icons-material';
 
@@ -10,9 +10,9 @@ import pairSuccessAnim from "../../public/lottiefiles/pairSuccess.json";
 
 import Transaction from './transaction'
 
-function Transition(props) {
-  return <Slide direction="up" {...props} />;
-}
+const Transition = forwardRef((props, ref) => {
+  return <Slide direction='up' {...props} ref={ref} />;
+});
 
 import classes from './transactionQueue.module.css';
 import stores from '../../stores'
