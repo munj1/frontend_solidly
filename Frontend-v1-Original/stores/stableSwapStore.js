@@ -5872,16 +5872,8 @@ class Store {
     dispatchContent,
     uuid,
     callback,
-    paddGasCost,
     sendValue = null
   ) => {
-    // console.log(method)
-    // console.log(params)
-    // if(sendValue) {
-    //   console.log(sendValue)
-    // }
-    // console.log(uuid)
-    //estimate gas
     this.emitter.emit(ACTIONS.TX_PENDING, { uuid });
 
     const gasCost = contract.methods[method](...params)

@@ -115,6 +115,9 @@ export default function ssBribeCreate() {
       } else if (asset && BigNumber(amount).gt(asset.balance)) {
         setAmountError(`Greater than your available balance`)
         error = true
+      } else if (asset && asset.address === 'ETH') {
+        setAmountError(`ETH is not supported`)
+        error = true
       }
     }
 
