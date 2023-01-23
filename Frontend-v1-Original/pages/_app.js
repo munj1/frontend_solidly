@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import Head from 'next/head'
 import Layout from '../components/layout/layout.js'
-import { ThemeProvider } from '@material-ui/core/styles'
-import CssBaseline from '@material-ui/core/CssBaseline'
+import { ThemeProvider } from '@mui/material/styles';
+import CssBaseline from "@mui/material/CssBaseline";
 import { useRouter } from 'next/router'
 
 import lightTheme from '../theme/light'

@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { withTheme } from "@material-ui/core/styles";
+import { withTheme } from "@mui/styles";
 import classes from "./configure.module.css";
 
 function Configure({ theme }) {

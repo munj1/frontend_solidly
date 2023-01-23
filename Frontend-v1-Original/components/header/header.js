@@ -2,13 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from "next/router";
 import Image from 'next/image';
 
-import { Typography, Switch, Button, SvgIcon, Badge, IconButton, Menu, MenuItem, ListItemIcon, ListItemText } from '@material-ui/core';
-import { withStyles, withTheme } from '@material-ui/core/styles';
-import HelpIcon from '@material-ui/icons/Help';
-import ListIcon from '@material-ui/icons/List';
-import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
-import AccountBalanceWalletOutlinedIcon from '@material-ui/icons/AccountBalanceWalletOutlined';
-import DashboardOutlinedIcon from '@material-ui/icons/DashboardOutlined';
+import { Typography, Switch, Button, SvgIcon, Badge, IconButton, Menu, MenuItem, ListItemIcon, ListItemText } from "@mui/material";
+import { withStyles, withTheme } from "@mui/styles";
+import { List, ArrowDropDown, AccountBalanceWalletOutlined, DashboardOutlined } from "@mui/icons-material";
 
 import Navigation from '../navigation'
 import Unlock from '../unlock';
@@ -142,7 +138,7 @@ function Header(props) {
   const router = useRouter();
 
   const [account, setAccount] = useState(accountStore);
-  const [darkMode, setDarkMode] = useState(props.theme.palette.type === 'dark' ? true : false);
+  const [darkMode, setDarkMode] = useState(props.theme.palette.mode === 'dark' ? true : false);
   const [unlockOpen, setUnlockOpen] = useState(false);
   const [chainInvalid, setChainInvalid] = useState(false)
   const [loading, setLoading] = useState(false)
@@ -251,13 +247,13 @@ function Header(props) {
             <IconButton
               className={classes.accountButton}
               variant="contained"
-              color={props.theme.palette.type === 'dark' ? 'primary' : 'secondary'}
+              color={props.theme.palette.mode === 'dark' ? 'primary' : 'secondary'}
               onClick={ () => {
                   stores.emitter.emit(ACTIONS.TX_OPEN)
                 }
               }>
               <StyledBadge badgeContent={transactionQueueLength} color="secondary" overlap="circular" >
-                <ListIcon className={ classes.iconColor}/>
+                <List className={ classes.iconColor}/>
               </StyledBadge>
             </IconButton>
           }
@@ -268,11 +264,11 @@ function Header(props) {
             disableElevation
             className={classes.accountButton}
             variant="contained"
-            color={props.theme.palette.type === 'dark' ? 'primary' : 'secondary'}
+            color={props.theme.palette.mode === 'dark' ? 'primary' : 'secondary'}
              aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
             {account && account.address && <div className={`${classes.accountIcon} ${classes.metamask}`}></div>}
             <Typography className={classes.headBtnTxt}>{account && account.address ? formatAddress(account.address) : 'Connect Wallet'}</Typography>
-            <ArrowDropDownIcon className={classes.ddIcon} />
+            <ArrowDropDown className={classes.ddIcon} />
           </Button>
 
           <StyledMenu
@@ -285,13 +281,13 @@ function Header(props) {
           >
             <StyledMenuItem className={classes.hidden} onClick={() => router.push('/dashboard')}>
               <ListItemIcon className={classes.userMenuIcon}>
-                <DashboardOutlinedIcon fontSize="small" />
+                <DashboardOutlined fontSize="small" />
               </ListItemIcon>
               <ListItemText className={classes.userMenuText} primary="Dashboard" />
             </StyledMenuItem>
             <StyledMenuItem onClick={onAddressClicked}>
               <ListItemIcon className={classes.userMenuIcon}>
-                <AccountBalanceWalletOutlinedIcon fontSize="small" />
+                <AccountBalanceWalletOutlined fontSize="small" />
               </ListItemIcon>
               <ListItemText className={classes.userMenuText} primary="Switch Wallet Provider" />
             </StyledMenuItem>
@@ -302,7 +298,7 @@ function Header(props) {
             disableElevation
             className={classes.accountButton}
             variant="contained"
-            color={props.theme.palette.type === 'dark' ? 'primary' : 'secondary'}
+            color={props.theme.palette.mode === 'dark' ? 'primary' : 'secondary'}
             onClick={onAddressClicked}>
             {account && account.address && <div className={`${classes.accountIcon} ${classes.metamask}`}></div>}
             <Typography className={classes.headBtnTxt}>{account && account.address ? formatAddress(account.address) : 'Connect Wallet'}</Typography>

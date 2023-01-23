@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 
-import { Typography, Switch } from '@material-ui/core';
-import { ToggleButton, ToggleButtonGroup } from '@material-ui/lab';
-import { withTheme, withStyles } from '@material-ui/core/styles';
+import { Typography, Switch } from "@mui/material";
+import { ToggleButton, ToggleButtonGroup } from "@mui/lab";
+import { withTheme, withStyles } from "@mui/styles";
 
 import SSWarning  from '../ssWarning';
 

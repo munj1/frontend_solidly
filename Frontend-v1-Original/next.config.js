@@ -2,7 +2,8 @@
  * @type {import('next').NextConfig}
  */
 const nextConfig = {
-  /* config options here */
+  swcMinify: true,
+  reactStrictMode: false, // because @mui/styles doesnt work with srict mode
 };
 
 module.exports = nextConfig;

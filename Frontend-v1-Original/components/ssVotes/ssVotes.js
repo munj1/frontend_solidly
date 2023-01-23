@@ -1,8 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Paper, Typography, Button, CircularProgress, InputAdornment, TextField, MenuItem, Select, Grid } from '@material-ui/core';
+import { Paper, Typography, Button, CircularProgress, InputAdornment, TextField, MenuItem, Select, Grid } from '@mui/material';
 import BigNumber from 'bignumber.js';
-import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
-import SearchIcon from '@material-ui/icons/Search';
+import { Search } from '@mui/icons-material';
 import { useRouter } from "next/router";
 
 import classes from './ssVotes.module.css';
@@ -164,7 +163,7 @@ export default function ssVotes() {
       <div className={ classes.topBarContainer }>
 
         <Grid container spacing={1}>
-          <Grid item lg='auto' lg='auto' sm={12} xs={12}>
+          <Grid item lg='auto' sm={12} xs={12}>
             {/*
               <Button
                 variant="contained"
@@ -191,13 +190,13 @@ export default function ssVotes() {
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
-                    <SearchIcon />
+                    <Search sx={{fill: 'white'}}/>
                   </InputAdornment>
                 ),
               }}
             />
           </Grid>
-          <Grid item lg='auto' lg='auto' sm={12} xs={12}>
+          <Grid item lg='auto' sm={12} xs={12}>
             <div className={ classes.tokenIDContainer }>
               { renderMediumInput(token, vestNFTs) }
             </div>
