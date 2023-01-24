@@ -368,7 +368,7 @@ function Setup() {
             </div>
             <div className={classes.stabIndicatorContainer}>
               <Typography className={classes.stabIndicator}>
-                {quote.output.routes[0].stable ? "Stable" : "Volatile"}
+                {quote?.output?.routes[0].stable ? "Stable" : "Volatile"}
               </Typography>
             </div>
           </div>
@@ -395,7 +395,7 @@ function Setup() {
                 </div>
                 <div className={classes.stabIndicatorContainer}>
                   <Typography className={classes.stabIndicator}>
-                    {quote.output.routes[1].stable ? "Stable" : "Volatile"}
+                    {quote?.output?.routes[1].stable ? "Stable" : "Volatile"}
                   </Typography>
                 </div>
               </div>
