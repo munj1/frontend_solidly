@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/core/styles';
-import Skeleton from '@material-ui/lab/Skeleton';
 import {
   Paper,
   Button,
@@ -25,10 +23,11 @@ import {
   Switch,
   Select,
   MenuItem
-} from '@material-ui/core';
+} from '@mui/material';
+import { makeStyles } from '@mui/styles';
+import { Skeleton } from '@mui/lab';
 import { useRouter } from "next/router";
 import BigNumber from 'bignumber.js';
-import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
 
 import { formatCurrency } from '../../utils';
 import stores from '../../stores'
@@ -335,7 +334,7 @@ const useStyles = makeStyles((theme) => ({
   },
   buttonOverride: {
     color: 'rgb(6, 211, 215)',
-    background: 'rgb(23, 52, 72)',
+    background: '#272826',
     fontWeight: '700',
     '&:hover': {
       background: 'rgb(19, 44, 60)'
@@ -353,7 +352,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'flex-end'
   },
   filterButton: {
-    background: '#111729',
+    background: '#272826',
     border: '1px solid rgba(126,153,176,0.3)',
     color: '#06D3D7',
     marginRight: '30px',

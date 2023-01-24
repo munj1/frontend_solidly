@@ -11,7 +11,7 @@ export default function Layout({
   return (
     <div className={classes.container}>
       <Head>
-        <link rel="icon" href="/favicon.png" />
+        <link rel="icon" href="/images/vcm_logo.jpg" />
         <link
           rel="preload"
           href="/fonts/Inter/Inter-Regular.ttf"
@@ -37,8 +37,8 @@ export default function Layout({
           as="font"
           crossOrigin=""
         />
-        <meta name="description" content="Solidly allows low cost, near 0 slippage trades on uncorrelated or tightly correlated assets built on Fantom." />
-        <meta name="og:title" content="Solidly" />
+        <meta name="description" content="Velocimeter allows low cost, near 0 slippage trades on uncorrelated or tightly correlated assets built on Arbitrum." />
+        <meta name="og:title" content="Velocimeter" />
         <meta name="twitter:card" content="summary_large_image" />
       </Head>
       <div className={classes.content}>

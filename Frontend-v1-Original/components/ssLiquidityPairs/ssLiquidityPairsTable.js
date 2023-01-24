@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
-import PropTypes from 'prop-types'
-import { makeStyles } from '@material-ui/core/styles'
-import Skeleton from '@material-ui/lab/Skeleton'
+import React, { useState } from "react";
+import PropTypes from "prop-types";
+import { makeStyles } from "@mui/styles";
+import Skeleton from "@mui/lab/Skeleton";
 import {
   Paper,
   Button,
@@ -22,153 +22,155 @@ import {
   Popper,
   Fade,
   Grid,
-  Switch
-} from '@material-ui/core'
-import { useRouter } from 'next/router'
-import BigNumber from 'bignumber.js'
-import FilterListIcon from '@material-ui/icons/FilterList'
-import SearchIcon from '@material-ui/icons/Search'
-import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline'
-import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined'
+  Switch,
+} from "@mui/material";
+import { useRouter } from "next/router";
+import BigNumber from "bignumber.js";
+import {
+  FilterList,
+  Search,
+  AddCircleOutline,
+  InfoOutlined,
+} from "@mui/icons-material";
 
-import { formatCurrency } from '../../utils'
+import { formatCurrency } from "../../utils";
 
-function descendingComparator (a, b, orderBy) {
+function descendingComparator(a, b, orderBy) {
   if (!a || !b) {
-    return 0
+    return 0;
   }
 
   switch (orderBy) {
-    case 'balance':
+    case "balance":
       let balanceA = BigNumber(a?.token0?.balance)
         .plus(a?.token1?.balance)
-        .toNumber()
+        .toNumber();
       let balanceB = BigNumber(b?.token0?.balance)
         .plus(b?.token1?.balance)
-        .toNumber()
+        .toNumber();
 
       if (BigNumber(balanceB).lt(balanceA)) {
-        return -1
+        return -1;
       }
       if (BigNumber(balanceB).gt(balanceA)) {
-        return 1
+        return 1;
       }
-      return 0
+      return 0;
 
-    case 'poolBalance':
+    case "poolBalance":
       if (BigNumber(b?.balance).lt(a?.balance)) {
-        return -1
+        return -1;
       }
       if (BigNumber(b?.balance).gt(a?.balance)) {
-        return 1
+        return 1;
       }
-      return 0
+      return 0;
 
-    case 'stakedBalance':
+    case "stakedBalance":
       if (!(a && a.gauge)) {
-        return 1
+        return 1;
       }
 
       if (!(b && b.gauge)) {
-        return -1
+        return -1;
       }
 
       if (BigNumber(b?.gauge?.balance).lt(a?.gauge?.balance)) {
-        return -1
+        return -1;
       }
       if (BigNumber(b?.gauge?.balance).gt(a?.gauge?.balance)) {
-        return 1
+        return 1;
       }
-      return 0
+      return 0;
 
-    case 'poolAmount':
-      let reserveA = BigNumber(a?.reserve0).plus(a?.reserve1).toNumber()
-      let reserveB = BigNumber(b?.reserve0).plus(b?.reserve1).toNumber()
+    case "poolAmount":
+      let reserveA = BigNumber(a?.reserve0).plus(a?.reserve1).toNumber();
+      let reserveB = BigNumber(b?.reserve0).plus(b?.reserve1).toNumber();
 
       if (BigNumber(reserveB).lt(reserveA)) {
-        return -1
+        return -1;
       }
       if (BigNumber(reserveB).gt(reserveA)) {
-        return 1
+        return 1;
       }
-      return 0
+      return 0;
 
-    case 'stakedAmount':
+    case "stakedAmount":
       if (!(a && a.gauge)) {
-        return 1
+        return 1;
       }
 
       if (!(b && b.gauge)) {
-        return -1
+        return -1;
       }
 
       let reserveAA = BigNumber(a?.gauge?.reserve0)
         .plus(a?.gauge?.reserve1)
-        .toNumber()
+        .toNumber();
       let reserveBB = BigNumber(b?.gauge?.reserve0)
         .plus(b?.gauge?.reserve1)
-        .toNumber()
+        .toNumber();
 
       if (BigNumber(reserveBB).lt(reserveAA)) {
-        return -1
+        return -1;
       }
       if (BigNumber(reserveBB).gt(reserveAA)) {
-        return 1
+        return 1;
       }
-      return 0
+      return 0;
 
     default:
-      return 0
+      return 0;
   }
 }
 
-function getComparator (order, orderBy) {
-  return order === 'desc'
+function getComparator(order, orderBy) {
+  return order === "desc"
     ? (a, b) => descendingComparator(a, b, orderBy)
-    : (a, b) => -descendingComparator(a, b, orderBy)
+    : (a, b) => -descendingComparator(a, b, orderBy);
 }
 
-function stableSort (array, comparator) {
-  const stabilizedThis = array.map((el, index) => [el, index])
+function stableSort(array, comparator) {
+  const stabilizedThis = array.map((el, index) => [el, index]);
   stabilizedThis.sort((a, b) => {
-    const order = comparator(a[0], b[0])
-    if (order !== 0) return order
-    return a[1] - b[1]
-  })
-  return stabilizedThis.map(el => el[0])
+    const order = comparator(a[0], b[0]);
+    if (order !== 0) return order;
+    return a[1] - b[1];
+  });
+  return stabilizedThis.map((el) => el[0]);
 }
 
 const headCells = [
-  { id: 'pair', numeric: false, disablePadding: false, label: 'Pair' },
+  { id: "pair", numeric: false, disablePadding: false, label: "Pair" },
   {
-    id: 'balance',
+    id: "balance",
     numeric: true,
     disablePadding: false,
-    label: 'Wallet'
+    label: "Wallet",
   },
   {
-    id: 'poolBalance',
+    id: "poolBalance",
     numeric: true,
     disablePadding: false,
-    label: 'My Pool Amount'
+    label: "My Pool Amount",
   },
   {
-    id: 'stakedBalance',
+    id: "stakedBalance",
     numeric: true,
     disablePadding: false,
-    label: 'My Staked Amount'
+    label: "My Staked Amount",
   },
   {
-    id: 'poolAmount',
+    id: "poolAmount",
     numeric: true,
     disablePadding: false,
-    label: 'Total Pool Amount'
+    label: "Total Pool Amount",
   },
   {
-    id: 'stakedAmount',
+    id: "stakedAmount",
     numeric: true,
     disablePadding: false,
-    label: 'Total Pool Staked'
+    label: "Total Pool Staked",
   },
   // {
   //   id: 'apy',
@@ -177,33 +179,33 @@ const headCells = [
   //   label: 'APY',
   // },
   {
-    id: '',
+    id: "",
     numeric: true,
     disablePadding: false,
-    label: 'Actions'
-  }
-]
+    label: "Actions",
+  },
+];
 
-function EnhancedTableHead (props) {
-  const { classes, order, orderBy, onRequestSort } = props
-  const createSortHandler = property => event => {
-    onRequestSort(event, property)
-  }
+function EnhancedTableHead(props) {
+  const { classes, order, orderBy, onRequestSort } = props;
+  const createSortHandler = (property) => (event) => {
+    onRequestSort(event, property);
+  };
 
   return (
     <TableHead>
       <TableRow>
-        {headCells.map(headCell => (
+        {headCells.map((headCell) => (
           <TableCell
             className={classes.overrideTableHead}
             key={headCell.id}
-            align={headCell.numeric ? 'right' : 'left'}
-            padding={'normal'}
+            align={headCell.numeric ? "right" : "left"}
+            padding={"normal"}
             sortDirection={orderBy === headCell.id ? order : false}
           >
             <TableSortLabel
               active={orderBy === headCell.id}
-              direction={orderBy === headCell.id ? order : 'asc'}
+              direction={orderBy === headCell.id ? order : "asc"}
               onClick={createSortHandler(headCell.id)}
             >
               <Typography variant='h5' className={classes.headerText}>
@@ -211,7 +213,7 @@ function EnhancedTableHead (props) {
               </Typography>
               {orderBy === headCell.id ? (
                 <span className={classes.visuallyHidden}>
-                  {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
+                  {order === "desc" ? "sorted descending" : "sorted ascending"}
                 </span>
               ) : null}
             </TableSortLabel>
@@ -219,343 +221,343 @@ function EnhancedTableHead (props) {
         ))}
       </TableRow>
     </TableHead>
-  )
+  );
 }
 
 EnhancedTableHead.propTypes = {
   classes: PropTypes.object.isRequired,
   onRequestSort: PropTypes.func.isRequired,
-  order: PropTypes.oneOf(['asc', 'desc']).isRequired,
-  orderBy: PropTypes.string.isRequired
-}
+  order: PropTypes.oneOf(["asc", "desc"]).isRequired,
+  orderBy: PropTypes.string.isRequired,
+};
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
-    width: '100%'
+    width: "100%",
   },
   assetTableRow: {
-    '&:hover': {
-      background: 'rgba(104,108,122,0.05)'
-    }
+    "&:hover": {
+      background: "rgba(104,108,122,0.05)",
+    },
   },
   paper: {
-    width: '100%',
-    marginBottom: theme.spacing(2)
+    width: "100%",
+    marginBottom: theme.spacing(2),
   },
   visuallyHidden: {
     border: 0,
-    clip: 'rect(0 0 0 0)',
+    clip: "rect(0 0 0 0)",
     height: 1,
     margin: -1,
-    overflow: 'hidden',
+    overflow: "hidden",
     padding: 0,
-    position: 'absolute',
+    position: "absolute",
     top: 20,
-    width: 1
+    width: 1,
   },
   inline: {
-    display: 'flex',
-    alignItems: 'center'
+    display: "flex",
+    alignItems: "center",
   },
   inlineEnd: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-    '@media (max-width: 1000px)': {
-      display: 'block'
-    }
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "flex-end",
+    "@media (max-width: 1000px)": {
+      display: "block",
+    },
   },
   icon: {
-    marginRight: '12px'
+    marginRight: "12px",
   },
   textSpaced: {
-    lineHeight: '1.5',
-    fontWeight: '200',
-    fontSize: '12px'
+    lineHeight: "1.5",
+    fontWeight: "200",
+    fontSize: "12px",
   },
   headerText: {
-    fontWeight: '200',
-    fontSize: '12px'
+    fontWeight: "200",
+    fontSize: "12px",
   },
   cell: {},
   cellSuccess: {
-    color: '#4eaf0a'
+    color: "#4eaf0a",
   },
   cellAddress: {
-    cursor: 'pointer'
+    cursor: "pointer",
   },
   aligntRight: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'flex-end'
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "flex-end",
   },
   skelly: {
-    marginBottom: '12px',
-    marginTop: '12px'
+    marginBottom: "12px",
+    marginTop: "12px",
   },
   skelly1: {
-    marginBottom: '12px',
-    marginTop: '24px'
+    marginBottom: "12px",
+    marginTop: "24px",
   },
   skelly2: {
-    margin: '12px 6px'
+    margin: "12px 6px",
   },
   tableBottomSkelly: {
-    display: 'flex',
-    justifyContent: 'flex-end'
+    display: "flex",
+    justifyContent: "flex-end",
   },
   assetInfo: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
     flex: 1,
-    padding: '24px',
-    width: '100%',
-    flexWrap: 'wrap',
-    borderBottom: '1px solid rgba(104, 108, 122, 0.25)',
+    padding: "24px",
+    width: "100%",
+    flexWrap: "wrap",
+    borderBottom: "1px solid rgba(104, 108, 122, 0.25)",
     background:
-      'radial-gradient(circle, rgba(63,94,251,0.7) 0%, rgba(47,128,237,0.7) 48%) rgba(63,94,251,0.7) 100%'
+      "radial-gradient(circle, rgba(63,94,251,0.7) 0%, rgba(47,128,237,0.7) 48%) rgba(63,94,251,0.7) 100%",
   },
   assetInfoError: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
     flex: 1,
-    padding: '24px',
-    width: '100%',
-    flexWrap: 'wrap',
-    borderBottom: '1px rgba(104, 108, 122, 0.25)',
-    background: '#dc3545'
+    padding: "24px",
+    width: "100%",
+    flexWrap: "wrap",
+    borderBottom: "1px rgba(104, 108, 122, 0.25)",
+    background: "#dc3545",
   },
   infoField: {
-    flex: 1
+    flex: 1,
   },
   flexy: {
-    padding: '6px 0px'
+    padding: "6px 0px",
   },
   overrideCell: {
-    padding: '0px'
+    padding: "0px",
   },
   hoverRow: {
-    cursor: 'pointer'
+    cursor: "pointer",
   },
   statusLiquid: {
-    color: '#dc3545'
+    color: "#dc3545",
   },
   statusWarning: {
-    color: '#FF9029'
+    color: "#FF9029",
   },
   statusSafe: {
-    color: 'green'
+    color: "green",
   },
   img1Logo: {
-    position: 'absolute',
-    left: '0px',
-    top: '0px',
-    border: '3px solid rgb(25, 33, 56)',
-    borderRadius: '30px',
-    background: 'rgb(25, 33, 56)'
+    position: "absolute",
+    left: "0px",
+    top: "0px",
+    border: "3px solid rgb(25, 33, 56)",
+    borderRadius: "30px",
+    background: "rgb(25, 33, 56)",
   },
   img2Logo: {
-    position: 'absolute',
-    left: '23px',
-    zIndex: '1',
-    top: '0px',
-    border: '3px solid rgb(25, 33, 56)',
-    borderRadius: '30px',
-    background: 'rgb(25, 33, 56)'
+    position: "absolute",
+    left: "23px",
+    zIndex: "1",
+    top: "0px",
+    border: "3px solid rgb(25, 33, 56)",
+    borderRadius: "30px",
+    background: "rgb(25, 33, 56)",
   },
   overrideTableHead: {
-    borderBottom: '1px solid rgba(126,153,176,0.15) !important',
-    '@media (max-width: 1000px)': {
-      display: 'none'
-    }
+    borderBottom: "1px solid rgba(126,153,176,0.15) !important",
+    "@media (max-width: 1000px)": {
+      display: "none",
+    },
   },
   doubleImages: {
-    display: 'flex',
-    position: 'relative',
-    width: '70px',
-    height: '35px'
+    display: "flex",
+    position: "relative",
+    width: "70px",
+    height: "35px",
   },
   searchContainer: {
     flex: 1,
-    display: 'flex',
-    width: '100%'
+    display: "flex",
+    width: "100%",
   },
   buttonOverride: {
-    width: '100%',
-    color: 'rgb(6, 211, 215)',
-    background: 'rgb(23, 52, 72)',
-    fontWeight: '700',
-    '&:hover': {
-      background: 'rgb(19, 44, 60)'
-    }
+    width: "100%",
+    color: "rgb(6, 211, 215)",
+    background: "#272826",
+    fontWeight: "700",
+    "&:hover": {
+      background: "rgb(19, 44, 60)",
+    },
   },
   toolbar: {
-    margin: '24px 0px',
-    padding: '0px'
+    margin: "24px 0px",
+    padding: "0px",
   },
   tableContainer: {
-    border: '1px solid rgba(126,153,176,0.2)',
-    width: '100%',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'flex-end'
+    border: "1px solid rgba(126,153,176,0.2)",
+    width: "100%",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "flex-end",
   },
   filterButton: {
-    background: '#111729',
-    border: '1px solid rgba(126,153,176,0.3)',
-    color: '#06D3D7',
-    width: '100%',
-    height: '94.5%',
-    borderRadius: '10px'
+    background: "#272826",
+    border: "1px solid rgba(126,153,176,0.3)",
+    color: "#06D3D7",
+    width: "100%",
+    height: "94.5%",
+    borderRadius: "10px",
   },
   actionButtonText: {
-    fontSize: '15px',
-    fontWeight: '700'
+    fontSize: "15px",
+    fontWeight: "700",
   },
   filterContainer: {
-    background: '#212b48',
-    minWidth: '300px',
-    marginTop: '15px',
-    borderRadius: '10px',
-    padding: '20px',
-    boxShadow: '0 10px 20px 0 rgba(0,0,0,0.2)',
-    border: '1px solid rgba(126,153,176,0.2)'
+    background: "#212b48",
+    minWidth: "300px",
+    marginTop: "15px",
+    borderRadius: "10px",
+    padding: "20px",
+    boxShadow: "0 10px 20px 0 rgba(0,0,0,0.2)",
+    border: "1px solid rgba(126,153,176,0.2)",
   },
   alignContentRight: {
-    textAlign: 'right'
+    textAlign: "right",
   },
   labelColumn: {
-    display: 'flex',
-    alignItems: 'center'
+    display: "flex",
+    alignItems: "center",
   },
   filterLabel: {
-    fontSize: '14px'
+    fontSize: "14px",
   },
   filterListTitle: {
-    marginBottom: '10px',
-    paddingBottom: '20px',
-    borderBottom: '1px solid rgba(126,153,176,0.2)'
+    marginBottom: "10px",
+    paddingBottom: "20px",
+    borderBottom: "1px solid rgba(126,153,176,0.2)",
   },
   infoIcon: {
-    color: '#06D3D7',
-    fontSize: '16px',
-    marginLeft: '10px'
+    color: "#06D3D7",
+    fontSize: "16px",
+    marginLeft: "10px",
   },
   symbol: {
-    minWidth: '40px'
+    minWidth: "40px",
   },
   hiddenMobile: {
-    '@media (max-width: 1000px)': {
-      display: 'none'
-    }
+    "@media (max-width: 1000px)": {
+      display: "none",
+    },
   },
   hiddenSmallMobile: {
-    '@media (max-width: 600px)': {
-      display: 'none'
-    }
+    "@media (max-width: 600px)": {
+      display: "none",
+    },
   },
   labelAdd: {
-    display: 'none',
-    fontSize: '12px',
-    '@media (max-width: 1000px)': {
-      display: 'block'
-    }
-  }
-}))
+    display: "none",
+    fontSize: "12px",
+    "@media (max-width: 1000px)": {
+      display: "block",
+    },
+  },
+}));
 
 const getLocalToggles = () => {
   let localToggles = {
     toggleActive: true,
     toggleActiveGauge: true,
     toggleVariable: true,
-    toggleStable: true
-  }
+    toggleStable: true,
+  };
   // get locally saved toggles
   try {
-    const localToggleString = localStorage.getItem('solidly-pairsToggle-v1')
+    const localToggleString = localStorage.getItem("solidly-pairsToggle-v1");
     if (localToggleString && localToggleString.length > 0) {
-      localToggles = JSON.parse(localToggleString)
+      localToggles = JSON.parse(localToggleString);
     }
   } catch (ex) {
-    console.log(ex)
+    console.log(ex);
   }
 
-  return localToggles
-}
+  return localToggles;
+};
 
-const EnhancedTableToolbar = props => {
-  const classes = useStyles()
-  const router = useRouter()
+const EnhancedTableToolbar = (props) => {
+  const classes = useStyles();
+  const router = useRouter();
 
-  const localToggles = getLocalToggles()
+  const localToggles = getLocalToggles();
 
-  const [search, setSearch] = useState('')
-  const [toggleActive, setToggleActive] = useState(localToggles.toggleActive)
+  const [search, setSearch] = useState("");
+  const [toggleActive, setToggleActive] = useState(localToggles.toggleActive);
   const [toggleActiveGauge, setToggleActiveGauge] = useState(
     localToggles.toggleActiveGauge
-  )
-  const [toggleStable, setToggleStable] = useState(localToggles.toggleStable)
+  );
+  const [toggleStable, setToggleStable] = useState(localToggles.toggleStable);
   const [toggleVariable, setToggleVariable] = useState(
     localToggles.toggleVariable
-  )
+  );
 
-  const onSearchChanged = event => {
-    setSearch(event.target.value)
-    props.setSearch(event.target.value)
-  }
+  const onSearchChanged = (event) => {
+    setSearch(event.target.value);
+    props.setSearch(event.target.value);
+  };
 
-  const onToggle = event => {
-    const localToggles = getLocalToggles()
+  const onToggle = (event) => {
+    const localToggles = getLocalToggles();
 
     switch (event.target.name) {
-      case 'toggleActive':
-        setToggleActive(event.target.checked)
-        props.setToggleActive(event.target.checked)
-        localToggles.toggleActive = event.target.checked
-        break
-      case 'toggleActiveGauge':
-        setToggleActiveGauge(event.target.checked)
-        props.setToggleActiveGauge(event.target.checked)
-        localToggles.toggleActiveGauge = event.target.checked
-        break
-      case 'toggleStable':
-        setToggleStable(event.target.checked)
-        props.setToggleStable(event.target.checked)
-        localToggles.toggleStable = event.target.checked
-        break
-      case 'toggleVariable':
-        setToggleVariable(event.target.checked)
-        props.setToggleVariable(event.target.checked)
-        localToggles.toggleVariable = event.target.checked
-        break
+      case "toggleActive":
+        setToggleActive(event.target.checked);
+        props.setToggleActive(event.target.checked);
+        localToggles.toggleActive = event.target.checked;
+        break;
+      case "toggleActiveGauge":
+        setToggleActiveGauge(event.target.checked);
+        props.setToggleActiveGauge(event.target.checked);
+        localToggles.toggleActiveGauge = event.target.checked;
+        break;
+      case "toggleStable":
+        setToggleStable(event.target.checked);
+        props.setToggleStable(event.target.checked);
+        localToggles.toggleStable = event.target.checked;
+        break;
+      case "toggleVariable":
+        setToggleVariable(event.target.checked);
+        props.setToggleVariable(event.target.checked);
+        localToggles.toggleVariable = event.target.checked;
+        break;
       default:
     }
 
     // set locally saved toggles
     try {
       localStorage.setItem(
-        'solidly-pairsToggle-v1',
+        "solidly-pairsToggle-v1",
         JSON.stringify(localToggles)
-      )
+      );
     } catch (ex) {
-      console.log(ex)
+      console.log(ex);
     }
-  }
+  };
 
   const onCreate = () => {
-    router.push('/liquidity/create')
-  }
+    router.push("/liquidity/create");
+  };
 
-  const [anchorEl, setAnchorEl] = useState(null)
+  const [anchorEl, setAnchorEl] = useState(null);
 
-  const handleClick = event => {
-    setAnchorEl(anchorEl ? null : event.currentTarget)
-  }
+  const handleClick = (event) => {
+    setAnchorEl(anchorEl ? null : event.currentTarget);
+  };
 
-  const open = Boolean(anchorEl)
-  const id = open ? 'transitions-popper' : undefined
+  const open = Boolean(anchorEl);
+  const id = open ? "transitions-popper" : undefined;
 
   return (
     <Toolbar className={classes.toolbar}>
@@ -564,10 +566,9 @@ const EnhancedTableToolbar = props => {
           <Button
             variant='contained'
             color='secondary'
-            startIcon={<AddCircleOutlineIcon />}
+            startIcon={<AddCircleOutline />}
             size='large'
             className={classes.buttonOverride}
-            color='primary'
             onClick={onCreate}
           >
             <Typography className={classes.actionButtonText}>
@@ -586,9 +587,9 @@ const EnhancedTableToolbar = props => {
             InputProps={{
               startAdornment: (
                 <InputAdornment position='start'>
-                  <SearchIcon />
+                  <Search />
                 </InputAdornment>
-              )
+              ),
             }}
           />
         </Grid>
@@ -599,7 +600,7 @@ const EnhancedTableToolbar = props => {
               className={classes.filterButton}
               aria-label='filter list'
             >
-              <FilterListIcon />
+              <FilterList />
             </IconButton>
           </Tooltip>
         </Grid>
@@ -629,7 +630,7 @@ const EnhancedTableToolbar = props => {
                   <Switch
                     color='primary'
                     checked={toggleActive}
-                    name={'toggleActive'}
+                    name={"toggleActive"}
                     onChange={onToggle}
                   />
                 </Grid>
@@ -645,7 +646,7 @@ const EnhancedTableToolbar = props => {
                   <Switch
                     color='primary'
                     checked={toggleActiveGauge}
-                    name={'toggleActiveGauge'}
+                    name={"toggleActiveGauge"}
                     onChange={onToggle}
                   />
                 </Grid>
@@ -661,7 +662,7 @@ const EnhancedTableToolbar = props => {
                   <Switch
                     color='primary'
                     checked={toggleStable}
-                    name={'toggleStable'}
+                    name={"toggleStable"}
                     onChange={onToggle}
                   />
                 </Grid>
@@ -677,7 +678,7 @@ const EnhancedTableToolbar = props => {
                   <Switch
                     color='primary'
                     checked={toggleVariable}
-                    name={'toggleVariable'}
+                    name={"toggleVariable"}
                     onChange={onToggle}
                   />
                 </Grid>
@@ -687,108 +688,108 @@ const EnhancedTableToolbar = props => {
         )}
       </Popper>
     </Toolbar>
-  )
-}
+  );
+};
 
-export default function EnhancedTable ({ pairs }) {
-  const classes = useStyles()
-  const router = useRouter()
+export default function EnhancedTable({ pairs }) {
+  const classes = useStyles();
+  const router = useRouter();
 
-  const [order, setOrder] = useState('desc')
-  const [orderBy, setOrderBy] = useState('stakedBalance')
-  const [rowsPerPage, setRowsPerPage] = useState(10)
-  const [page, setPage] = useState(0)
+  const [order, setOrder] = useState("desc");
+  const [orderBy, setOrderBy] = useState("stakedBalance");
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [page, setPage] = useState(0);
 
-  const localToggles = getLocalToggles()
+  const localToggles = getLocalToggles();
 
-  const [search, setSearch] = useState('')
-  const [toggleActive, setToggleActive] = useState(localToggles.toggleActive)
+  const [search, setSearch] = useState("");
+  const [toggleActive, setToggleActive] = useState(localToggles.toggleActive);
   const [toggleActiveGauge, setToggleActiveGauge] = useState(
     localToggles.toggleActiveGauge
-  )
-  const [toggleStable, setToggleStable] = useState(localToggles.toggleStable)
+  );
+  const [toggleStable, setToggleStable] = useState(localToggles.toggleStable);
   const [toggleVariable, setToggleVariable] = useState(
     localToggles.toggleVariable
-  )
+  );
 
   const handleRequestSort = (event, property) => {
-    const isAsc = orderBy === property && order === 'asc'
-    setOrder(isAsc ? 'desc' : 'asc')
-    setOrderBy(property)
-  }
+    const isAsc = orderBy === property && order === "asc";
+    setOrder(isAsc ? "desc" : "asc");
+    setOrderBy(property);
+  };
 
   if (!pairs) {
     return (
       <div className={classes.root}>
         <Skeleton
           variant='rect'
-          width={'100%'}
+          width={"100%"}
           height={40}
           className={classes.skelly1}
         />
         <Skeleton
           variant='rect'
-          width={'100%'}
+          width={"100%"}
           height={70}
           className={classes.skelly}
         />
         <Skeleton
           variant='rect'
-          width={'100%'}
+          width={"100%"}
           height={70}
           className={classes.skelly}
         />
         <Skeleton
           variant='rect'
-          width={'100%'}
+          width={"100%"}
           height={70}
           className={classes.skelly}
         />
         <Skeleton
           variant='rect'
-          width={'100%'}
+          width={"100%"}
           height={70}
           className={classes.skelly}
         />
         <Skeleton
           variant='rect'
-          width={'100%'}
+          width={"100%"}
           height={70}
           className={classes.skelly}
         />
       </div>
-    )
+    );
   }
 
-  const onView = pair => {
-    router.push(`/liquidity/${pair.address}`)
-  }
+  const onView = (pair) => {
+    router.push(`/liquidity/${pair.address}`);
+  };
 
-  const renderTooltip = pair => {
+  const renderTooltip = (pair) => {
     return (
       <div>
         <Typography>Ve Emissions</Typography>
         <Typography>0.00</Typography>
       </div>
-    )
-  }
+    );
+  };
 
   const handleChangePage = (event, newPage) => {
-    setPage(newPage)
-  }
+    setPage(newPage);
+  };
 
-  const handleChangeRowsPerPage = event => {
-    setRowsPerPage(parseInt(event.target.value, 10))
-    setPage(0)
-  }
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
 
   const filteredPairs = pairs
-    .filter(pair => {
-      if (!search || search === '') {
-        return true
+    .filter((pair) => {
+      if (!search || search === "") {
+        return true;
       }
 
-      const searchLower = search.toLowerCase()
+      const searchLower = search.toLowerCase();
 
       if (
         pair.symbol.toLowerCase().includes(searchLower) ||
@@ -800,34 +801,34 @@ export default function EnhancedTable ({ pairs }) {
         pair.token1.address.toLowerCase().includes(searchLower) ||
         pair.token1.name.toLowerCase().includes(searchLower)
       ) {
-        return true
+        return true;
       }
 
-      return false
+      return false;
     })
-    .filter(pair => {
+    .filter((pair) => {
       if (toggleStable !== true && pair.isStable === true) {
-        return false
+        return false;
       }
       if (toggleVariable !== true && pair.isStable === false) {
-        return false
+        return false;
       }
       if (toggleActiveGauge === true && (!pair.gauge || !pair.gauge.address)) {
-        return false
+        return false;
       }
       if (toggleActive === true) {
         if (
           !BigNumber(pair?.gauge?.balance).gt(0) &&
           !BigNumber(pair?.balance).gt(0)
         ) {
-          return false
+          return false;
         }
       }
 
-      return true
-    })
+      return true;
+    });
 
-  const emptyRows = 5 - Math.min(5, filteredPairs.length - page * 5)
+  const emptyRows = 5 - Math.min(5, filteredPairs.length - page * 5);
 
   return (
     <div className={classes.root}>
@@ -843,7 +844,7 @@ export default function EnhancedTable ({ pairs }) {
           <Table
             className={classes.table}
             aria-labelledby='tableTitle'
-            size={'medium'}
+            size={"medium"}
             aria-label='enhanced table'
           >
             <EnhancedTableHead
@@ -857,9 +858,9 @@ export default function EnhancedTable ({ pairs }) {
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
                   if (!row) {
-                    return null
+                    return null;
                   }
-                  const labelId = `enhanced-table-checkbox-${index}`
+                  const labelId = `enhanced-table-checkbox-${index}`;
 
                   return (
                     <TableRow key={labelId} className={classes.assetTableRow}>
@@ -876,9 +877,9 @@ export default function EnhancedTable ({ pairs }) {
                               width='37'
                               height='37'
                               alt=''
-                              onError={e => {
-                                e.target.onerror = null
-                                e.target.src = '/tokens/unknown-logo.png'
+                              onError={(e) => {
+                                e.target.onerror = null;
+                                e.target.src = "/tokens/unknown-logo.png";
                               }}
                             />
                             <img
@@ -891,9 +892,9 @@ export default function EnhancedTable ({ pairs }) {
                               width='37'
                               height='37'
                               alt=''
-                              onError={e => {
-                                e.target.onerror = null
-                                e.target.src = '/tokens/unknown-logo.png'
+                              onError={(e) => {
+                                e.target.onerror = null;
+                                e.target.src = "/tokens/unknown-logo.png";
                               }}
                             />
                           </div>
@@ -911,7 +912,7 @@ export default function EnhancedTable ({ pairs }) {
                               noWrap
                               color='textSecondary'
                             >
-                              {row?.isStable ? 'Stable Pool' : 'Volatile Pool'}
+                              {row?.isStable ? "Stable Pool" : "Volatile Pool"}
                             </Typography>
                           </div>
                         </div>
@@ -943,7 +944,7 @@ export default function EnhancedTable ({ pairs }) {
                               variant='rect'
                               width={120}
                               height={16}
-                              style={{ marginTop: '1px', marginBottom: '1px' }}
+                              style={{ marginTop: "1px", marginBottom: "1px" }}
                             />
                           </div>
                         )}
@@ -970,7 +971,7 @@ export default function EnhancedTable ({ pairs }) {
                               variant='rect'
                               width={120}
                               height={16}
-                              style={{ marginTop: '1px', marginBottom: '1px' }}
+                              style={{ marginTop: "1px", marginBottom: "1px" }}
                             />
                           </div>
                         )}
@@ -1027,7 +1028,7 @@ export default function EnhancedTable ({ pairs }) {
                               variant='rect'
                               width={120}
                               height={16}
-                              style={{ marginTop: '1px', marginBottom: '1px' }}
+                              style={{ marginTop: "1px", marginBottom: "1px" }}
                             />
                           </div>
                         )}
@@ -1094,8 +1095,8 @@ export default function EnhancedTable ({ pairs }) {
                                 width={120}
                                 height={16}
                                 style={{
-                                  marginTop: '1px',
-                                  marginBottom: '1px'
+                                  marginTop: "1px",
+                                  marginBottom: "1px",
                                 }}
                               />
                             </div>
@@ -1148,7 +1149,7 @@ export default function EnhancedTable ({ pairs }) {
                               variant='rect'
                               width={120}
                               height={16}
-                              style={{ marginTop: '1px', marginBottom: '1px' }}
+                              style={{ marginTop: "1px", marginBottom: "1px" }}
                             />
                           </div>
                         )}
@@ -1175,7 +1176,7 @@ export default function EnhancedTable ({ pairs }) {
                               variant='rect'
                               width={120}
                               height={16}
-                              style={{ marginTop: '1px', marginBottom: '1px' }}
+                              style={{ marginTop: "1px", marginBottom: "1px" }}
                             />
                           </div>
                         )}
@@ -1217,8 +1218,8 @@ export default function EnhancedTable ({ pairs }) {
                                 width={120}
                                 height={16}
                                 style={{
-                                  marginTop: '1px',
-                                  marginBottom: '1px'
+                                  marginTop: "1px",
+                                  marginBottom: "1px",
                                 }}
                               />
                             </div>
@@ -1255,8 +1256,8 @@ export default function EnhancedTable ({ pairs }) {
                                 width={120}
                                 height={16}
                                 style={{
-                                  marginTop: '1px',
-                                  marginBottom: '1px'
+                                  marginTop: "1px",
+                                  marginBottom: "1px",
                                 }}
                               />
                             </div>
@@ -1285,7 +1286,7 @@ export default function EnhancedTable ({ pairs }) {
                         </Grid>
                         <Grid item lg={2}>
                         <Tooltip title={ renderTooltip(row)}>
-                          <InfoOutlinedIcon className={classes.infoIcon} />
+                          <InfoOutlined className={classes.infoIcon} />
                         </Tooltip>
                         </Grid>
                       </Grid>
@@ -1295,14 +1296,14 @@ export default function EnhancedTable ({ pairs }) {
                           variant='outlined'
                           color='primary'
                           onClick={() => {
-                            onView(row)
+                            onView(row);
                           }}
                         >
                           Manage
                         </Button>
                       </TableCell>
                     </TableRow>
-                  )
+                  );
                 })}
               {emptyRows > 0 && (
                 <TableRow style={{ height: 61 * emptyRows }}>
@@ -1323,5 +1324,5 @@ export default function EnhancedTable ({ pairs }) {
         />
       </Paper>
     </div>
-  )
+  );
 }

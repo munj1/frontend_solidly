@@ -1,4 +1,4 @@
-import { Typography, Button, Paper, SvgIcon } from "@material-ui/core"
+import { Typography, Button, Paper, SvgIcon } from "@mui/material"
 import SSBribes from '../../components/ssBribes'
 
 import React, { useState, useEffect } from 'react';
@@ -63,7 +63,7 @@ function Bribes({ changeTheme }) {
           <BalanceIcon className={ classes.overviewIcon } />
            <Typography className={classes.mainHeadingNC} variant='h1'>Bribes</Typography>
            <Typography className={classes.mainDescNC} variant='body2'>
-             Use your veSolid to vote for your selected pool’s rewards distribution or create a bribe to encourage others to do the same.
+             Use your veVELOCIMETER to vote for your selected pool&apos;s rewards distribution or create a bribe to encourage others to do the same.
            </Typography>
            <Button
              disableElevation

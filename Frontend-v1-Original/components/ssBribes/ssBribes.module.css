@@ -2,6 +2,9 @@
   max-width: 1400px;
   width: calc(100% - 180px);
   margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
 .title {
@@ -14,6 +17,21 @@
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   grid-gap: 24px;
+}
+
+.buttonOverride {
+  color: rgb(6, 211, 215) !important;
+  background: #272826 !important;
+  font-weight: 700 !important;
+  width: fit-content !important;
+}
+
+.buttonOverride:hover {
+  background: rgb(19, 44, 60) !important;
+}
+
+.actionButtonText {
+  font-size: 15px !important;
 }
 
 @media screen and (max-width: 1200px) {

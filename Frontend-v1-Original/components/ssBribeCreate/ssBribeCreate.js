@@ -1,14 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { Paper, Grid, Typography, Button, TextField, InputAdornment, CircularProgress, Tooltip, Dialog, MenuItem, IconButton, Select } from '@material-ui/core';
+import {
+  Paper,
+  Typography,
+  Button,
+  TextField,
+  InputAdornment,
+  CircularProgress,
+  Tooltip,
+  Dialog,
+  MenuItem,
+  IconButton,
+  Select,
+} from '@mui/material';
+import { Add, Search, ArrowBack, DeleteOutline } from '@mui/icons-material';
 import BigNumber from 'bignumber.js';
 import { formatCurrency } from '../../utils';
 import classes from './ssBribeCreate.module.css';
-
-import AddIcon from '@material-ui/icons/Add';
-import SearchIcon from '@material-ui/icons/Search';
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 
 import stores from '../../stores'
 import {
@@ -106,6 +114,9 @@ export default function ssBribeCreate() {
         error = true
       } else if (asset && BigNumber(amount).gt(asset.balance)) {
         setAmountError(`Greater than your available balance`)
+        error = true
+      } else if (asset && asset.address === 'ETH') {
+        setAmountError(`ETH is not supported`)
         error = true
       }
     }
@@ -228,7 +239,7 @@ export default function ssBribeCreate() {
   }
 
   const onBack = () => {
-    router.push('/vote')
+    router.back();
   }
 
   const renderCreateInfo = () => {
@@ -245,7 +256,7 @@ export default function ssBribeCreate() {
         <div className={ classes.titleSection }>
           <Tooltip placement="top" title="Back to Voting">
           <IconButton className={ classes.backButton } onClick={ onBack }>
-            <ArrowBackIcon className={ classes.backIcon } />
+            <ArrowBack className={ classes.backIcon } />
           </IconButton>
           </Tooltip>
           <Typography className={ classes.titleText }>Create Bribe</Typography>
@@ -356,7 +367,7 @@ function AssetSelect({ type, value, assetOptions, onSelect }) {
         </div>
         <div className={ classes.assetSelectActions}>
           <IconButton onClick={ () => { deleteOption(asset) } }>
-            <DeleteOutlineIcon />
+            <DeleteOutline />
           </IconButton>
           <IconButton onClick={ () => { viewOption(asset) } }>
             ↗
@@ -406,7 +417,7 @@ function AssetSelect({ type, value, assetOptions, onSelect }) {
               onChange={ onSearchChanged }
               InputProps={{
                 startAdornment: <InputAdornment position="start">
-                  <SearchIcon />
+                  <Search />
                 </InputAdornment>,
               }}
             />
@@ -446,7 +457,7 @@ function AssetSelect({ type, value, assetOptions, onSelect }) {
               onChange={ onSearchChanged }
               InputProps={{
                 startAdornment: <InputAdornment position="start">
-                  <SearchIcon />
+                  <Search />
                 </InputAdornment>,
               }}
             />

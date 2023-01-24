@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { lighten, makeStyles, withStyles } from '@material-ui/core/styles';
-import Skeleton from '@material-ui/lab/Skeleton';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TableSortLabel, TablePagination, Typography, Slider, Tooltip } from '@material-ui/core';
+import { makeStyles, withStyles } from '@mui/styles';
+import Skeleton from '@mui/lab/Skeleton';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TableSortLabel, TablePagination, Typography, Slider, Tooltip } from '@mui/material';
 import BigNumber from 'bignumber.js';
-import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
 
 import { formatCurrency } from '../../utils';
 
@@ -414,7 +413,7 @@ export default function EnhancedTable({ gauges, setParentSliderValues, defaultVo
               earned = pair.gauge.bribesEarned[idx].earned
             }
 
-            return (<div className={ classes.inlineBetween }>
+            return (<div className={ classes.inlineBetween } key={bribe.token.symbol}>
               <Typography>Bribe:</Typography>
               <Typography>{ formatCurrency(bribe.rewardAmount) } { bribe.token.symbol }</Typography>
             </div>)
@@ -545,7 +544,7 @@ export default function EnhancedTable({ gauges, setParentSliderValues, defaultVo
                     {
                       row?.gauge?.bribes.map((bribe, idx) => {
                         return (
-                          <div className={ classes.inlineEnd }>
+                          <div className={ classes.inlineEnd } key={bribe.token.symbol}>
                             <Typography variant="h2" className={classes.textSpaced}>{ formatCurrency(bribe.rewardAmount) }</Typography>
                             <Typography variant="h5" className={classes.textSpaced} color='textSecondary'>{ bribe.token.symbol }</Typography>
                           </div>

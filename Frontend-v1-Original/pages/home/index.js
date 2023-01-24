@@ -4,46 +4,32 @@ import {
   Paper,
   SvgIcon,
   Grid,
-  Avatar
-} from '@material-ui/core'
+  Avatar,
+} from "@mui/material";
 
-import { useScrollTo } from 'react-use-window-scroll'
+import { useScrollTo } from "react-use-window-scroll";
 
-import classes from './home.module.css'
+import classes from "./home.module.css";
 
-import React, { useState, useEffect } from 'react'
-import { useRouter } from 'next/router'
+import React, { useState, useEffect } from "react";
+import { useRouter } from "next/router";
 
-function Transition (props) {
-  return <Slide direction='up' {...props} />
+function Transition(props) {
+  return <Slide direction='up' {...props} />;
 }
 
-// function SiteLogo (props) {
-//   const { color, className } = props
-//   return (
-//     <Image
-//       className={className}
-//       src='/images/vcm_logo.png'
-//       height={48}
-//       width={48}
-//     />
-//   )
-// }
-
-function Home ({ changeTheme }) {
-  function handleNavigate (route) {
-    router.push(route)
+function Home({ changeTheme }) {
+  function handleNavigate(route) {
+    router.push(route);
   }
 
-  const router = useRouter()
+  const router = useRouter();
 
-  const scrollTo = useScrollTo()
+  const scrollTo = useScrollTo();
 
   return (
     <div className={classes.ffContainer}>
       <div className={classes.contentContainerFull}>
-        {/* <SiteLogo className={classes.appLogo} /> */}
-
         <Grid container spacing={2} className={classes.homeContentMain}>
           <Grid item lg={12} md={12} sm={12} xs={12}>
             <Typography variant='h1' className={classes.preTitle}>
@@ -61,7 +47,7 @@ function Home ({ changeTheme }) {
                 <Button
                   className={classes.buttonInfo}
                   onClick={() =>
-                    scrollTo({ top: 1000, left: 0, behavior: 'smooth' })
+                    scrollTo({ top: 1000, left: 0, behavior: "smooth" })
                   }
                 >
                   Learn More
@@ -70,7 +56,7 @@ function Home ({ changeTheme }) {
               <Grid item lg={6} md={6} sm={12} xs={12}>
                 <Button
                   className={classes.buttonEnter}
-                  onClick={() => router.push('/swap')}
+                  onClick={() => router.push("/swap")}
                 >
                   Enter App
                 </Button>
@@ -93,7 +79,7 @@ function Home ({ changeTheme }) {
             <Typography variant='body1' className={classes.mainDescription}>
               Velocimeter officially launched in January 2023 with a collective
               goal of fair and balanced access to DeFi. Velocimeter is a
-              decentralized exchange that has launched on the Fantom network
+              decentralized exchange that has launched on the Arbitrum network
               with low fees, near 0 slippage on correlated assets and a strong
               focus on secondary markets for tokenized locks as NFT’s (veToken =
               lpNFTs).
@@ -108,7 +94,7 @@ function Home ({ changeTheme }) {
           <Grid item lg={12} md={12} sm={12} xs={12}>
             <Button
               className={classes.buttonEnterSingle}
-              onClick={() => router.push('/swap')}
+              onClick={() => router.push("/swap")}
             >
               Enter App
             </Button>
@@ -116,7 +102,7 @@ function Home ({ changeTheme }) {
         </Grid>
       </div>
     </div>
-  )
+  );
 }
 
-export default Home
+export default Home;

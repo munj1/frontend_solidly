@@ -1,12 +1,26 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/core/styles';
-import Skeleton from '@material-ui/lab/Skeleton';
-import { Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TableSortLabel, Typography, Tooltip, Toolbar, IconButton, TextField, InputAdornment } from '@material-ui/core';
+import { makeStyles } from '@mui/styles';
+import Skeleton from '@mui/lab/Skeleton';
+import {
+  Button,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  TableSortLabel,
+  Typography,
+  Tooltip,
+  Toolbar,
+  IconButton,
+  TextField,
+  InputAdornment,
+} from '@mui/material';
 import { useRouter } from "next/router";
 import BigNumber from 'bignumber.js';
-import FilterListIcon from '@material-ui/icons/FilterList';
-import SearchIcon from '@material-ui/icons/Search';
+import { FilterList, Search } from '@mui/icons-material';
 
 import { formatCurrency } from '../../utils';
 
@@ -256,7 +270,7 @@ const useStyles = makeStyles((theme) => ({
   },
   buttonOverride: {
     color: 'rgb(6, 211, 215)',
-    background: 'rgb(23, 52, 72)',
+    background: '#272826',
     fontWeight: '700',
     '&:hover': {
       background: 'rgb(19, 44, 60)'
@@ -302,14 +316,14 @@ const EnhancedTableToolbar = (props) => {
         InputProps={{
           startAdornment: (
             <InputAdornment position="start">
-              <SearchIcon />
+              <Search />
             </InputAdornment>
           ),
         }}
       />
       <Tooltip title="Filter list">
         <IconButton aria-label="filter list">
-          <FilterListIcon />
+          <FilterList />
         </IconButton>
       </Tooltip>
     </Toolbar>
