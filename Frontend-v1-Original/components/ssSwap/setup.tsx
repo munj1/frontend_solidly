@@ -302,8 +302,7 @@ function Setup() {
     }
 
     if (!quote) {
-      return;
-      <div className={classes.quoteLoader}> </div>;
+      return null;
     }
 
     return (
@@ -314,13 +313,11 @@ function Setup() {
         <div className={classes.priceInfos}>
           <div className={classes.priceInfo}>
             <Typography className={classes.title}>
-              {quote
-                ? formatCurrency(
-                    BigNumber(quote.inputs.fromAmount)
-                      .div(quote.output.finalValue)
-                      .toFixed(18)
-                  )
-                : ""}
+              {formatCurrency(
+                BigNumber(quote.inputs.fromAmount)
+                  .div(quote.output.finalValue)
+                  .toFixed(18)
+              )}
             </Typography>
             <Typography
               className={classes.text}
@@ -328,14 +325,11 @@ function Setup() {
           </div>
           <div className={classes.priceInfo}>
             <Typography className={classes.title}>
-              {" "}
-              {quote
-                ? formatCurrency(
-                    BigNumber(quote.output.finalValue)
-                      .div(quote.inputs.fromAmount)
-                      .toFixed(18)
-                  )
-                : ""}{" "}
+              {formatCurrency(
+                BigNumber(quote.output.finalValue)
+                  .div(quote.inputs.fromAmount)
+                  .toFixed(18)
+              )}
             </Typography>
             <Typography
               className={classes.text}
@@ -368,7 +362,7 @@ function Setup() {
             </div>
             <div className={classes.stabIndicatorContainer}>
               <Typography className={classes.stabIndicator}>
-                {quote?.output?.routes[0].stable ? "Stable" : "Volatile"}
+                {quote.output.routes[0].stable ? "Stable" : "Volatile"}
               </Typography>
             </div>
           </div>
@@ -395,7 +389,7 @@ function Setup() {
                 </div>
                 <div className={classes.stabIndicatorContainer}>
                   <Typography className={classes.stabIndicator}>
-                    {quote?.output?.routes[1].stable ? "Stable" : "Volatile"}
+                    {quote.output.routes[1].stable ? "Stable" : "Volatile"}
                   </Typography>
                 </div>
               </div>
