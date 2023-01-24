@@ -279,11 +279,11 @@ function Setup() {
         <Typography className={ classes.depositInfoHeading } >Price Info</Typography>
         <div className={ classes.priceInfos}>
           <div className={ classes.priceInfo }>
-            <Typography className={ classes.title } >{ formatCurrency(BigNumber(quote.inputs.fromAmount).div(quote.output.finalValue).toFixed(18)) }</Typography>
+            <Typography className={ classes.title } >{ quote ? formatCurrency(BigNumber(quote.inputs.fromAmount).div(quote.output.finalValue).toFixed(18)) : '' }</Typography>
             <Typography className={ classes.text } >{ `${fromAssetValue?.symbol} per ${toAssetValue?.symbol}` }</Typography>
           </div>
           <div className={ classes.priceInfo }>
-            <Typography className={ classes.title } > { formatCurrency(BigNumber(quote.output.finalValue).div(quote.inputs.fromAmount).toFixed(18)) } </Typography>
+            <Typography className={ classes.title } > { quote ? formatCurrency(BigNumber(quote.output.finalValue).div(quote.inputs.fromAmount).toFixed(18)) : '' } </Typography>
             <Typography className={ classes.text } >{ `${toAssetValue?.symbol} per ${fromAssetValue?.symbol}` }</Typography>
           </div>
           <div className={ classes.priceInfo }>

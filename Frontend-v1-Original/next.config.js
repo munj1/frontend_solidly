@@ -4,10 +4,6 @@
 const nextConfig = {
   swcMinify: true,
   reactStrictMode: false, // because @mui/styles doesnt work with srict mode
-  webpack: (config) => {
-    config.resolve.fallback = { ...config.resolve.fallback, fs: false };
-    return config;
-  },
 };
 
 module.exports = nextConfig;
