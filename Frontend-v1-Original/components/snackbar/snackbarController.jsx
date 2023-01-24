@@ -3,23 +3,89 @@ import { withStyles } from "@mui/styles";
 
 import Snackbar from "./snackbar.jsx";
 
-import { ACTIONS } from '../../stores/constants';
+import { ACTIONS } from "../../stores/constants";
 
 import stores from "../../stores";
 const emitter = stores.emitter;
 
-const styles = theme => ({
-  root: {}
+const styles = (theme) => ({
+  root: {},
 });
 
-class SnackbarController extends Component {
+const SnackbarController = (props) => {
+  const [state, setState] = React.useState({
+    open: false,
+    snackbarType: null,
+    snackbarMessage: null,
+  });
+
+  React.useEffect(() => {
+    emitter.on(ACTIONS.ERROR, showError);
+    emitter.on(ACTIONS.TX_SUBMITTED, showHash);
+
+    return () => {
+      emitter.removeListener(ACTIONS.ERROR, showError);
+      emitter.removeListener(ACTIONS.TX_SUBMITTED, showHash);
+    };
+  }, []);
+
+  const showError = (error) => {
+    const snackbarObj = {
+      snackbarMessage: null,
+      snackbarType: null,
+      open: false,
+    };
+    setState(snackbarObj);
+
+    setTimeout(() => {
+      const snackbarObj = {
+        snackbarMessage: error.toString(),
+        snackbarType: "Error",
+        open: true,
+      };
+      setState(snackbarObj);
+    });
+  };
+
+  const showHash = ({ txHash }) => {
+    const snackbarObj = {
+      snackbarMessage: null,
+      snackbarType: null,
+      open: false,
+    };
+    setState(snackbarObj);
+
+    setTimeout(() => {
+      const snackbarObj = {
+        snackbarMessage: txHash,
+        snackbarType: "Hash",
+        open: true,
+      };
+      setState(snackbarObj);
+    });
+  };
+
+  const { snackbarType, snackbarMessage, open } = state;
+
+  return (
+    <>
+      {open ? (
+        <Snackbar type={snackbarType} message={snackbarMessage} open={true} />
+      ) : (
+        <div />
+      )}
+    </>
+  );
+};
+
+class Legacy_SnackbarController extends Component {
   constructor(props) {
     super();
 
     this.state = {
       open: false,
       snackbarType: null,
-      snackbarMessage: null
+      snackbarMessage: null,
     };
   }
 
@@ -33,11 +99,11 @@ class SnackbarController extends Component {
     // emitter.removeListener(ACTIONS.TX_SUBMITTED, this.showHash);
   }
 
-  showError = error => {
+  showError = (error) => {
     const snackbarObj = {
       snackbarMessage: null,
       snackbarType: null,
-      open: false
+      open: false,
     };
     this.setState(snackbarObj);
 
@@ -46,7 +112,7 @@ class SnackbarController extends Component {
       const snackbarObj = {
         snackbarMessage: error.toString(),
         snackbarType: "Error",
-        open: true
+        open: true,
       };
       that.setState(snackbarObj);
     });
@@ -56,7 +122,7 @@ class SnackbarController extends Component {
     const snackbarObj = {
       snackbarMessage: null,
       snackbarType: null,
-      open: false
+      open: false,
     };
     this.setState(snackbarObj);
 
@@ -65,7 +131,7 @@ class SnackbarController extends Component {
       const snackbarObj = {
         snackbarMessage: txHash,
         snackbarType: "Hash",
-        open: true
+        open: true,
       };
       that.setState(snackbarObj);
     });

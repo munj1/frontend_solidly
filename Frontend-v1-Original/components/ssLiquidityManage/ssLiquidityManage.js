@@ -238,11 +238,11 @@ export default function ssLiquidityManage() {
     let addy0 = assetA.address
     let addy1 = assetB.address
 
-    if(assetA.address === 'AGOR') {
-      addy0 = CONTRACTS.WFTM_ADDRESS
+    if(assetA.address === 'ETH') {
+      addy0 = CONTRACTS.WETH_ADDRESS
     }
-    if(assetB.address === 'AGOR') {
-      addy1 = CONTRACTS.WFTM_ADDRESS
+    if(assetB.address === 'ETH') {
+      addy1 = CONTRACTS.WETH_ADDRESS
     }
 
 
@@ -1437,7 +1437,7 @@ function AssetSelect({ type, value, assetOptions, onSelect, disabled }) {
               autoFocus
               variant="outlined"
               fullWidth
-              placeholder="FTM, MIM, 0x..."
+              placeholder="ETH, MIM, 0x..."
               value={ search }
               onChange={ onSearchChanged }
               InputProps={{
@@ -1477,7 +1477,7 @@ function AssetSelect({ type, value, assetOptions, onSelect, disabled }) {
               autoFocus
               variant="outlined"
               fullWidth
-              placeholder="FTM, MIM, 0x..."
+              placeholder="ETH, MIM, 0x..."
               value={ search }
               onChange={ onSearchChanged }
               InputProps={{

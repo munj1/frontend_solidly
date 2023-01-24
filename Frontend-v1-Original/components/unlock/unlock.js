@@ -6,17 +6,13 @@ import { Close } from "@mui/icons-material";
 import { Web3ReactProvider, useWeb3React } from "@web3-react/core";
 import { Web3Provider } from "@ethersproject/providers";
 
-import { ACTIONS } from '../../stores/constants';
-const {
-  ERROR,
-  CONNECTION_DISCONNECTED,
-  CONNECTION_CONNECTED,
-  CONFIGURE_SS
-} = ACTIONS
+import { ACTIONS } from "../../stores/constants";
+const { ERROR, CONNECTION_DISCONNECTED, CONNECTION_CONNECTED, CONFIGURE_SS } =
+  ACTIONS;
 
 import stores from "../../stores";
 
-const styles = theme => ({
+const styles = (theme) => ({
   root: {
     flex: 1,
     height: "auto",
@@ -30,9 +26,9 @@ const styles = theme => ({
     display: "flex",
     flexWrap: "wrap",
 
-    '@media (max-width: 960px)': {
-        paddingTop: '160px',
-      },
+    "@media (max-width: 960px)": {
+      paddingTop: "160px",
+    },
   },
   cardContainer: {
     marginTop: "60px",
@@ -47,12 +43,12 @@ const styles = theme => ({
   },
   buttonText: {
     marginLeft: "12px",
-    fontWeight: "700"
+    fontWeight: "700",
   },
   instruction: {
     maxWidth: "400px",
     marginBottom: "32px",
-    marginTop: "32px"
+    marginTop: "32px",
   },
   actionButton: {
     padding: "12px",
@@ -61,27 +57,87 @@ const styles = theme => ({
     border: "1px solid #E1E1E1",
     fontWeight: 500,
     [theme.breakpoints.up("md")]: {
-      padding: "15px"
-    }
+      padding: "15px",
+    },
   },
   connect: {
-    width: "100%"
+    width: "100%",
   },
   closeIcon: {
     position: "absolute",
     right: "-8px",
     top: "-8px",
-    cursor: "pointer"
-  }
+    cursor: "pointer",
+  },
 });
 
-class Unlock extends Component {
+const Unlock = (props) => {
+  const { classes, closeModal } = props;
+  const [state, setState] = React.useState({
+    loading: false,
+    error: null,
+  });
+
+  React.useEffect(() => {
+    stores.emitter.on(CONNECTION_CONNECTED, connectionConnected);
+    stores.emitter.on(CONNECTION_DISCONNECTED, connectionDisconnected);
+    stores.emitter.on(ERROR, error);
+    return () => {
+      stores.emitter.removeListener(CONNECTION_CONNECTED, connectionConnected);
+      stores.emitter.removeListener(
+        CONNECTION_DISCONNECTED,
+        connectionDisconnected
+      );
+      stores.emitter.removeListener(ERROR, error);
+    };
+  }, []);
+
+  const error = (err) => {
+    setState({ loading: false, error: err });
+  };
+
+  const connectionConnected = () => {
+    stores.dispatcher.dispatch({
+      type: CONFIGURE_SS,
+      content: { connected: true },
+    });
+
+    if (props.closeModal != null) {
+      props.closeModal();
+    }
+  };
+
+  const connectionDisconnected = () => {
+    stores.dispatcher.dispatch({
+      type: CONFIGURE_SS,
+      content: { connected: false },
+    });
+    if (props.closeModal != null) {
+      props.closeModal();
+    }
+  };
+
+  return (
+    <div className={classes.root}>
+      <div className={classes.closeIcon} onClick={closeModal}>
+        <Close />
+      </div>
+      <div className={classes.contentContainer}>
+        <Web3ReactProvider getLibrary={getLibrary}>
+          <MyComponent closeModal={closeModal} />
+        </Web3ReactProvider>
+      </div>
+    </div>
+  );
+};
+
+class Legacy_Unlock extends Component {
   constructor(props) {
     super();
 
     this.state = {
       loading: false,
-      error: null
+      error: null,
     };
   }
 
@@ -103,14 +159,14 @@ class Unlock extends Component {
     stores.emitter.removeListener(ERROR, this.error);
   }
 
-  error = err => {
+  error = (err) => {
     this.setState({ loading: false, error: err });
   };
 
   connectionConnected = () => {
     stores.dispatcher.dispatch({
       type: CONFIGURE_SS,
-      content: { connected: true }
+      content: { connected: true },
     });
 
     if (this.props.closeModal != null) {
@@ -121,7 +177,7 @@ class Unlock extends Component {
   connectionDisconnected = () => {
     stores.dispatcher.dispatch({
       type: CONFIGURE_SS,
-      content: { connected: false}
+      content: { connected: false },
     });
     if (this.props.closeModal != null) {
       this.props.closeModal();
@@ -181,15 +237,8 @@ function MyComponent(props) {
   if (localContext) {
     localConnector = localContext.connector;
   }
-  const {
-    connector,
-    library,
-    account,
-    activate,
-    deactivate,
-    active,
-    error
-  } = context;
+  const { connector, library, account, activate, deactivate, active, error } =
+    context;
   var connectorsByName = stores.accountStore.getStore("connectorsByName");
 
   const { closeModal } = props;
@@ -205,7 +254,7 @@ function MyComponent(props) {
     if (account && active && library) {
       stores.accountStore.setStore({
         account: { address: account },
-        web3context: context
+        web3context: context,
       });
       stores.emitter.emit(CONNECTION_CONNECTED);
       stores.emitter.emit(ACTIONS.ACCOUNT_CONFIGURED);
@@ -220,10 +269,10 @@ function MyComponent(props) {
         display: "flex",
         flexWrap: "wrap",
         justifyContent: width > 576 ? "space-between" : "center",
-        alignItems: "center"
+        alignItems: "center",
       }}
     >
-      {Object.keys(connectorsByName).map(name => {
+      {Object.keys(connectorsByName).map((name) => {
         const currentConnector = connectorsByName[name];
         const activating = currentConnector === activatingConnector;
         const connected =
@@ -286,9 +335,9 @@ function MyComponent(props) {
                 height: "200px",
                 backgroundColor: "rgba(0,0,0,0.05)",
                 border: "1px solid rgba(108,108,123,0.2)",
-                color: "rgba(108,108,123,1)"
+                color: "rgba(108,108,123,1)",
               }}
-              variant="contained"
+              variant='contained'
               onClick={() => {
                 onConnectionClicked(
                   currentConnector,
@@ -298,7 +347,7 @@ function MyComponent(props) {
                 );
               }}
               disableElevation
-              color="secondary"
+              color='secondary'
               disabled={disabled}
             >
               <div
@@ -308,19 +357,26 @@ function MyComponent(props) {
                   display: "flex",
                   flexDirection: "column",
                   alignItems: "center",
-                  justifyContent: "space-evenly"
+                  justifyContent: "space-evenly",
                 }}
               >
                 <img
                   style={{
                     width: "60px",
-                    height: "60px"
+                    height: "60px",
                   }}
                   src={url}
-                  alt=""
+                  alt=''
                 />
-                <Typography style={{ color: "#FFFFFF", marginBottom: "-15px"}} variant={"h2"}>{display}</Typography>
-                <Typography style={{ color: "#7E99B0",}} variant={"body2"}>{descriptor}</Typography>
+                <Typography
+                  style={{ color: "#FFFFFF", marginBottom: "-15px" }}
+                  variant={"h2"}
+                >
+                  {display}
+                </Typography>
+                <Typography style={{ color: "#7E99B0" }} variant={"body2"}>
+                  {descriptor}
+                </Typography>
                 {activating && (
                   <CircularProgress size={15} style={{ marginRight: "10px" }} />
                 )}
@@ -334,7 +390,7 @@ function MyComponent(props) {
                       marginRight: "0px",
                       position: "absolute",
                       top: "15px",
-                      right: "15px"
+                      right: "15px",
                     }}
                   ></div>
                 )}

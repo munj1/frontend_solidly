@@ -9,7 +9,7 @@ import { bribeABI } from './bribeABI'
 import { tokenABI } from './tokenABI'
 import { veDistABI } from './veDistABI'
 import { minterABI } from './minterABI'
-import { wftmABI } from './wftmABI'
+import { wethABI } from './wethABI'
 
 export default {
   erc20ABI,
@@ -23,5 +23,5 @@ export default {
   veDistABI,
   tokenABI,
   minterABI,
-  wftmABI
+  wethABI
 }
