@@ -986,7 +986,7 @@ class Store {
         {
           method: "get",
           headers: {
-            Authorization: `Basic ${process.env.NEXT_PUBLIC_API_TOKEN}`, // WTF is this?
+            Authorization: `Basic ${process.env.NEXT_PUBLIC_API_TOKEN}`,
           },
         }
       );
