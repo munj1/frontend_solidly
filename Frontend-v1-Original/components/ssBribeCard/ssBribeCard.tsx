@@ -84,11 +84,11 @@ export default function BribeCard({ pair, bribe }) {
 
     stores.emitter.on(ACTIONS.ERROR, errorReturned);
     // TODO: there's no such action
-    stores.emitter.on(ACTIONS.REWARD_CLAIMED, claimReturned);
+    //stores.emitter.on(ACTIONS.REWARD_CLAIMED, claimReturned);
 
     return () => {
       stores.emitter.removeListener(ACTIONS.ERROR, errorReturned);
-      stores.emitter.removeListener(ACTIONS.REWARD_CLAIMED, claimReturned);
+      //stores.emitter.removeListener(ACTIONS.REWARD_CLAIMED, claimReturned);
     };
   }, []);
 
