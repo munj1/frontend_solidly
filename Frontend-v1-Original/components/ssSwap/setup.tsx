@@ -195,6 +195,13 @@ function Setup() {
   };
 
   const calculateReceiveAmount = (amount, from, to) => {
+    if (from.symbol === "WETH" || to.symbol === "WETH") {
+      setQuoteLoading(false);
+      setQuote(null);
+      setToAmountValue(amount);
+      setQuoteError("No support for wrapping/unwrapping WETH yet");
+      return;
+    }
     if (amount !== "" && !isNaN(amount) && to != null) {
       setQuoteLoading(true);
       setQuoteError(false);

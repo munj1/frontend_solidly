@@ -39,6 +39,7 @@ function SiteLogo(props) {
     <Image
       className={className}
       src='/images/_vcm_logo.jpg'
+      alt='velocimeter logo'
       height={48}
       width={48}
     />
@@ -440,7 +441,7 @@ function Header(props) {
             <WrongNetworkIcon className={classes.networkIcon} />
             <Typography className={classes.ErrorTxt}>
               The chain you're connected to isn't supported. Please check that
-              your wallet is connected to Fantom Mainnet.
+              your wallet is connected to Arbitrum Mainnet.
             </Typography>
             <Button
               className={classes.switchNetworkBtn}

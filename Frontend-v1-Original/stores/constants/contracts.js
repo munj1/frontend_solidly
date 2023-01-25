@@ -19,6 +19,7 @@ export const WETH_NAME = "Wrapped ETH";
 export const WETH_SYMBOL = "WETH";
 export const WETH_DECIMALS = 18;
 export const WETH_ABI = abis.wethABI;
+export const WETH_IMPL_ABI = abis.wethImplABI;
 
 export const ETH_ADDRESS = "ETH";
 export const ETH_NAME = "ETH";
