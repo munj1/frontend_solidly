@@ -268,6 +268,14 @@ const coreTheme = createTheme({
         },
       },
     },
+    MuiFormHelperText: {
+      styleOverrides: {
+        root: {
+          position: "absolute",
+          bottom: "0",
+        },
+      },
+    },
   },
 });
 

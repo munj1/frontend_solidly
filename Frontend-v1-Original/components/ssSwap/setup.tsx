@@ -195,6 +195,16 @@ function Setup() {
   };
 
   const calculateReceiveAmount = (amount, from, to) => {
+    if (
+      (from.symbol === "WETH" && to.symbol === "ETH") ||
+      (from.symbol === "ETH" && to.symbol === "WETH")
+    ) {
+      setQuoteLoading(false);
+      setQuote(null);
+      setToAmountValue(amount);
+      setQuoteError("No support for wrapping/unwrapping WETH yet");
+      return;
+    }
     if (amount !== "" && !isNaN(amount) && to != null) {
       setQuoteLoading(true);
       setQuoteError(false);
@@ -554,7 +564,7 @@ function Setup() {
           size='large'
           color='primary'
           className={classes.buttonOverride}
-          disabled={loading || quoteLoading}
+          disabled={loading || quoteLoading || !quote}
           onClick={onSwap}
         >
           <Typography className={classes.actionButtonText}>
