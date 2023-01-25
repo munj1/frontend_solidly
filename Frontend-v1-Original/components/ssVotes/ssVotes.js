@@ -159,9 +159,8 @@ export default function ssVotes() {
   }
 
   return (
-    <div className={ classes.container }>
-      <div className={ classes.topBarContainer }>
-
+    <div className={classes.container}>
+      <div className={classes.topBarContainer}>
         <Grid container spacing={1}>
           <Grid item lg='auto' sm={12} xs={12}>
             {/*
@@ -182,67 +181,91 @@ export default function ssVotes() {
           <Grid item lg={true} md={true} sm={12} xs={12}>
             <TextField
               className={classes.searchContainer}
-              variant="outlined"
+              variant='outlined'
               fullWidth
-              placeholder="ETH, MIM, 0x..."
+              placeholder='ETH, MIM, 0x...'
               value={search}
               onChange={onSearchChanged}
               InputProps={{
                 startAdornment: (
-                  <InputAdornment position="start">
-                    <Search sx={{fill: 'white'}}/>
+                  <InputAdornment position='start'>
+                    <Search sx={{ fill: "white" }} />
                   </InputAdornment>
                 ),
               }}
             />
           </Grid>
           <Grid item lg='auto' sm={12} xs={12}>
-            <div className={ classes.tokenIDContainer }>
-              { renderMediumInput(token, vestNFTs) }
+            <div className={classes.tokenIDContainer}>
+              {renderMediumInput(token, vestNFTs)}
             </div>
           </Grid>
         </Grid>
       </div>
-      <Paper elevation={0} className={ classes.tableContainer }>
-        <GaugesTable gauges={ gauges.filter((pair) => {
-          if(!search || search === '') {
-            return true
-          }
+      <Paper elevation={0} className={classes.tableContainer}>
+        <GaugesTable
+          gauges={gauges.filter((pair) => {
+            if (!search || search === "") {
+              return true;
+            }
 
-          const searchLower = search.toLowerCase()
+            const searchLower = search.toLowerCase();
 
-          if(pair.symbol.toLowerCase().includes(searchLower) || pair.address.toLowerCase().includes(searchLower) ||
-            pair.token0.symbol.toLowerCase().includes(searchLower) || pair.token0.address.toLowerCase().includes(searchLower) || pair.token0.name.toLowerCase().includes(searchLower) ||
-            pair.token1.symbol.toLowerCase().includes(searchLower) || pair.token1.address.toLowerCase().includes(searchLower) ||  pair.token1.name.toLowerCase().includes(searchLower)) {
-            return true
-          }
+            if (
+              pair.symbol.toLowerCase().includes(searchLower) ||
+              pair.address.toLowerCase().includes(searchLower) ||
+              pair.token0.symbol.toLowerCase().includes(searchLower) ||
+              pair.token0.address.toLowerCase().includes(searchLower) ||
+              pair.token0.name.toLowerCase().includes(searchLower) ||
+              pair.token1.symbol.toLowerCase().includes(searchLower) ||
+              pair.token1.address.toLowerCase().includes(searchLower) ||
+              pair.token1.name.toLowerCase().includes(searchLower)
+            ) {
+              return true;
+            }
 
-          return false
-
-        }) } setParentSliderValues={setVotes} defaultVotes={votes} veToken={veToken} token={ token } />
+            return false;
+          })}
+          setParentSliderValues={setVotes}
+          defaultVotes={votes}
+          veToken={veToken}
+          token={token}
+        />
       </Paper>
-      <Paper elevation={10} className={ classes.actionButtons }>
-        <Grid container spacing={2}>
-          <Grid item lg={6}>
-            <div className={ classes.infoSection }>
-              <Typography>Voting Power Used: </Typography>
-              <Typography className={ `${BigNumber(totalVotes).gt(100) ? classes.errorText : classes.helpText}` }>{ totalVotes } %</Typography>
-            </div>
-          </Grid>
-          <Grid item lg={6}>
-            <Button
-              className={ classes.buttonOverrideFixed }
-              variant='contained'
-              size='large'
-              color='primary'
-              disabled={ voteLoading || BigNumber(totalVotes).eq(0) || BigNumber(totalVotes).gt(100) }
-              onClick={ onVote }
-              >
-              <Typography className={ classes.actionButtonText }>{ voteLoading ? `Casting Votes` : `Cast Votes` }</Typography>
-              { voteLoading && <CircularProgress size={10} className={ classes.loadingCircle } /> }
-            </Button>
-          </Grid>
-        </Grid>
+      <Paper elevation={10} className={classes.actionButtons}>
+        <div className={classes.infoSection}>
+          <Typography>Voting Power Used: </Typography>
+          <Typography
+            className={`${
+              BigNumber(totalVotes).gt(100)
+                ? classes.errorText
+                : classes.helpText
+            }`}
+          >
+            {totalVotes} %
+          </Typography>
+        </div>
+        <div>
+          <Button
+            className={classes.buttonOverrideFixed}
+            variant='contained'
+            size='large'
+            color='primary'
+            disabled={
+              voteLoading ||
+              BigNumber(totalVotes).eq(0) ||
+              BigNumber(totalVotes).gt(100)
+            }
+            onClick={onVote}
+          >
+            <Typography className={classes.actionButtonText}>
+              {voteLoading ? `Casting Votes` : `Cast Votes`}
+            </Typography>
+            {voteLoading && (
+              <CircularProgress size={10} className={classes.loadingCircle} />
+            )}
+          </Button>
+        </div>
       </Paper>
     </div>
   );

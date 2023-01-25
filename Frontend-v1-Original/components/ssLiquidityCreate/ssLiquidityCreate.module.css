@@ -325,6 +325,7 @@
 }
 
 .massiveInputAmount {
+  flex-grow: 0.98;
   flex: 1;
   height: 100%;
 }

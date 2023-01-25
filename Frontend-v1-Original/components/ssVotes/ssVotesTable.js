@@ -17,8 +17,6 @@ const PrettoSlider = withStyles({
     width: 24,
     backgroundColor: '#06D3D7',
     border: '2px solid currentColor',
-    marginTop: -8,
-    marginLeft: -12,
     '&:focus, &:hover, &$active': {
       boxShadow: 'inherit',
     },
@@ -29,6 +27,7 @@ const PrettoSlider = withStyles({
   },
   track: {
     height: 8,
+    border: 'none',
   },
   rail: {
     height: 8,

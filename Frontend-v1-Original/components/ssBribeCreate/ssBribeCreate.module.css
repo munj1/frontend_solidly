@@ -329,6 +329,10 @@
   height: 100%;
 }
 
+.p_4 {
+  padding: 4px;
+}
+
 .massiveInputAddress {
   min-width: 100%;
   border-top: 1px solid rgba(128, 128, 128, 0.5);

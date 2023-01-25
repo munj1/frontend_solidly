@@ -218,7 +218,7 @@ export default function ssBribeCreate() {
           <div className={ classes.massiveInputAssetSelect }>
             <AssetSelect type={type} value={ assetValue } assetOptions={ assetOptions } onSelect={ onAssetSelect } />
           </div>
-          <div className={ classes.massiveInputAmount }>
+          <div className={ `${classes.massiveInputAmount} ${classes.p_4}` }>
             <TextField
               placeholder='0.00'
               fullWidth
