@@ -79,6 +79,31 @@ const Unlock = (props) => {
   });
 
   React.useEffect(() => {
+    const error = (err) => {
+      setState({ loading: false, error: err });
+    };
+
+    const connectionConnected = () => {
+      stores.dispatcher.dispatch({
+        type: CONFIGURE_SS,
+        content: { connected: true },
+      });
+
+      if (props.closeModal != null) {
+        props.closeModal();
+      }
+    };
+
+    const connectionDisconnected = () => {
+      stores.dispatcher.dispatch({
+        type: CONFIGURE_SS,
+        content: { connected: false },
+      });
+      if (props.closeModal != null) {
+        props.closeModal();
+      }
+    };
+
     stores.emitter.on(CONNECTION_CONNECTED, connectionConnected);
     stores.emitter.on(CONNECTION_DISCONNECTED, connectionDisconnected);
     stores.emitter.on(ERROR, error);
@@ -91,31 +116,6 @@ const Unlock = (props) => {
       stores.emitter.removeListener(ERROR, error);
     };
   }, []);
-
-  const error = (err) => {
-    setState({ loading: false, error: err });
-  };
-
-  const connectionConnected = () => {
-    stores.dispatcher.dispatch({
-      type: CONFIGURE_SS,
-      content: { connected: true },
-    });
-
-    if (props.closeModal != null) {
-      props.closeModal();
-    }
-  };
-
-  const connectionDisconnected = () => {
-    stores.dispatcher.dispatch({
-      type: CONFIGURE_SS,
-      content: { connected: false },
-    });
-    if (props.closeModal != null) {
-      props.closeModal();
-    }
-  };
 
   return (
     <div className={classes.root}>

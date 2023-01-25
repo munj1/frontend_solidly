@@ -20,53 +20,53 @@ const SnackbarController = (props) => {
   });
 
   React.useEffect(() => {
+    const showError = (error) => {
+      const snackbarObj = {
+        snackbarMessage: null,
+        snackbarType: null,
+        open: false,
+      };
+      setState(snackbarObj);
+
+      if (process.env.NODE_ENV === "development") {
+        setTimeout(() => {
+          const snackbarObj = {
+            snackbarMessage: error.toString(),
+            snackbarType: "Error",
+            open: true,
+          };
+          setState(snackbarObj);
+        });
+      }
+    };
+
+    const showHash = ({ txHash }) => {
+      const snackbarObj = {
+        snackbarMessage: null,
+        snackbarType: null,
+        open: false,
+      };
+      setState(snackbarObj);
+
+      setTimeout(() => {
+        const snackbarObj = {
+          snackbarMessage: txHash,
+          snackbarType: "Hash",
+          open: true,
+        };
+        setState(snackbarObj);
+      });
+    };
+
     emitter.on(ACTIONS.ERROR, showError);
     emitter.on(ACTIONS.TX_SUBMITTED, showHash);
-
     return () => {
       emitter.removeListener(ACTIONS.ERROR, showError);
       emitter.removeListener(ACTIONS.TX_SUBMITTED, showHash);
     };
   }, []);
 
-  const showError = (error) => {
-    const snackbarObj = {
-      snackbarMessage: null,
-      snackbarType: null,
-      open: false,
-    };
-    setState(snackbarObj);
-
-    setTimeout(() => {
-      const snackbarObj = {
-        snackbarMessage: error.toString(),
-        snackbarType: "Error",
-        open: true,
-      };
-      setState(snackbarObj);
-    });
-  };
-
-  const showHash = ({ txHash }) => {
-    const snackbarObj = {
-      snackbarMessage: null,
-      snackbarType: null,
-      open: false,
-    };
-    setState(snackbarObj);
-
-    setTimeout(() => {
-      const snackbarObj = {
-        snackbarMessage: txHash,
-        snackbarType: "Hash",
-        open: true,
-      };
-      setState(snackbarObj);
-    });
-  };
-
   const { snackbarType, snackbarMessage, open } = state;
-
   return (
     <>
       {open ? (
