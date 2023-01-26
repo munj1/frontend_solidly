@@ -1,14 +1,38 @@
-import { MAX_UINT256, ZERO_ADDRESS, ACTIONS, CONTRACTS } from "./constants";
+import moment from "moment";
 import { v4 as uuidv4 } from "uuid";
-
-import * as moment from "moment";
-import { formatCurrency } from "../utils";
-import stores from "./";
-
+import type { Contract } from "web3-eth-contract";
+import type { AbiItem } from "web3-utils";
 import BigNumber from "bignumber.js";
+import Web3 from "web3";
+
+import stores from ".";
+import { formatCurrency } from "../utils/utils";
+import {
+  ACTIONS,
+  CONTRACTS,
+  MAX_UINT256,
+  ZERO_ADDRESS,
+} from "./constants/constants";
+
+import tokenlist from "../mainnet-arb-token-list.json";
 // import tokenlist from '../token-list.json';
 // import tokenlist from '../goerli-arb-token-list.json'
-import tokenlist from "../mainnet-arb-token-list.json";
+
+interface Store {
+  dispatcher: any;
+  emitter: any;
+  store: any;
+}
+
+interface BaseAsset {
+  address: string;
+  symbol: string;
+  name: string;
+  decimals: number;
+  logoURI: string | null;
+  local: true;
+  balance: string | null;
+}
 
 class Store {
   constructor(dispatcher, emitter) {
@@ -176,8 +200,6 @@ class Store {
       return ass.address.toLowerCase() === address.toLowerCase();
     });
 
-    console.log("dunks the asset", TheAsset);
-
     if (!theAsset || theAsset.length === 0) {
       return null;
     }
@@ -211,7 +233,7 @@ class Store {
       const govToken = this.getStore("govToken");
 
       const vestingContract = new web3.eth.Contract(
-        CONTRACTS.VE_TOKEN_ABI,
+        CONTRACTS.VE_TOKEN_ABI as AbiItem[],
         CONTRACTS.VE_TOKEN_ADDRESS
       );
 
@@ -289,7 +311,7 @@ class Store {
       const govToken = this.getStore("govToken");
 
       const vestingContract = new web3.eth.Contract(
-        CONTRACTS.VE_TOKEN_ABI,
+        CONTRACTS.VE_TOKEN_ABI as AbiItem[],
         CONTRACTS.VE_TOKEN_ADDRESS
       );
 
@@ -341,7 +363,10 @@ class Store {
       });
 
       if (thePair.length > 0) {
-        const pc = new web3.eth.Contract(CONTRACTS.PAIR_ABI, pairAddress);
+        const pc = new web3.eth.Contract(
+          CONTRACTS.PAIR_ABI as AbiItem[],
+          pairAddress
+        );
 
         const [totalSupply, reserve0, reserve1, balanceOf] = await Promise.all([
           pc.methods.totalSupply().call(),
@@ -368,11 +393,11 @@ class Store {
       }
 
       const pairContract = new web3.eth.Contract(
-        CONTRACTS.PAIR_ABI,
+        CONTRACTS.PAIR_ABI as AbiItem[],
         pairAddress
       );
       const gaugesContract = new web3.eth.Contract(
-        CONTRACTS.VOTER_ABI,
+        CONTRACTS.VOTER_ABI as AbiItem[],
         CONTRACTS.VOTER_ADDRESS
       );
 
@@ -410,8 +435,14 @@ class Store {
         pairContract.methods.claimable1(account.address).call(),
       ]);
 
-      const token0Contract = new web3.eth.Contract(CONTRACTS.ERC20_ABI, token0);
-      const token1Contract = new web3.eth.Contract(CONTRACTS.ERC20_ABI, token1);
+      const token0Contract = new web3.eth.Contract(
+        CONTRACTS.ERC20_ABI as AbiItem[],
+        token0
+      );
+      const token1Contract = new web3.eth.Contract(
+        CONTRACTS.ERC20_ABI as AbiItem[],
+        token1
+      );
 
       const [
         token0Symbol,
@@ -472,7 +503,7 @@ class Store {
 
       if (gaugeAddress !== ZERO_ADDRESS) {
         const gaugeContract = new web3.eth.Contract(
-          CONTRACTS.GAUGE_ABI,
+          CONTRACTS.GAUGE_ABI as AbiItem[],
           gaugeAddress
         );
 
@@ -483,7 +514,7 @@ class Store {
         ]);
 
         const bribeContract = new web3.eth.Contract(
-          CONTRACTS.BRIBE_ABI,
+          CONTRACTS.BRIBE_ABI as AbiItem[],
           bribeAddress
         );
 
@@ -581,7 +612,10 @@ class Store {
       );
     });
     if (thePair.length > 0) {
-      const pc = new web3.eth.Contract(CONTRACTS.PAIR_ABI, thePair[0].address);
+      const pc = new web3.eth.Contract(
+        CONTRACTS.PAIR_ABI as AbiItem[],
+        thePair[0].address
+      );
 
       const [totalSupply, reserve0, reserve1, balanceOf] = await Promise.all([
         pc.methods.totalSupply().call(),
@@ -608,7 +642,7 @@ class Store {
     }
 
     const factoryContract = new web3.eth.Contract(
-      CONTRACTS.FACTORY_ABI,
+      CONTRACTS.FACTORY_ABI as AbiItem[],
       CONTRACTS.FACTORY_ADDRESS
     );
     const pairAddress = await factoryContract.methods
@@ -617,11 +651,11 @@ class Store {
 
     if (pairAddress && pairAddress != ZERO_ADDRESS) {
       const pairContract = new web3.eth.Contract(
-        CONTRACTS.PAIR_ABI,
+        CONTRACTS.PAIR_ABI as AbiItem[],
         pairAddress
       );
       const gaugesContract = new web3.eth.Contract(
-        CONTRACTS.VOTER_ABI,
+        CONTRACTS.VOTER_ABI as AbiItem[],
         CONTRACTS.VOTER_ADDRESS
       );
 
@@ -659,8 +693,14 @@ class Store {
         pairContract.methods.claimable1(account.address).call(),
       ]);
 
-      const token0Contract = new web3.eth.Contract(CONTRACTS.ERC20_ABI, token0);
-      const token1Contract = new web3.eth.Contract(CONTRACTS.ERC20_ABI, token1);
+      const token0Contract = new web3.eth.Contract(
+        CONTRACTS.ERC20_ABI as AbiItem[],
+        token0
+      );
+      const token1Contract = new web3.eth.Contract(
+        CONTRACTS.ERC20_ABI as AbiItem[],
+        token1
+      );
 
       const [
         token0Symbol,
@@ -721,7 +761,7 @@ class Store {
 
       if (gaugeAddress !== ZERO_ADDRESS) {
         const gaugeContract = new web3.eth.Contract(
-          CONTRACTS.GAUGE_ABI,
+          CONTRACTS.GAUGE_ABI as AbiItem[],
           gaugeAddress
         );
 
@@ -732,7 +772,7 @@ class Store {
         ]);
 
         const bribeContract = new web3.eth.Contract(
-          CONTRACTS.BRIBE_ABI,
+          CONTRACTS.BRIBE_ABI as AbiItem[],
           bribeAddress
         );
 
@@ -850,7 +890,7 @@ class Store {
     }
   };
 
-  getBaseAsset = async (address, save, getBalance) => {
+  getBaseAsset = async (address, save?, getBalance?) => {
     try {
       const baseAssets = this.getStore("baseAssets");
 
@@ -869,7 +909,7 @@ class Store {
       }
 
       const baseAssetContract = new web3.eth.Contract(
-        CONTRACTS.ERC20_ABI,
+        CONTRACTS.ERC20_ABI as AbiItem[],
         address
       );
 
@@ -886,6 +926,7 @@ class Store {
         decimals: parseInt(decimals),
         logoURI: null,
         local: true,
+        balance: null,
       };
 
       if (getBalance) {
@@ -966,6 +1007,7 @@ class Store {
         logoURI: CONTRACTS.ETH_LOGO,
         name: CONTRACTS.ETH_NAME,
         symbol: CONTRACTS.ETH_SYMBOL,
+        chainId: 42161,
       };
 
       baseAssets.unshift(nativeETH);
@@ -1140,7 +1182,7 @@ class Store {
     }
   };
 
-  _getPairInfo = async (web3, account, overridePairs) => {
+  _getPairInfo = async (web3, account, overridePairs?) => {
     try {
       const multicall = await stores.accountStore.getMulticall();
 
@@ -1406,9 +1448,13 @@ class Store {
         this.emitter.emit(ACTIONS.ASSET_SEARCHED, theBaseAsset);
         return;
       }
-
+      const web3 = await stores.accountStore.getWeb3Provider();
+      if (!web3) {
+        console.warn("web3 not found");
+        return null;
+      }
       const baseAssetContract = new web3.eth.Contract(
-        CONTRACTS.ERC20_ABI,
+        CONTRACTS.ERC20_ABI as AbiItem[],
         payload.content.address
       );
 
@@ -1472,7 +1518,7 @@ class Store {
       }
 
       const factoryContract = new web3.eth.Contract(
-        CONTRACTS.FACTORY_ABI,
+        CONTRACTS.FACTORY_ABI as AbiItem[],
         CONTRACTS.FACTORY_ADDRESS
       );
       const pairFor = await factoryContract.methods
@@ -1533,8 +1579,8 @@ class Store {
         ],
       });
 
-      let allowance0 = 0;
-      let allowance1 = 0;
+      let allowance0 = "0";
+      let allowance1 = "0";
 
       // CHECK ALLOWANCES AND SET TX DISPLAY
       if (token0.address !== "ETH") {
@@ -1590,11 +1636,11 @@ class Store {
       // SUBMIT REQUIRED ALLOWANCE TRANSACTIONS
       if (BigNumber(allowance0).lt(amount0)) {
         const tokenContract = new web3.eth.Contract(
-          CONTRACTS.ERC20_ABI,
+          CONTRACTS.ERC20_ABI as AbiItem[],
           token0.address
         );
 
-        const tokenPromise = new Promise((resolve, reject) => {
+        const tokenPromise = new Promise<void>((resolve, reject) => {
           context._callContractWait(
             web3,
             tokenContract,
@@ -1621,11 +1667,11 @@ class Store {
 
       if (BigNumber(allowance1).lt(amount1)) {
         const tokenContract = new web3.eth.Contract(
-          CONTRACTS.ERC20_ABI,
+          CONTRACTS.ERC20_ABI as AbiItem[],
           token1.address
         );
 
-        const tokenPromise = new Promise((resolve, reject) => {
+        const tokenPromise = new Promise<void>((resolve, reject) => {
           context._callContractWait(
             web3,
             tokenContract,
@@ -1712,7 +1758,7 @@ class Store {
       }
 
       const routerContract = new web3.eth.Contract(
-        CONTRACTS.ROUTER_ABI,
+        CONTRACTS.ROUTER_ABI as AbiItem[],
         CONTRACTS.ROUTER_ADDRESS
       );
       this._callContractWait(
@@ -1745,7 +1791,7 @@ class Store {
 
           // SUBMIT CREATE GAUGE TRANSACTION
           const gaugesContract = new web3.eth.Contract(
-            CONTRACTS.VOTER_ABI,
+            CONTRACTS.VOTER_ABI as AbiItem[],
             CONTRACTS.VOTER_ADDRESS
           );
           this._callContractWait(
@@ -1768,11 +1814,11 @@ class Store {
                 .call();
 
               const pairContract = new web3.eth.Contract(
-                CONTRACTS.PAIR_ABI,
+                CONTRACTS.PAIR_ABI as AbiItem[],
                 pairFor
               );
               const gaugeContract = new web3.eth.Contract(
-                CONTRACTS.GAUGE_ABI,
+                CONTRACTS.GAUGE_ABI as AbiItem[],
                 gaugeAddress
               );
 
@@ -1815,7 +1861,7 @@ class Store {
                     .toFixed(pair.decimals)
                 )
               ) {
-                const stakePromise = new Promise((resolve, reject) => {
+                const stakePromise = new Promise<void>((resolve, reject) => {
                   context._callContractWait(
                     web3,
                     pairContract,
@@ -1870,7 +1916,6 @@ class Store {
             }
           );
         },
-        null,
         sendValue
       );
     } catch (ex) {
@@ -1908,7 +1953,7 @@ class Store {
       }
 
       const factoryContract = new web3.eth.Contract(
-        CONTRACTS.FACTORY_ABI,
+        CONTRACTS.FACTORY_ABI as AbiItem[],
         CONTRACTS.FACTORY_ADDRESS
       );
       const pairFor = await factoryContract.methods
@@ -1957,8 +2002,8 @@ class Store {
         ],
       });
 
-      let allowance0 = 0;
-      let allowance1 = 0;
+      let allowance0 = "0";
+      let allowance1 = "0";
 
       // CHECK ALLOWANCES AND SET TX DISPLAY
       if (token0.address !== "ETH") {
@@ -2014,11 +2059,11 @@ class Store {
       // SUBMIT REQUIRED ALLOWANCE TRANSACTIONS
       if (BigNumber(allowance0).lt(amount0)) {
         const tokenContract = new web3.eth.Contract(
-          CONTRACTS.ERC20_ABI,
+          CONTRACTS.ERC20_ABI as AbiItem[],
           token0.address
         );
 
-        const tokenPromise = new Promise((resolve, reject) => {
+        const tokenPromise = new Promise<void>((resolve, reject) => {
           context._callContractWait(
             web3,
             tokenContract,
@@ -2045,11 +2090,11 @@ class Store {
 
       if (BigNumber(allowance1).lt(amount1)) {
         const tokenContract = new web3.eth.Contract(
-          CONTRACTS.ERC20_ABI,
+          CONTRACTS.ERC20_ABI as AbiItem[],
           token1.address
         );
 
-        const tokenPromise = new Promise((resolve, reject) => {
+        const tokenPromise = new Promise<void>((resolve, reject) => {
           context._callContractWait(
             web3,
             tokenContract,
@@ -2136,7 +2181,7 @@ class Store {
       }
 
       const routerContract = new web3.eth.Contract(
-        CONTRACTS.ROUTER_ABI,
+        CONTRACTS.ROUTER_ABI as AbiItem[],
         CONTRACTS.ROUTER_ADDRESS
       );
       this._callContractWait(
@@ -2169,7 +2214,7 @@ class Store {
 
           // SUBMIT CREATE GAUGE TRANSACTION
           const gaugesContract = new web3.eth.Contract(
-            CONTRACTS.VOTER_ABI,
+            CONTRACTS.VOTER_ABI as AbiItem[],
             CONTRACTS.VOTER_ADDRESS
           );
           this._callContractWait(
@@ -2193,7 +2238,6 @@ class Store {
             }
           );
         },
-        null,
         sendValue
       );
     } catch (ex) {
@@ -2277,8 +2321,8 @@ class Store {
         ],
       });
 
-      let allowance0 = 0;
-      let allowance1 = 0;
+      let allowance0 = "0";
+      let allowance1 = "0";
 
       // CHECK ALLOWANCES AND SET TX DISPLAY
       if (token0.address !== "ETH") {
@@ -2334,11 +2378,11 @@ class Store {
       // SUBMIT REQUIRED ALLOWANCE TRANSACTIONS
       if (BigNumber(allowance0).lt(amount0)) {
         const tokenContract = new web3.eth.Contract(
-          CONTRACTS.ERC20_ABI,
+          CONTRACTS.ERC20_ABI as AbiItem[],
           token0.address
         );
 
-        const tokenPromise = new Promise((resolve, reject) => {
+        const tokenPromise = new Promise<void>((resolve, reject) => {
           context._callContractWait(
             web3,
             tokenContract,
@@ -2366,11 +2410,11 @@ class Store {
 
       if (BigNumber(allowance1).lt(amount1)) {
         const tokenContract = new web3.eth.Contract(
-          CONTRACTS.ERC20_ABI,
+          CONTRACTS.ERC20_ABI as AbiItem[],
           token1.address
         );
 
-        const tokenPromise = new Promise((resolve, reject) => {
+        const tokenPromise = new Promise<void>((resolve, reject) => {
           context._callContractWait(
             web3,
             tokenContract,
@@ -2417,7 +2461,7 @@ class Store {
         .toFixed(0);
 
       const routerContract = new web3.eth.Contract(
-        CONTRACTS.ROUTER_ABI,
+        CONTRACTS.ROUTER_ABI as AbiItem[],
         CONTRACTS.ROUTER_ADDRESS
       );
 
@@ -2481,7 +2525,6 @@ class Store {
 
           this.emitter.emit(ACTIONS.LIQUIDITY_ADDED);
         },
-        null,
         sendValue
       );
     } catch (ex) {
@@ -2532,7 +2575,7 @@ class Store {
       const stakeAllowance = await this._getStakeAllowance(web3, pair, account);
 
       const pairContract = new web3.eth.Contract(
-        CONTRACTS.PAIR_ABI,
+        CONTRACTS.PAIR_ABI as AbiItem[],
         pair.address
       );
       const balanceOf = await pairContract.methods
@@ -2569,7 +2612,7 @@ class Store {
             .toFixed(pair.decimals)
         )
       ) {
-        const stakePromise = new Promise((resolve, reject) => {
+        const stakePromise = new Promise<void>((resolve, reject) => {
           context._callContractWait(
             web3,
             pairContract,
@@ -2597,7 +2640,7 @@ class Store {
       const done = await Promise.all(allowanceCallsPromises);
 
       const gaugeContract = new web3.eth.Contract(
-        CONTRACTS.GAUGE_ABI,
+        CONTRACTS.GAUGE_ABI as AbiItem[],
         pair.gauge.address
       );
 
@@ -2699,8 +2742,8 @@ class Store {
         ],
       });
 
-      let allowance0 = 0;
-      let allowance1 = 0;
+      let allowance0 = "0";
+      let allowance1 = "0";
 
       // CHECK ALLOWANCES AND SET TX DISPLAY
       if (token0.address !== "ETH") {
@@ -2771,11 +2814,11 @@ class Store {
       // SUBMIT REQUIRED ALLOWANCE TRANSACTIONS
       if (BigNumber(allowance0).lt(amount0)) {
         const tokenContract = new web3.eth.Contract(
-          CONTRACTS.ERC20_ABI,
+          CONTRACTS.ERC20_ABI as AbiItem[],
           token0.address
         );
 
-        const tokenPromise = new Promise((resolve, reject) => {
+        const tokenPromise = new Promise<void>((resolve, reject) => {
           context._callContractWait(
             web3,
             tokenContract,
@@ -2802,11 +2845,11 @@ class Store {
 
       if (BigNumber(allowance1).lt(amount1)) {
         const tokenContract = new web3.eth.Contract(
-          CONTRACTS.ERC20_ABI,
+          CONTRACTS.ERC20_ABI as AbiItem[],
           token1.address
         );
 
-        const tokenPromise = new Promise((resolve, reject) => {
+        const tokenPromise = new Promise<void>((resolve, reject) => {
           context._callContractWait(
             web3,
             tokenContract,
@@ -2833,11 +2876,11 @@ class Store {
 
       if (BigNumber(stakeAllowance).lt(minLiquidity)) {
         const pairContract = new web3.eth.Contract(
-          CONTRACTS.ERC20_ABI,
+          CONTRACTS.ERC20_ABI as AbiItem[],
           pair.address
         );
 
-        const stakePromise = new Promise((resolve, reject) => {
+        const stakePromise = new Promise<void>((resolve, reject) => {
           context._callContractWait(
             web3,
             pairContract,
@@ -2883,15 +2926,15 @@ class Store {
         .toFixed(0);
 
       const routerContract = new web3.eth.Contract(
-        CONTRACTS.ROUTER_ABI,
+        CONTRACTS.ROUTER_ABI as AbiItem[],
         CONTRACTS.ROUTER_ADDRESS
       );
       const gaugeContract = new web3.eth.Contract(
-        CONTRACTS.GAUGE_ABI,
+        CONTRACTS.GAUGE_ABI as AbiItem[],
         pair.gauge.address
       );
       const pairContract = new web3.eth.Contract(
-        CONTRACTS.PAIR_ABI,
+        CONTRACTS.PAIR_ABI as AbiItem[],
         pair.address
       );
 
@@ -2981,7 +3024,6 @@ class Store {
             }
           );
         },
-        null,
         sendValue
       );
     } catch (ex) {
@@ -3066,7 +3108,7 @@ class Store {
 
       const gasPrice = await stores.accountStore.getGasPrice();
       const routerContract = new web3.eth.Contract(
-        CONTRACTS.ROUTER_ABI,
+        CONTRACTS.ROUTER_ABI as AbiItem[],
         CONTRACTS.ROUTER_ADDRESS
       );
 
@@ -3136,15 +3178,15 @@ class Store {
       }
 
       const token0Contract = new web3.eth.Contract(
-        CONTRACTS.ERC20_ABI,
+        CONTRACTS.ERC20_ABI as AbiItem[],
         pair.token0.address
       );
       const token1Contract = new web3.eth.Contract(
-        CONTRACTS.ERC20_ABI,
+        CONTRACTS.ERC20_ABI as AbiItem[],
         pair.token1.address
       );
       const pairContract = new web3.eth.Contract(
-        CONTRACTS.ERC20_ABI,
+        CONTRACTS.ERC20_ABI as AbiItem[],
         pair.address
       );
 
@@ -3156,7 +3198,7 @@ class Store {
 
       if (pair.gauge) {
         const gaugeContract = new web3.eth.Contract(
-          CONTRACTS.ERC20_ABI,
+          CONTRACTS.ERC20_ABI as AbiItem[],
           pair.gauge.address
         );
         balanceCalls.push(
@@ -3182,6 +3224,7 @@ class Store {
         pool: BigNumber(poolBalance)
           .div(10 ** 18)
           .toFixed(18),
+        gauge: null,
       };
 
       if (pair.gauge) {
@@ -3263,11 +3306,11 @@ class Store {
       // SUBMIT REQUIRED ALLOWANCE TRANSACTIONS
       if (BigNumber(allowance).lt(pair.balance)) {
         const tokenContract = new web3.eth.Contract(
-          CONTRACTS.ERC20_ABI,
+          CONTRACTS.ERC20_ABI as AbiItem[],
           pair.address
         );
 
-        const tokenPromise = new Promise((resolve, reject) => {
+        const tokenPromise = new Promise<void>((resolve, reject) => {
           context._callContractWait(
             web3,
             tokenContract,
@@ -3301,7 +3344,7 @@ class Store {
         .toFixed(0);
 
       const routerContract = new web3.eth.Contract(
-        CONTRACTS.ROUTER_ABI,
+        CONTRACTS.ROUTER_ABI as AbiItem[],
         CONTRACTS.ROUTER_ADDRESS
       );
 
@@ -3428,11 +3471,11 @@ class Store {
       // SUBMIT REQUIRED ALLOWANCE TRANSACTIONS
       if (BigNumber(allowance).lt(amount)) {
         const tokenContract = new web3.eth.Contract(
-          CONTRACTS.ERC20_ABI,
+          CONTRACTS.ERC20_ABI as AbiItem[],
           pair.address
         );
 
-        const tokenPromise = new Promise((resolve, reject) => {
+        const tokenPromise = new Promise<void>((resolve, reject) => {
           context._callContractWait(
             web3,
             tokenContract,
@@ -3475,15 +3518,15 @@ class Store {
         .toFixed(0);
 
       const routerContract = new web3.eth.Contract(
-        CONTRACTS.ROUTER_ABI,
+        CONTRACTS.ROUTER_ABI as AbiItem[],
         CONTRACTS.ROUTER_ADDRESS
       );
       const gaugeContract = new web3.eth.Contract(
-        CONTRACTS.GAUGE_ABI,
+        CONTRACTS.GAUGE_ABI as AbiItem[],
         pair.gauge.address
       );
       const pairContract = new web3.eth.Contract(
-        CONTRACTS.PAIR_ABI,
+        CONTRACTS.PAIR_ABI as AbiItem[],
         pair.address
       );
 
@@ -3586,7 +3629,7 @@ class Store {
         .toFixed(0);
 
       const gaugeContract = new web3.eth.Contract(
-        CONTRACTS.GAUGE_ABI,
+        CONTRACTS.GAUGE_ABI as AbiItem[],
         pair.gauge.address
       );
 
@@ -3638,7 +3681,7 @@ class Store {
 
       const gasPrice = await stores.accountStore.getGasPrice();
       const routerContract = new web3.eth.Contract(
-        CONTRACTS.ROUTER_ABI,
+        CONTRACTS.ROUTER_ABI as AbiItem[],
         CONTRACTS.ROUTER_ADDRESS
       );
 
@@ -3714,7 +3757,7 @@ class Store {
       const gasPrice = await stores.accountStore.getGasPrice();
 
       const gaugesContract = new web3.eth.Contract(
-        CONTRACTS.VOTER_ABI,
+        CONTRACTS.VOTER_ABI as AbiItem[],
         CONTRACTS.VOTER_ADDRESS
       );
       this._callContractWait(
@@ -3756,7 +3799,7 @@ class Store {
       const { fromAsset, toAsset, fromAmount } = payload.content;
 
       const routerContract = new web3.eth.Contract(
-        CONTRACTS.ROUTER_ABI,
+        CONTRACTS.ROUTER_ABI as AbiItem[],
         CONTRACTS.ROUTER_ADDRESS
       );
       const sendFromAmount = BigNumber(fromAmount)
@@ -3924,7 +3967,7 @@ class Store {
         return null;
       }
 
-      let totalRatio = 1;
+      let totalRatio = "1";
 
       for (let i = 0; i < bestAmountOut.routes.length; i++) {
         if (bestAmountOut.routes[i].stable == true) {
@@ -3936,8 +3979,8 @@ class Store {
               bestAmountOut.routes[i].stable
             )
             .call();
-          let amountIn = 0;
-          let amountOut = 0;
+          let amountIn = "0";
+          let amountOut = "0";
           if (i == 0) {
             amountIn = sendFromAmount;
             amountOut = bestAmountOut.receiveAmounts[i + 1];
@@ -4017,7 +4060,7 @@ class Store {
         ],
       });
 
-      let allowance = 0;
+      let allowance = "0";
 
       // CHECK ALLOWANCES AND SET TX DISPLAY
       if (fromAsset.address !== "ETH") {
@@ -4051,11 +4094,11 @@ class Store {
       // SUBMIT REQUIRED ALLOWANCE TRANSACTIONS
       if (BigNumber(allowance).lt(fromAmount)) {
         const tokenContract = new web3.eth.Contract(
-          CONTRACTS.ERC20_ABI,
+          CONTRACTS.ERC20_ABI as AbiItem[],
           fromAsset.address
         );
 
-        const tokenPromise = new Promise((resolve, reject) => {
+        const tokenPromise = new Promise<void>((resolve, reject) => {
           context._callContractWait(
             web3,
             tokenContract,
@@ -4094,7 +4137,7 @@ class Store {
       const deadline = "" + moment().add(600, "seconds").unix();
 
       const routerContract = new web3.eth.Contract(
-        CONTRACTS.ROUTER_ABI,
+        CONTRACTS.ROUTER_ABI as AbiItem[],
         CONTRACTS.ROUTER_ADDRESS
       );
 
@@ -4143,8 +4186,7 @@ class Store {
 
           this.emitter.emit(ACTIONS.SWAP_RETURNED);
         },
-        null,
-        sendValue
+        sendValue // TODO: any chance all sendValue being out of scope is intentional? like maybe made on purpose to be null everywhere?
       );
     } catch (ex) {
       console.error(ex);
@@ -4232,7 +4274,7 @@ class Store {
       const govToken = this.getStore("govToken");
 
       const vestingContract = new web3.eth.Contract(
-        CONTRACTS.VE_TOKEN_ABI,
+        CONTRACTS.VE_TOKEN_ABI as AbiItem[],
         CONTRACTS.VE_TOKEN_ADDRESS
       );
 
@@ -4341,11 +4383,11 @@ class Store {
       // SUBMIT REQUIRED ALLOWANCE TRANSACTIONS
       if (BigNumber(allowance).lt(amount)) {
         const tokenContract = new web3.eth.Contract(
-          CONTRACTS.ERC20_ABI,
+          CONTRACTS.ERC20_ABI as AbiItem[],
           govToken.address
         );
 
-        const tokenPromise = new Promise((resolve, reject) => {
+        const tokenPromise = new Promise<void>((resolve, reject) => {
           this._callContractWait(
             web3,
             tokenContract,
@@ -4378,7 +4420,7 @@ class Store {
         .toFixed(0);
 
       const veTokenContract = new web3.eth.Contract(
-        CONTRACTS.VE_TOKEN_ABI,
+        CONTRACTS.VE_TOKEN_ABI as AbiItem[],
         CONTRACTS.VE_TOKEN_ADDRESS
       );
 
@@ -4489,11 +4531,11 @@ class Store {
       // SUBMIT REQUIRED ALLOWANCE TRANSACTIONS
       if (BigNumber(allowance).lt(amount)) {
         const tokenContract = new web3.eth.Contract(
-          CONTRACTS.ERC20_ABI,
+          CONTRACTS.ERC20_ABI as AbiItem[],
           govToken.address
         );
 
-        const tokenPromise = new Promise((resolve, reject) => {
+        const tokenPromise = new Promise<void>((resolve, reject) => {
           this._callContractWait(
             web3,
             tokenContract,
@@ -4526,7 +4568,7 @@ class Store {
         .toFixed(0);
 
       const veTokenContract = new web3.eth.Contract(
-        CONTRACTS.VE_TOKEN_ABI,
+        CONTRACTS.VE_TOKEN_ABI as AbiItem[],
         CONTRACTS.VE_TOKEN_ADDRESS
       );
 
@@ -4594,7 +4636,7 @@ class Store {
 
       // SUBMIT INCREASE TRANSACTION
       const veTokenContract = new web3.eth.Contract(
-        CONTRACTS.VE_TOKEN_ABI,
+        CONTRACTS.VE_TOKEN_ABI as AbiItem[],
         CONTRACTS.VE_TOKEN_ADDRESS
       );
 
@@ -4661,7 +4703,7 @@ class Store {
 
       // SUBMIT INCREASE TRANSACTION
       const veTokenContract = new web3.eth.Contract(
-        CONTRACTS.VE_TOKEN_ABI,
+        CONTRACTS.VE_TOKEN_ABI as AbiItem[],
         CONTRACTS.VE_TOKEN_ADDRESS
       );
 
@@ -4727,10 +4769,10 @@ class Store {
 
       // SUBMIT INCREASE TRANSACTION
       const gaugesContract = new web3.eth.Contract(
-        CONTRACTS.VOTER_ABI,
+        CONTRACTS.VOTER_ABI as AbiItem[],
         CONTRACTS.VOTER_ADDRESS
       );
-
+      
       let onlyVotes = votes.filter((vote) => {
         return BigNumber(vote.value).gt(0) || BigNumber(vote.value).lt(0);
       });
@@ -4742,7 +4784,7 @@ class Store {
       let voteCounts = onlyVotes.map((vote) => {
         return BigNumber(vote.value).times(100).toFixed(0);
       });
-
+      
       this._callContractWait(
         web3,
         gaugesContract,
@@ -4797,7 +4839,7 @@ class Store {
       });
 
       const gaugesContract = new web3.eth.Contract(
-        CONTRACTS.VOTER_ABI,
+        CONTRACTS.VOTER_ABI as AbiItem[],
         CONTRACTS.VOTER_ADDRESS
       );
 
@@ -4810,14 +4852,14 @@ class Store {
       const voteCounts = await multicall.aggregate(calls);
 
       let votes = [];
-
+      //FIXME: might be a mistake here
       const totalVotes = voteCounts.reduce((curr, acc) => {
         let num = BigNumber(acc).gt(0)
           ? acc
-          : BigNumber(acc).times(-1).toNumber(0);
+          : BigNumber(acc).times(-1).toNumber();
         return BigNumber(curr).plus(num);
       }, 0);
-
+      console.log(totalVotes, "if you see it, then it is ok");
       for (let i = 0; i < voteCounts.length; i++) {
         votes.push({
           address: filteredPairs[i].address,
@@ -4900,11 +4942,11 @@ class Store {
       // SUBMIT REQUIRED ALLOWANCE TRANSACTIONS
       if (BigNumber(allowance).lt(amount)) {
         const tokenContract = new web3.eth.Contract(
-          CONTRACTS.ERC20_ABI,
+          CONTRACTS.ERC20_ABI as AbiItem[],
           asset.address
         );
 
-        const tokenPromise = new Promise((resolve, reject) => {
+        const tokenPromise = new Promise<void>((resolve, reject) => {
           this._callContractWait(
             web3,
             tokenContract,
@@ -4933,7 +4975,7 @@ class Store {
 
       // SUBMIT BRIBE TRANSACTION
       const bribeContract = new web3.eth.Contract(
-        CONTRACTS.BRIBE_ABI,
+        CONTRACTS.BRIBE_ABI as AbiItem[],
         gauge.gauge.bribeAddress
       );
 
@@ -5019,7 +5061,7 @@ class Store {
           const bribesEarned = await Promise.all(
             pair.gauge.bribes.map(async (bribe) => {
               const bribeContract = new web3.eth.Contract(
-                CONTRACTS.BRIBE_ABI,
+                CONTRACTS.BRIBE_ABI as AbiItem[],
                 pair.gauge.bribeAddress
               );
 
@@ -5092,7 +5134,7 @@ class Store {
             const bribesEarned = await Promise.all(
               pair.gauge.bribes.map(async (bribe) => {
                 const bribeContract = new web3.eth.Contract(
-                  CONTRACTS.BRIBE_ABI,
+                  CONTRACTS.BRIBE_ABI as AbiItem[],
                   pair.gauge.bribeAddress
                 );
 
@@ -5140,7 +5182,7 @@ class Store {
           });
 
         const veDistContract = new web3.eth.Contract(
-          CONTRACTS.VE_DIST_ABI,
+          CONTRACTS.VE_DIST_ABI as AbiItem[],
           CONTRACTS.VE_DIST_ADDRESS
         );
         const veDistEarned = await veDistContract.methods
@@ -5179,7 +5221,7 @@ class Store {
       const rewardsEarned = await Promise.all(
         filteredPairs2.map(async (pair) => {
           const gaugeContract = new web3.eth.Contract(
-            CONTRACTS.GAUGE_ABI,
+            CONTRACTS.GAUGE_ABI as AbiItem[],
             pair.gauge.address
           );
 
@@ -5267,7 +5309,7 @@ class Store {
 
       // SUBMIT CLAIM TRANSACTION
       const gaugesContract = new web3.eth.Contract(
-        CONTRACTS.VOTER_ABI,
+        CONTRACTS.VOTER_ABI as AbiItem[],
         CONTRACTS.VOTER_ADDRESS
       );
 
@@ -5421,11 +5463,11 @@ class Store {
       if (bribePairs.length > 0) {
         // SUBMIT CLAIM TRANSACTION
         const gaugesContract = new web3.eth.Contract(
-          CONTRACTS.VOTER_ABI,
+          CONTRACTS.VOTER_ABI as AbiItem[],
           CONTRACTS.VOTER_ADDRESS
         );
 
-        const claimPromise = new Promise((resolve, reject) => {
+        const claimPromise = new Promise<void>((resolve, reject) => {
           context._callContractWait(
             web3,
             gaugesContract,
@@ -5453,11 +5495,11 @@ class Store {
       if (feePairs.length > 0) {
         for (let i = 0; i < feePairs.length; i++) {
           const pairContract = new web3.eth.Contract(
-            CONTRACTS.PAIR_ABI,
+            CONTRACTS.PAIR_ABI as AbiItem[],
             feePairs[i].address
           );
 
-          const claimPromise = new Promise((resolve, reject) => {
+          const claimPromise = new Promise<void>((resolve, reject) => {
             context._callContractWait(
               web3,
               pairContract,
@@ -5486,12 +5528,12 @@ class Store {
       if (rewardPairs.length > 0) {
         for (let i = 0; i < rewardPairs.length; i++) {
           const gaugeContract = new web3.eth.Contract(
-            CONTRACTS.GAUGE_ABI,
+            CONTRACTS.GAUGE_ABI as AbiItem[],
             rewardPairs[i].gauge.address
           );
           const sendTok = [CONTRACTS.GOV_TOKEN_ADDRESS];
 
-          const rewardPromise = new Promise((resolve, reject) => {
+          const rewardPromise = new Promise<void>((resolve, reject) => {
             context._callContractWait(
               web3,
               gaugeContract,
@@ -5519,11 +5561,11 @@ class Store {
 
       if (distribution.length > 0) {
         const veDistContract = new web3.eth.Contract(
-          CONTRACTS.VE_DIST_ABI,
+          CONTRACTS.VE_DIST_ABI as AbiItem[],
           CONTRACTS.VE_DIST_ADDRESS
         );
         for (let i = 0; i < distribution.length; i++) {
-          const rewardPromise = new Promise((resolve, reject) => {
+          const rewardPromise = new Promise<void>((resolve, reject) => {
             context._callContractWait(
               web3,
               veDistContract,
@@ -5592,7 +5634,7 @@ class Store {
 
       // SUBMIT CLAIM TRANSACTION
       const gaugeContract = new web3.eth.Contract(
-        CONTRACTS.GAUGE_ABI,
+        CONTRACTS.GAUGE_ABI as AbiItem[],
         pair.gauge.address
       );
 
@@ -5658,7 +5700,7 @@ class Store {
 
       // SUBMIT CLAIM TRANSACTION
       const veDistContract = new web3.eth.Contract(
-        CONTRACTS.VE_DIST_ABI,
+        CONTRACTS.VE_DIST_ABI as AbiItem[],
         CONTRACTS.VE_DIST_ADDRESS
       );
 
@@ -5722,7 +5764,7 @@ class Store {
 
       // SUBMIT CLAIM TRANSACTION
       const pairContract = new web3.eth.Contract(
-        CONTRACTS.PAIR_ABI,
+        CONTRACTS.PAIR_ABI as AbiItem[],
         pair.address
       );
 
@@ -5769,7 +5811,7 @@ class Store {
       const { search } = payload.content;
 
       const voterContract = new web3.eth.Contract(
-        CONTRACTS.VOTER_ABI,
+        CONTRACTS.VOTER_ABI as AbiItem[],
         CONTRACTS.VOTER_ADDRESS
       );
 
@@ -5826,7 +5868,7 @@ class Store {
 
       // SUBMIT WHITELIST TRANSACTION
       const voterContract = new web3.eth.Contract(
-        CONTRACTS.VOTER_ABI,
+        CONTRACTS.VOTER_ABI as AbiItem[],
         CONTRACTS.VOTER_ADDRESS
       );
 
@@ -5862,9 +5904,9 @@ class Store {
   };
 
   _callContractWait = (
-    web3,
-    contract,
-    method,
+    web3: Web3,
+    contract: Contract,
+    method: string,
     params,
     account,
     gasPrice,
