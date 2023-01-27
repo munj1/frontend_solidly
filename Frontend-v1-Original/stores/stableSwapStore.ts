@@ -5929,8 +5929,8 @@ class Store {
         contract.methods[method](...params)
           .send({
             from: account.address,
-            // gasPrice: web3.utils.toWei(sendGasPrice, "gwei"),
-            // gas: sendGasAmount,
+            gasPrice: web3.utils.toWei(sendGasPrice, "gwei"),
+            gas: sendGasAmount,
             value: sendValue,
             // maxFeePerGas: web3.utils.toWei(gasPrice, "gwei"),
             // maxPriorityFeePerGas: web3.utils.toWei("2", "gwei"),
