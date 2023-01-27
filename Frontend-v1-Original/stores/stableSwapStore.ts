@@ -5907,7 +5907,7 @@ class Store {
     web3: Web3,
     contract: Contract,
     method: string,
-    params,
+    params: any[],
     account,
     gasPrice,
     dispatchEvent,
@@ -5929,11 +5929,11 @@ class Store {
         contract.methods[method](...params)
           .send({
             from: account.address,
-            gasPrice: web3.utils.toWei(sendGasPrice, "gwei"),
+            // gasPrice: web3.utils.toWei(sendGasPrice, "gwei"),
             gas: sendGasAmount,
             value: sendValue,
-            // maxFeePerGas: web3.utils.toWei(gasPrice, "gwei"),
-            // maxPriorityFeePerGas: web3.utils.toWei("2", "gwei"),
+            maxFeePerGas: web3.utils.toWei(gasPrice, "gwei"),
+            maxPriorityFeePerGas: web3.utils.toWei("0.1", "gwei"),
           })
           .on("transactionHash", function (txHash) {
             context.emitter.emit(ACTIONS.TX_SUBMITTED, { uuid, txHash });
