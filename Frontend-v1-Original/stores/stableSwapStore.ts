@@ -4747,7 +4747,7 @@ class Store {
         return null;
       }
 
-      const govToken = this.getStore("govToken");
+      // const govToken = this.getStore("govToken");
       const { tokenID, votes } = payload.content;
 
       // ADD TRNASCTIONS TO TRANSACTION QUEUE DISPLAY
@@ -4772,7 +4772,7 @@ class Store {
         CONTRACTS.VOTER_ABI as AbiItem[],
         CONTRACTS.VOTER_ADDRESS
       );
-      
+
       let onlyVotes = votes.filter((vote) => {
         return BigNumber(vote.value).gt(0) || BigNumber(vote.value).lt(0);
       });
@@ -4784,12 +4784,12 @@ class Store {
       let voteCounts = onlyVotes.map((vote) => {
         return BigNumber(vote.value).times(100).toFixed(0);
       });
-      
+
       this._callContractWait(
         web3,
         gaugesContract,
         "vote",
-        [tokenID, tokens, voteCounts],
+        [parseInt(tokenID), tokens, voteCounts],
         account,
         gasPrice,
         null,
@@ -4859,7 +4859,7 @@ class Store {
           : BigNumber(acc).times(-1).toNumber();
         return BigNumber(curr).plus(num);
       }, 0);
-      console.log(totalVotes, "if you see it, then it is ok");
+
       for (let i = 0; i < voteCounts.length; i++) {
         votes.push({
           address: filteredPairs[i].address,
@@ -5925,18 +5925,12 @@ class Store {
 
         let sendGasAmount = BigNumber(gasAmount).times(1.5).toFixed(0);
         let sendGasPrice = BigNumber(gasPrice).times(1.5).toFixed(0);
-        // if (paddGasCost) {
-        //   sendGasAmount = BigNumber(sendGasAmount).times(1.15).toFixed(0)
-        // }
-        //
-        // const sendGasAmount = '3000000'
-        // const context = this
-        //
+
         contract.methods[method](...params)
           .send({
             from: account.address,
-            gasPrice: web3.utils.toWei(sendGasPrice, "gwei"),
-            gas: sendGasAmount,
+            // gasPrice: web3.utils.toWei(sendGasPrice, "gwei"),
+            // gas: sendGasAmount,
             value: sendValue,
             // maxFeePerGas: web3.utils.toWei(gasPrice, "gwei"),
             // maxPriorityFeePerGas: web3.utils.toWei("2", "gwei"),
