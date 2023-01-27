@@ -31,6 +31,12 @@ interface Store {
       WalletLink: typeof walletlink;
     };
     currentBlock: number;
+    gasPrices: {
+      standard: number;
+      fast: number;
+      instant: number;
+    };
+    gasSpeed: string;
   };
 }
 
@@ -51,6 +57,12 @@ class Store {
         WalletLink: walletlink,
       },
       currentBlock: 12906197,
+      gasPrices: {
+        standard: 90,
+        fast: 100,
+        instant: 130,
+      },
+      gasSpeed: "fast",
     };
 
     dispatcher.register(
@@ -72,7 +84,6 @@ class Store {
 
   setStore(obj) {
     this.store = { ...this.store, ...obj };
-    console.log(this.store);
     return this.emitter.emit(ACTIONS.STORE_UPDATED);
   }
 
