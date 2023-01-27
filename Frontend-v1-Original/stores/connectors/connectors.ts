@@ -15,7 +15,7 @@ const RPC_URLS = {
 let obj: {
   [key: number]: string;
 } = {
-  42161: RPC_URLS[250],
+  42161: RPC_URLS[42161],
 };
 
 if (process.env.NEXT_PUBLIC_CHAINID === "421613") {

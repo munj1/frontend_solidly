@@ -198,6 +198,7 @@ class Store {
     let provider = null;
 
     if (!web3context) {
+      console.log(network.providers)
       provider = network.providers['1'];
     } else {
       provider = web3context.library.provider;
