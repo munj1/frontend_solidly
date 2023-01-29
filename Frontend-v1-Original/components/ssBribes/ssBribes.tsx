@@ -47,6 +47,13 @@ export default function ssBribes() {
 
   return (
     <div className={classes.container}>
+      <div className={classes.descriptionBox}>
+        <Typography variant='h1'>Bribe</Typography>
+        <Typography variant='body2'>
+          Create a bribe to encourage others to vote for your selected
+          pool&apos;s rewards distribution.
+        </Typography>
+      </div>
       <Button
         variant='contained'
         color='secondary'
@@ -59,7 +66,7 @@ export default function ssBribes() {
           Create bribe
         </Typography>
       </Button>
-      <div className={classes.bribesContainer}>
+      {/* <div className={classes.bribesContainer}>
         {pairs &&
           pairs &&
           pairs.length > 0 &&
@@ -74,7 +81,7 @@ export default function ssBribes() {
               );
             });
           })}
-      </div>
+      </div> */}
     </div>
   );
 }

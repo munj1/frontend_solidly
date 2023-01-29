@@ -63,7 +63,7 @@ function Bribes({ changeTheme }) {
           <BalanceIcon className={ classes.overviewIcon } />
            <Typography className={classes.mainHeadingNC} variant='h1'>Bribes</Typography>
            <Typography className={classes.mainDescNC} variant='body2'>
-             Use your veVELOCIMETER to vote for your selected pool&apos;s rewards distribution or create a bribe to encourage others to do the same.
+             Use your veFLOW to vote for your selected pool&apos;s rewards distribution or create a bribe to encourage others to do the same.
            </Typography>
            <Button
              disableElevation

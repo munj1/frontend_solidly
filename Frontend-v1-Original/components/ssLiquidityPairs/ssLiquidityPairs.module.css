@@ -9,6 +9,14 @@
   padding: 0 0 10px 0px;
 }
 
+.descriptionBox {
+  align-self: flex-start;
+  text-align: left;
+  gap: 0.25rem;
+  flex-direction: column;
+  display: flex;
+}
+
 .title {
   font-size: 20px !important;
   margin-bottom: 24px !important;

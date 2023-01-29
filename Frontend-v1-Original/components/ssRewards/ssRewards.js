@@ -179,6 +179,12 @@ export default function ssRewards() {
 
   return (
     <div className={ classes.container}>
+      <div className={classes.descriptionBox}>
+        <Typography variant='h1'>Rewards</Typography>
+        <Typography variant='body2'>
+          Choose your veFLOW and claim your rewards.
+        </Typography>
+      </div>
       <div className={ classes.toolbarContainer }>
         <Grid container spacing={1}>
           <Grid item lg='auto' md='auto' sm={12} xs={12}>

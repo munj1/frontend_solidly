@@ -9,13 +9,21 @@
   padding: 20px 0 10px 0px;
 }
 
+.descriptionBox {
+  align-self: flex-start;
+  text-align: left;
+  gap: 0.25rem;
+  flex-direction: column;
+  display: flex;
+}
+
 .title {
   font-size: 20px !important;
   margin-bottom: 24px !important;
 }
 
 .helpText {
-  color: rgba(126,153,176,0.9);
+  color: rgba(126, 153, 176, 0.9);
   margin: 0 15px 0 0 !important;
   padding: 15px 0;
 }
@@ -61,20 +69,19 @@
   margin-top: 15px;
   border-radius: 10px;
   padding: 20px;
-  box-shadow: 0 10px 20px 0 rgba(0,0,0,0.2);
-  border: 1px solid rgba(126,153,176,0.2);
+  box-shadow: 0 10px 20px 0 rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(126, 153, 176, 0.2);
 }
 
 .filterListTitle {
   margin-bottom: 10px;
   padding-bottom: 20px;
-  border-bottom: 1px solid rgba(126,153,176,0.2);
+  border-bottom: 1px solid rgba(126, 153, 176, 0.2);
 }
 
 .filterButton {
   margin-right: 30px !important;
 }
-
 
 .mediumInputContainer {
   display: flex;

@@ -113,10 +113,17 @@ function Navigation(props) {
   };
 
   const onActiveClick = (event, val) => {
-    if (val) {
-      setActive(val);
-      handleNavigate("/" + val);
+    if (!val && router.pathname.slice(1) !== active) {
+      setActive("swap");
+      handleNavigate("/" + "swap");
     }
+    if (!val) return;
+    if (val === "docs") {
+      window.open("https://docs.velocimeter.xyz/", "_blank");
+      return;
+    }
+    setActive(val);
+    handleNavigate("/" + val);
   };
 
   useEffect(() => {
@@ -142,9 +149,9 @@ function Navigation(props) {
     if (activePath.includes("dashboard")) {
       setActive("dashboard");
     }
-    if (activePath.includes("whitelist")) {
-      setActive("whitelist");
-    }
+    // if (activePath.includes("whitelist")) {
+    //   setActive("whitelist");
+    // }
   }, []);
 
   const renderNavs = () => {
@@ -160,8 +167,9 @@ function Navigation(props) {
         {renderSubNav("Vest", "vest")}
         {renderSubNav("Vote", "vote")}
         {renderSubNav("Rewards", "rewards")}
-        {renderSubNav("Whitelist", "whitelist")}
         {renderSubNav("Bribe", "bribe")}
+        {renderSubNav("Docs", "docs")}
+        {/* {renderSubNav("Whitelist", "whitelist")} */}
       </ToggleButtonGroup>
     );
   };

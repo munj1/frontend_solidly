@@ -9,8 +9,16 @@
   padding: 0 0 70px 0px;
 }
 
+.descriptionBox {
+  align-self: flex-start;
+  text-align: left;
+  gap: 0.25rem;
+  flex-direction: column;
+  display: flex;
+}
+
 .smallText {
-  color: rgba(126,153,176,0.9);
+  color: rgba(126, 153, 176, 0.9);
   margin: 0 15px 0 0 !important;
   padding: 18px 0;
 }
@@ -83,7 +91,6 @@
 .buttonOverride:hover {
   background: rgb(19, 44, 60) !important;
 }
-
 
 .buttonOverrideFixed {
   background: #272826 !important;

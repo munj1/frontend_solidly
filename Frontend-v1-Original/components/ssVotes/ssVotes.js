@@ -160,10 +160,18 @@ export default function ssVotes() {
 
   return (
     <div className={classes.container}>
+      <div className={classes.descriptionBox}>
+        <Typography variant='h1'>Vest</Typography>
+        <Typography variant='body2'>
+          Lock FLOW into veFLOW to earn and govern. Vote with veFLOW to earn
+          bribes and trading fees. veFLOW can be transferred, merged and split.
+          You can hold multiple positions.
+        </Typography>
+      </div>
       <div className={classes.topBarContainer}>
         <Grid container spacing={1}>
-          <Grid item lg='auto' sm={12} xs={12}>
-            {/*
+          {/* <Grid item lg='auto' sm={12} xs={12}>
+            
               <Button
                 variant="contained"
                 color="secondary"
@@ -176,8 +184,8 @@ export default function ssVotes() {
               >
                 <Typography className={ classes.actionButtonText }>{ `Create Bribe` }</Typography>
               </Button>
-            */}
-          </Grid>
+           
+          </Grid> */}
           <Grid item lg={true} md={true} sm={12} xs={12}>
             <TextField
               className={classes.searchContainer}

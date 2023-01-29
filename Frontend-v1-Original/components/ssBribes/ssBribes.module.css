@@ -7,6 +7,14 @@
   gap: 1rem;
 }
 
+.descriptionBox {
+  align-self: flex-start;
+  text-align: left;
+  gap: 0.25rem;
+  flex-direction: column;
+  display: flex;
+}
+
 .title {
   font-size: 20px !important;
   margin-bottom: 24px !important;

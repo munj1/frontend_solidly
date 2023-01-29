@@ -283,6 +283,28 @@ function Header(props) {
         params: [{ chainId: hexChain }],
       });
     } catch (switchError) {
+      if (switchError.code === 4902) {
+        try {
+          await window.ethereum.request({
+            method: "wallet_addEthereumChain",
+            params: [
+              {
+                chainId: hexChain,
+                chainName: "Arbitrum",
+                nativeCurrency: {
+                  name: "ETH",
+                  symbol: "ETH",
+                  decimals: 18,
+                },
+                rpcUrls: ["https://arb1.arbitrum.io/rpc"],
+                blockExplorerUrls: "https://arbiscan.io/",
+              },
+            ],
+          });
+        } catch (addError) {
+          console.log("add error", addError);
+        }
+      }
       console.log("switch error", switchError);
     }
   };
