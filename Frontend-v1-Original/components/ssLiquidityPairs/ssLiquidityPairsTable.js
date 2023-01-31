@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { makeStyles } from "@mui/styles";
-import Skeleton from "@mui/lab/Skeleton";
 import {
+  Skeleton,
   Paper,
   Button,
   Table,
