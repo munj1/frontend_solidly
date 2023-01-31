@@ -464,7 +464,7 @@ class Store {
         address: pairAddress,
         symbol: symbol,
         decimals: parseInt(decimals),
-        isStable: stable,
+        stable,
         token0: {
           address: token0,
           symbol: token0Symbol,
@@ -605,10 +605,10 @@ class Store {
       return (
         (pair.token0.address.toLowerCase() == addressA.toLowerCase() &&
           pair.token1.address.toLowerCase() == addressB.toLowerCase() &&
-          pair.isStable == stab) ||
+          pair.stable == stab) ||
         (pair.token0.address.toLowerCase() == addressB.toLowerCase() &&
           pair.token1.address.toLowerCase() == addressA.toLowerCase() &&
-          pair.isStable == stab)
+          pair.stable == stab)
       );
     });
     if (thePair.length > 0) {
@@ -722,7 +722,7 @@ class Store {
         address: pairAddress,
         symbol: symbol,
         decimals: parseInt(decimals),
-        isStable: stable,
+        stable,
         token0: {
           address: token0,
           symbol: token0Symbol,
@@ -989,7 +989,7 @@ class Store {
   _getBaseAssets = async () => {
     try {
       // const response = await fetch(
-      //   `${process.env.NEXT_PUBLIC_API}/api/v1/baseAssets`,
+      //   `${process.env.NEXT_PUBLIC_API}/api/v1/assets`,
       //   {
       //     method: 'get',
       //     headers: {
@@ -1024,7 +1024,7 @@ class Store {
   _getRouteAssets = async () => {
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API}/api/v1/routeAssets`,
+        `${process.env.NEXT_PUBLIC_API}/api/v1/configuration`,
         {
           method: "get",
           headers: {
@@ -1299,6 +1299,8 @@ class Store {
                 pair.gauge.bribeAddress
               );
 
+              //FIXME below is breaking probably because new wrapped external bribe factory has another abi
+              
               const bribes = await Promise.all(
                 pair.gauge.bribes.map(async (bribe, idx) => {
                   const [rewardRate] = await Promise.all([
@@ -1306,7 +1308,7 @@ class Store {
                       .rewardRate(bribe.token.address)
                       .call(),
                   ]);
-
+                  //--------- dont get here
                   bribe.rewardRate = BigNumber(rewardRate)
                     .div(10 ** bribe.token.decimals)
                     .toFixed(bribe.token.decimals);
@@ -1505,7 +1507,7 @@ class Store {
         return null;
       }
 
-      const { token0, token1, amount0, amount1, isStable, token, slippage } =
+      const { token0, token1, amount0, amount1, stable, token, slippage } =
         payload.content;
 
       let toki0 = token0.address;
@@ -1522,7 +1524,7 @@ class Store {
         CONTRACTS.FACTORY_ADDRESS
       );
       const pairFor = await factoryContract.methods
-        .getPair(toki0, toki1, isStable)
+        .getPair(toki0, toki1, stable)
         .call();
 
       if (pairFor && pairFor != ZERO_ADDRESS) {
@@ -1720,7 +1722,7 @@ class Store {
       let params = [
         token0.address,
         token1.address,
-        isStable,
+        stable,
         sendAmount0,
         sendAmount1,
         sendAmount0Min,
@@ -1734,7 +1736,7 @@ class Store {
         func = "addLiquidityETH";
         params = [
           token1.address,
-          isStable,
+          stable,
           sendAmount1,
           sendAmount1Min,
           sendAmount0Min,
@@ -1747,7 +1749,7 @@ class Store {
         func = "addLiquidityETH";
         params = [
           token0.address,
-          isStable,
+          stable,
           sendAmount0,
           sendAmount0Min,
           sendAmount1Min,
@@ -1786,7 +1788,7 @@ class Store {
             tok1 = CONTRACTS.WETH_ADDRESS;
           }
           const pairFor = await factoryContract.methods
-            .getPair(tok0, tok1, isStable)
+            .getPair(tok0, tok1, stable)
             .call();
 
           // SUBMIT CREATE GAUGE TRANSACTION
@@ -1940,7 +1942,7 @@ class Store {
         return null;
       }
 
-      const { token0, token1, amount0, amount1, isStable, slippage } =
+      const { token0, token1, amount0, amount1, stable, slippage } =
         payload.content;
 
       let toki0 = token0.address;
@@ -1957,7 +1959,7 @@ class Store {
         CONTRACTS.FACTORY_ADDRESS
       );
       const pairFor = await factoryContract.methods
-        .getPair(toki0, toki1, isStable)
+        .getPair(toki0, toki1, stable)
         .call();
 
       if (pairFor && pairFor != ZERO_ADDRESS) {
@@ -2143,7 +2145,7 @@ class Store {
       let params = [
         token0.address,
         token1.address,
-        isStable,
+        stable,
         sendAmount0,
         sendAmount1,
         sendAmount0Min,
@@ -2157,7 +2159,7 @@ class Store {
         func = "addLiquidityETH";
         params = [
           token1.address,
-          isStable,
+          stable,
           sendAmount1,
           sendAmount1Min,
           sendAmount0Min,
@@ -2170,7 +2172,7 @@ class Store {
         func = "addLiquidityETH";
         params = [
           token0.address,
-          isStable,
+          stable,
           sendAmount0,
           sendAmount0Min,
           sendAmount1Min,
@@ -2209,7 +2211,7 @@ class Store {
             tok1 = CONTRACTS.WETH_ADDRESS;
           }
           const pairFor = await factoryContract.methods
-            .getPair(tok0, tok1, isStable)
+            .getPair(tok0, tok1, stable)
             .call();
 
           // SUBMIT CREATE GAUGE TRANSACTION
@@ -2469,7 +2471,7 @@ class Store {
       let params = [
         token0.address,
         token1.address,
-        pair.isStable,
+        pair.stable,
         sendAmount0,
         sendAmount1,
         sendAmount0Min,
@@ -2483,7 +2485,7 @@ class Store {
         func = "addLiquidityETH";
         params = [
           token1.address,
-          pair.isStable,
+          pair.stable,
           sendAmount1,
           sendAmount1Min,
           sendAmount0Min,
@@ -2496,7 +2498,7 @@ class Store {
         func = "addLiquidityETH";
         params = [
           token0.address,
-          pair.isStable,
+          pair.stable,
           sendAmount0,
           sendAmount0Min,
           sendAmount1Min,
@@ -2942,7 +2944,7 @@ class Store {
       let params = [
         token0.address,
         token1.address,
-        pair.isStable,
+        pair.stable,
         sendAmount0,
         sendAmount1,
         sendAmount0Min,
@@ -2956,7 +2958,7 @@ class Store {
         func = "addLiquidityETH";
         params = [
           token1.address,
-          pair.isStable,
+          pair.stable,
           sendAmount1,
           sendAmount1Min,
           sendAmount0Min,
@@ -2969,7 +2971,7 @@ class Store {
         func = "addLiquidityETH";
         params = [
           token0.address,
-          pair.isStable,
+          pair.stable,
           sendAmount0,
           sendAmount0Min,
           sendAmount1Min,
@@ -3130,13 +3132,7 @@ class Store {
       }
 
       const res = await routerContract.methods
-        .quoteAddLiquidity(
-          addy0,
-          addy1,
-          pair.isStable,
-          sendAmount0,
-          sendAmount1
-        )
+        .quoteAddLiquidity(addy0, addy1, pair.stable, sendAmount0, sendAmount1)
         .call();
 
       const returnVal = {
@@ -3352,7 +3348,7 @@ class Store {
         .quoteRemoveLiquidity(
           token0.address,
           token1.address,
-          pair.isStable,
+          pair.stable,
           sendAmount
         )
         .call();
@@ -3373,7 +3369,7 @@ class Store {
         [
           token0.address,
           token1.address,
-          pair.isStable,
+          pair.stable,
           sendAmount,
           sendAmount0Min,
           sendAmount1Min,
@@ -3556,7 +3552,7 @@ class Store {
             [
               token0.address,
               token1.address,
-              pair.isStable,
+              pair.stable,
               balanceOf,
               sendAmount0Min,
               sendAmount1Min,
@@ -3693,7 +3689,7 @@ class Store {
         .quoteRemoveLiquidity(
           token0.address,
           token1.address,
-          pair.isStable,
+          pair.stable,
           sendWithdrawAmount
         )
         .call();
