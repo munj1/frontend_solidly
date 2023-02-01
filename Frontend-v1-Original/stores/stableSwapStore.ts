@@ -5,6 +5,9 @@ import type { AbiItem } from "web3-utils";
 import BigNumber from "bignumber.js";
 import Web3 from "web3";
 
+import { Dispatcher } from "flux";
+import EventEmitter from "events";
+
 import stores from ".";
 import { formatCurrency } from "../utils/utils";
 import {
@@ -18,12 +21,6 @@ import tokenlist from "../mainnet-arb-token-list.json";
 // import tokenlist from '../token-list.json';
 // import tokenlist from '../goerli-arb-token-list.json'
 
-interface Store {
-  dispatcher: any;
-  emitter: any;
-  store: any;
-}
-
 interface BaseAsset {
   address: string;
   symbol: string;
@@ -32,15 +29,37 @@ interface BaseAsset {
   logoURI: string | null;
   local: true;
   balance: string | null;
+  isWhitelisted?: boolean;
+  listingFee?: string | number;
 }
 
 class Store {
-  constructor(dispatcher, emitter) {
+  dispatcher: Dispatcher<any>;
+  emitter: EventEmitter;
+  store: {
+    baseAssets: BaseAsset[];
+    swapAssets: BaseAsset[];
+    assets: any[];
+    routeAssets: any[];
+    govToken: Omit<BaseAsset, "local"> & { balanceOf: string };
+    veToken: Omit<BaseAsset, "balance" | "local">;
+    pairs: any[];
+    vestNFTs: any[];
+    rewards: {
+      bribes: any[];
+      fees: any[];
+      rewards: any[];
+    };
+  };
+
+  constructor(dispatcher: Dispatcher<any>, emitter: EventEmitter) {
     this.dispatcher = dispatcher;
     this.emitter = emitter;
 
     this.store = {
       baseAssets: [],
+      swapAssets: [],
+      routeAssets: [],
       assets: [],
       govToken: null,
       veToken: null,
@@ -64,6 +83,10 @@ class Store {
             break;
           case ACTIONS.SEARCH_ASSET:
             this.searchBaseAsset(payload);
+            break;
+          case ACTIONS.BASE_ASSETS_UPDATED:
+          case ACTIONS.UPDATED:
+            this.updateSwapAssets(payload);
             break;
 
           // LIQUIDITY
@@ -177,11 +200,11 @@ class Store {
     );
   }
 
-  getStore = (index) => {
+  getStore = <K extends keyof Store["store"]>(index: K) => {
     return this.store[index];
   };
 
-  setStore = (obj) => {
+  setStore = (obj: { [key: string]: any }) => {
     this.store = { ...this.store, ...obj };
     return this.emitter.emit(ACTIONS.STORE_UPDATED);
   };
@@ -358,7 +381,7 @@ class Store {
       }
 
       const pairs = this.getStore("pairs");
-      let thePair = pairs.filter((pair) => {
+      let thePair: any = pairs.filter((pair) => {
         return pair.address.toLowerCase() == pairAddress.toLowerCase();
       });
 
@@ -601,7 +624,7 @@ class Store {
     }
 
     const pairs = this.getStore("pairs");
-    let thePair = pairs.filter((pair) => {
+    let thePair: any = pairs.filter((pair) => {
       return (
         (pair.token0.address.toLowerCase() == addressA.toLowerCase() &&
           pair.token1.address.toLowerCase() == addressB.toLowerCase() &&
@@ -927,6 +950,8 @@ class Store {
         logoURI: null,
         local: true,
         balance: null,
+        isWhitelisted: undefined,
+        listingFee: undefined,
       };
 
       if (getBalance) {
@@ -973,6 +998,7 @@ class Store {
       this.setStore({ baseAssets: await this._getBaseAssets() });
       this.setStore({ routeAssets: await this._getRouteAssets() });
       this.setStore({ pairs: await this._getPairs() });
+      this.setStore({ swapAssets: this._getSwapAssets() });
 
       this.emitter.emit(ACTIONS.UPDATED);
       this.emitter.emit(ACTIONS.CONFIGURED_SS);
@@ -1057,6 +1083,35 @@ class Store {
       console.log(ex);
       return [];
     }
+  };
+
+  _getSwapAssets = () => {
+    const baseAssets: Store["store"]["baseAssets"] =
+      this.getStore("baseAssets");
+    const pairs: Store["store"]["pairs"] = this.getStore("pairs");
+    const set = new Set<string>();
+    pairs.forEach((pair) => {
+      set.add(pair.token0.address.toLowerCase());
+      set.add(pair.token1.address.toLowerCase());
+    });
+    const baseAssetsWeSwap = baseAssets.filter((asset) =>
+      set.has(asset.address.toLowerCase())
+    );
+    return [...baseAssetsWeSwap];
+  };
+  updateSwapAssets = (payload) => {
+    const baseAssets = payload;
+    const pairs: Store["store"]["pairs"] = this.getStore("pairs");
+    const set = new Set<string>();
+    pairs.forEach((pair) => {
+      set.add(pair.token0.address.toLowerCase());
+      set.add(pair.token1.address.toLowerCase());
+    });
+    const baseAssetsWeSwap = baseAssets.filter((asset) =>
+      set.has(asset.address.toLowerCase())
+    );
+    this.setStore({ swapAssets: baseAssetsWeSwap });
+    this.emitter.emit(ACTIONS.SWAP_ASSETS_UPDATED, baseAssetsWeSwap);
   };
 
   _getGovTokenBase = () => {

@@ -94,17 +94,17 @@ function Setup() {
       };
 
       const ssUpdated = () => {
-        const baseAsset = stores.stableSwapStore.getStore("baseAssets");
+        const swapAssets = stores.stableSwapStore.getStore("swapAssets");
 
-        setToAssetOptions(baseAsset);
-        setFromAssetOptions(baseAsset);
+        setToAssetOptions(swapAssets);
+        setFromAssetOptions(swapAssets);
 
-        if (baseAsset.length > 0 && toAssetValue == null) {
-          setToAssetValue(baseAsset[0]);
+        if (swapAssets.length > 0 && toAssetValue == null) {
+          setToAssetValue(swapAssets[0]);
         }
 
-        if (baseAsset.length > 0 && fromAssetValue == null) {
-          setFromAssetValue(baseAsset[1]);
+        if (swapAssets.length > 0 && fromAssetValue == null) {
+          setFromAssetValue(swapAssets[1]);
         }
 
         forceUpdate();

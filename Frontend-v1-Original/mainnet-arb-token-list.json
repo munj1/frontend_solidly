@@ -734,5 +734,37 @@
     "logoURI": "https://raw.githubusercontent.com/sushiswap/assets/master/blockchains/arbitrum/assets/0xdb96f8efd6865644993505318cc08FF9C42fb9aC/logo.png",
     "name": "ZeroTwOhm",
     "symbol": "Z2O"
+  },
+  {
+    "address": "0x13Ad51ed4F1B7e9Dc168d8a00cB3f4dDD85EfA60",
+    "chainId": 42161,
+    "decimals": 18,
+    "logoURI": "",
+    "name": "Lido DAO Token",
+    "symbol": "LDO"
+  },
+  {
+    "address": "0x10663b695b8f75647bD3FF0ff609e16D35BbD1eC",
+    "chainId": 42161,
+    "decimals": 18,
+    "logoURI": "",
+    "name": "AmpliFi DAO",
+    "symbol": "AGG"
+  },
+  {
+    "address": "0xC33f7f83CbB021846Cb9c58f2d8E3df428dbC8C1",
+    "chainId": 42161,
+    "decimals": 18,
+    "logoURI": "",
+    "name": "Velo",
+    "symbol": "VELO"
+  },
+  {
+    "address": "0x3d9907F9a368ad0a51Be60f7Da3b97cf940982D8",
+    "chainId": 42161,
+    "decimals": 18,
+    "logoURI": "",
+    "name": "Camelot Exchange Token",
+    "symbol": "GRAIL"
   }
 ]
