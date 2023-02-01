@@ -469,7 +469,7 @@ const useStyles = makeStyles((theme) => ({
 
 const getLocalToggles = () => {
   let localToggles = {
-    toggleActive: true,
+    toggleActive: false,
     toggleActiveGauge: true,
     toggleVariable: true,
     toggleStable: true,

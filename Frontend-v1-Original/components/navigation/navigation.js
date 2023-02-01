@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import { withTheme, withStyles } from "@mui/styles";
 
-import SSWarning from "../ssWarning";
+// import SSWarning from "../ssWarning";
 
 import stores from "../../stores";
 import { formatAddress } from "../../utils";
@@ -89,28 +89,6 @@ function Navigation(props) {
   function handleNavigate(route) {
     router.push(route);
   }
-
-  const [warningOpen, setWarningOpen] = useState(false);
-
-  useEffect(function () {
-    const localStorageWarningAccepted = window.localStorage.getItem(
-      "fixed.forex-warning-accepted"
-    );
-    setWarningOpen(
-      localStorageWarningAccepted
-        ? localStorageWarningAccepted !== "accepted"
-        : true
-    );
-  }, []);
-
-  const openWarning = () => {
-    setWarningOpen(true);
-  };
-
-  const closeWarning = () => {
-    window.localStorage.setItem("fixed.forex-warning-accepted", "accepted");
-    setWarningOpen(false);
-  };
 
   const onActiveClick = (event, val) => {
     if (!val && router.pathname.slice(1) !== active) {
@@ -208,8 +186,6 @@ function Navigation(props) {
       </div>
 
       <div className={classes.navigationContent}>{renderNavs()}</div>
-
-      {warningOpen && <SSWarning close={closeWarning} />}
     </div>
   );
 }
