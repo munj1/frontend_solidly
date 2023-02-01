@@ -1298,9 +1298,7 @@ class Store {
                 CONTRACTS.BRIBE_ABI,
                 pair.gauge.bribeAddress
               );
-
-              //FIXME below is breaking probably because new wrapped external bribe factory has another abi
-              
+              //FIXME
               const bribes = await Promise.all(
                 pair.gauge.bribes.map(async (bribe, idx) => {
                   const [rewardRate] = await Promise.all([
