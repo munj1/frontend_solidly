@@ -512,7 +512,7 @@ class Store {
           gaugeContract.methods.balanceOf(account.address).call(),
           gaugesContract.methods.bribes(gaugeAddress).call(),
         ]);
-
+        // NOTE: this bribe contract is ExternalBribe so we can ask rewardRate directly (line 536)
         const bribeContract = new web3.eth.Contract(
           CONTRACTS.BRIBE_ABI as AbiItem[],
           bribeAddress
@@ -539,9 +539,6 @@ class Store {
 
             return {
               token: token,
-              rewardRate: BigNumber(rewardRate)
-                .div(10 ** token.decimals)
-                .toFixed(token.decimals),
               rewardAmount: BigNumber(rewardRate)
                 .times(604800)
                 .div(10 ** token.decimals)
@@ -770,7 +767,7 @@ class Store {
           gaugeContract.methods.balanceOf(account.address).call(),
           gaugesContract.methods.bribes(gaugeAddress).call(),
         ]);
-
+        // NOTE: this bribe contract is ExternalBribe so we can ask rewardRate directly (line 791)
         const bribeContract = new web3.eth.Contract(
           CONTRACTS.BRIBE_ABI as AbiItem[],
           bribeAddress
@@ -1293,31 +1290,32 @@ class Store {
                   gaugeContract.methods.balanceOf(account.address),
                   gaugesContract.methods.weights(pair.address),
                 ]);
+              // NOTE: this bribe contract is wrapped external bribe, so we can't ask directly for reward rate
+              // const bribeContract = new web3.eth.Contract(
+              //   CONTRACTS.BRIBE_ABI,
+              //   pair.gauge.bribeAddress
+              // );
 
-              const bribeContract = new web3.eth.Contract(
-                CONTRACTS.BRIBE_ABI,
-                pair.gauge.bribeAddress
-              );
-              //FIXME
-              const bribes = await Promise.all(
-                pair.gauge.bribes.map(async (bribe, idx) => {
-                  const [rewardRate] = await Promise.all([
-                    bribeContract.methods
-                      .rewardRate(bribe.token.address)
-                      .call(),
-                  ]);
-                  //--------- dont get here
-                  bribe.rewardRate = BigNumber(rewardRate)
-                    .div(10 ** bribe.token.decimals)
-                    .toFixed(bribe.token.decimals);
-                  bribe.rewardAmount = BigNumber(rewardRate)
-                    .times(604800)
-                    .div(10 ** bribe.token.decimals)
-                    .toFixed(bribe.token.decimals);
+              // const bribes = await Promise.all(
+              //   pair.gauge.bribes.map(async (bribe, idx) => {
+              //     const rewardRate = await bribeContract.methods
+              //       .rewardRate(bribe.token.address)
+              //       .call();
 
-                  return bribe;
-                })
-              );
+              //     --------- can't get past this line setting reward amount to reward amount from python api
+              //     bribe.rewardRate = BigNumber(rewardRate)
+              //       .div(10 ** bribe.token.decimals)
+              //       .toFixed(bribe.token.decimals);
+              //     bribe.rewardAmount = bribe.rewardAmmount;
+
+              //     return bribe;
+              //   })
+              // );
+              // FIXME: this is unnecessary as we can just use the rewardAmmount from the python api in frontend
+              const bribes = pair.gauge.bribes.map((bribe) => {
+                bribe.rewardAmount = bribe.rewardAmmount;
+                return bribe;
+              });
 
               pair.gauge.balance = BigNumber(gaugeBalance)
                 .div(10 ** 18)
@@ -5054,6 +5052,7 @@ class Store {
         filteredPairs.map(async (pair) => {
           const bribesEarned = await Promise.all(
             pair.gauge.bribes.map(async (bribe) => {
+              // NOTE: this bribe contract is wrapped external bribe
               const bribeContract = new web3.eth.Contract(
                 CONTRACTS.BRIBE_ABI as AbiItem[],
                 pair.gauge.bribeAddress
@@ -5127,6 +5126,7 @@ class Store {
           filteredPairs.map(async (pair) => {
             const bribesEarned = await Promise.all(
               pair.gauge.bribes.map(async (bribe) => {
+                // NOTE: this bribe contract is wrapped external bribe
                 const bribeContract = new web3.eth.Contract(
                   CONTRACTS.BRIBE_ABI as AbiItem[],
                   pair.gauge.bribeAddress
