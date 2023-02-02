@@ -172,12 +172,12 @@ const headCells = [
     disablePadding: false,
     label: "Total Pool Staked",
   },
-  // {
-  //   id: 'apy',
-  //   numeric: true,
-  //   disablePadding: false,
-  //   label: 'APY',
-  // },
+  {
+    id: "apr",
+    numeric: true,
+    disablePadding: false,
+    label: "APR",
+  },
   {
     id: "",
     numeric: true,
@@ -807,10 +807,10 @@ export default function EnhancedTable({ pairs }) {
       return false;
     })
     .filter((pair) => {
-      if (toggleStable !== true && pair.isStable === true) {
+      if (toggleStable !== true && pair.stable === true) {
         return false;
       }
-      if (toggleVariable !== true && pair.isStable === false) {
+      if (toggleVariable !== true && pair.stable === false) {
         return false;
       }
       if (toggleActiveGauge === true && (!pair.gauge || !pair.gauge.address)) {
@@ -912,7 +912,7 @@ export default function EnhancedTable({ pairs }) {
                               noWrap
                               color='textSecondary'
                             >
-                              {row?.isStable ? "Stable Pool" : "Volatile Pool"}
+                              {row?.stable ? "Stable Pool" : "Volatile Pool"}
                             </Typography>
                           </div>
                         </div>
@@ -1277,20 +1277,41 @@ export default function EnhancedTable({ pairs }) {
                           </Typography>
                         </TableCell>
                       )}
-                      {/*<TableCell className={classes.cell} align='right'>
-                      <Grid container spacing={0}>
-                        <Grid item lg={10}>
-                          <Typography variant='h2' className={classes.textSpaced}>
-                            0.00%
-                          </Typography>
-                        </Grid>
-                        <Grid item lg={2}>
-                        <Tooltip title={ renderTooltip(row)}>
-                          <InfoOutlined className={classes.infoIcon} />
-                        </Tooltip>
-                        </Grid>
-                      </Grid>
-                    </TableCell>*/}
+                      {row && (row.apr !== undefined || row.apr !== null) && (
+                        <TableCell className={classes.cell} align='right'>
+                          <Grid container spacing={0}>
+                            <Grid item lg={10}>
+                              <Typography
+                                variant='h2'
+                                className={classes.textSpaced}
+                              >
+                                {row.apr}%
+                              </Typography>
+                            </Grid>
+                            <Grid item lg={2}>
+                              <Tooltip title={renderTooltip(row)}>
+                                <InfoOutlined className={classes.infoIcon} />
+                              </Tooltip>
+                            </Grid>
+                          </Grid>
+                        </TableCell>
+                      )}
+                      {!(
+                        row &&
+                        (row.apr !== undefined || row.apr !== null)
+                      ) && (
+                        <div className={classes.inlineEnd}>
+                          <Skeleton
+                            variant='rect'
+                            width={120}
+                            height={16}
+                            style={{
+                              marginTop: "1px",
+                              marginBottom: "1px",
+                            }}
+                          />
+                        </div>
+                      )}
                       <TableCell className={classes.cell} align='right'>
                         <Button
                           variant='outlined'
