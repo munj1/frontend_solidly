@@ -177,7 +177,7 @@ export default function TransactionQueue({ setQueueLength }) {
         <div className={ classes.transactionsContainer}>
           {
             transactions && transactions.map((tx, idx) => {
-              return <Transaction transaction={tx} />
+              return <Transaction transaction={tx} key={`${tx}${idx}`}/>
             })
           }
         </div>

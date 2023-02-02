@@ -12,6 +12,13 @@ import GaugesTable from './ssVotesTable.js'
 import stores from '../../stores'
 import { ACTIONS } from '../../stores/constants';
 
+const initialEmptyToken = {
+  id: "0",
+  lockAmount: "0",
+  lockEnds: "0",
+  lockValue: "0",
+};
+
 export default function ssVotes() {
   const router = useRouter()
 
@@ -22,7 +29,7 @@ export default function ssVotes() {
   const [ voteLoading, setVoteLoading ] = useState(false)
   const [ votes, setVotes ] = useState([])
   const [ veToken, setVeToken ] = useState(null)
-  const [ token, setToken ] = useState(null)
+  const [ token, setToken ] = useState(initialEmptyToken)
   const [ vestNFTs, setVestNFTs ] = useState([])
   const [search, setSearch] = useState('');
 

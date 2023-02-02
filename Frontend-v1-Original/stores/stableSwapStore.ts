@@ -39,7 +39,6 @@ class Store {
   store: {
     baseAssets: BaseAsset[];
     swapAssets: BaseAsset[];
-    assets: any[];
     routeAssets: any[];
     govToken: Omit<BaseAsset, "local"> & { balanceOf: string };
     veToken: Omit<BaseAsset, "balance" | "local">;
@@ -60,7 +59,6 @@ class Store {
       baseAssets: [],
       swapAssets: [],
       routeAssets: [],
-      assets: [],
       govToken: null,
       veToken: null,
       pairs: [],
@@ -210,25 +208,26 @@ class Store {
   };
 
   // COMMON GETTER FUNCTIONS Assets, BaseAssets, Pairs etc
-  getAsset = (address) => {
-    const assets = this.store.assets;
-    if (!assets || assets.length === 0) {
-      return null;
-    }
+  // commented out because never used and assets are never in store
+  // getAsset = (address) => {
+  //   const assets = this.store.assets;
+  //   if (!assets || assets.length === 0) {
+  //     return null;
+  //   }
 
-    let theAsset = assets.filter((ass) => {
-      if (!ass) {
-        return false;
-      }
-      return ass.address.toLowerCase() === address.toLowerCase();
-    });
+  //   let theAsset = assets.filter((ass) => {
+  //     if (!ass) {
+  //       return false;
+  //     }
+  //     return ass.address.toLowerCase() === address.toLowerCase();
+  //   });
 
-    if (!theAsset || theAsset.length === 0) {
-      return null;
-    }
+  //   if (!theAsset || theAsset.length === 0) {
+  //     return null;
+  //   }
 
-    return theAsset[0];
-  };
+  //   return theAsset[0];
+  // };
 
   getNFTByID = async (id) => {
     try {

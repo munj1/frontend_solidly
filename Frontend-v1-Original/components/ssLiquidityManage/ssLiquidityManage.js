@@ -26,6 +26,13 @@ import {
 } from '../../stores/constants';
 import { Add, ArrowDownward, ArrowBack, Search, DeleteOutline } from '@mui/icons-material';
 
+const initialEmptyToken = {
+  id: "0",
+  lockAmount: "0",
+  lockEnds: "0",
+  lockValue: "0",
+};
+
 export default function ssLiquidityManage() {
 
   const router = useRouter();
@@ -71,15 +78,13 @@ export default function ssLiquidityManage() {
   const [ priorityAsset, setPriorityAsset ] = useState(0)
   const [ advanced, setAdvanced ] = useState(false)
 
-  const [ token, setToken ] = useState(null)
+  const [ token, setToken ] = useState(initialEmptyToken)
   const [ vestNFTs, setVestNFTs ] = useState([])
 
   const [ slippage, setSlippage ] = useState('2')
   const [ slippageError, setSlippageError ] = useState(false)
 
   const ssUpdated = async () => {
-    console.log(router.query.address)
-
     const storeAssetOptions = stores.stableSwapStore.getStore('baseAssets')
     const nfts = stores.stableSwapStore.getStore('vestNFTs')
     const veTok = stores.stableSwapStore.getStore('veToken')
@@ -95,7 +100,7 @@ export default function ssLiquidityManage() {
     setVestNFTs(nfts)
 
     if(nfts.length > 0) {
-      if(token == null) {
+      if(token == null || token.lockEnds === '0') {
         setToken(nfts[0]);
       }
     }

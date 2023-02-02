@@ -23,6 +23,13 @@ import { formatCurrency } from '../../utils';
 import stores from '../../stores'
 import { ACTIONS } from '../../stores/constants';
 
+const initialEmptyToken = {
+  id: "0",
+  lockAmount: "0",
+  lockEnds: "0",
+  lockValue: "0",
+};
+
 export default function ssRewards() {
 
   const [, updateState] = useState();
@@ -32,7 +39,7 @@ export default function ssRewards() {
   const [ vestNFTs, setVestNFTs ] = useState([])
   const [ search, setSearch ] = useState('')
   const [ anchorEl, setAnchorEl ] = useState(null)
-  const [ token, setToken ] = useState(null)
+  const [ token, setToken ] = useState(initialEmptyToken)
   const [ veToken, setVeToken ] = useState(null)
   const [ loading, setLoading ] = useState(false)
 
@@ -42,7 +49,7 @@ export default function ssRewards() {
     setVeToken(stores.stableSwapStore.getStore('veToken'))
 
     if(nfts && nfts.length > 0) {
-      if(!token) {
+      if(!token || token.lockEnds === "0") {
         setToken(nfts[0])
         window.setTimeout(() => {
           stores.dispatcher.dispatch({ type: ACTIONS.GET_REWARD_BALANCES, content: { tokenID: nfts[0].id } })
@@ -197,7 +204,7 @@ export default function ssRewards() {
               <Typography className={ classes.disclaimer }>Rewards are an estimation that aren't exact till the supply -{'>'} rewardPerToken calculations have run</Typography>
             </div>
           </Grid>
-          <Grid item lg='auto' md='auto' sm='12' xs='12'>
+          <Grid item lg='auto' md='auto' sm={12} xs={12}>
             <Button
               variant="contained"
               color="secondary"
