@@ -5,7 +5,7 @@
     "symbol": "WETH",
     "decimals": 18,
     "chainId": 42161,
-    "logoURI": "https://raw.githubusercontent.com/sushiswap/icons/master/token/eth.jpg"
+    "logoURI": "https://raw.githubusercontent.com/list/master/logos/token-logos/token/eth.jpg"
   },
   {
     "address": "0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9",
@@ -13,7 +13,7 @@
     "name": "Tether USD",
     "symbol": "USDT",
     "decimals": 6,
-    "logoURI": "https://raw.githubusercontent.com/sushiswap/icons/master/token/usdt.jpg"
+    "logoURI": "https://raw.githubusercontent.com/list/master/logos/token-logos/token/usdt.jpg"
   },
   {
     "chainId": 42161,
@@ -21,7 +21,7 @@
     "name": "Balancer",
     "symbol": "BAL",
     "decimals": 18,
-    "logoURI": "https://raw.githubusercontent.com/sushiswap/icons/master/token/bal.jpg"
+    "logoURI": "https://raw.githubusercontent.com/list/master/logos/token-logos/token/bal.jpg"
   },
   {
     "chainId": 42161,
@@ -29,7 +29,7 @@
     "name": "Curve DAO Token",
     "symbol": "CRV",
     "decimals": 18,
-    "logoURI": "https://raw.githubusercontent.com/sushiswap/icons/master/token/crv.jpg"
+    "logoURI": "https://raw.githubusercontent.com/list/master/logos/token-logos/token/crv.jpg"
   },
   {
     "chainId": 42161,
@@ -37,7 +37,7 @@
     "name": "GMX",
     "symbol": "GMX",
     "decimals": 18,
-    "logoURI": "https://raw.githubusercontent.com/sushiswap/icons/master/token/gmx.jpg"
+    "logoURI": "https://raw.githubusercontent.com/list/master/logos/token-logos/token/gmx.jpg"
   },
   {
     "chainId": 42161,
@@ -45,7 +45,7 @@
     "name": "Gnosis Token",
     "symbol": "GNO",
     "decimals": 18,
-    "logoURI": "https://raw.githubusercontent.com/sushiswap/icons/master/token/gno.jpg"
+    "logoURI": "https://raw.githubusercontent.com/list/master/logos/token-logos/token/gno.jpg"
   },
   {
     "chainId": 42161,
@@ -53,7 +53,7 @@
     "name": "ChainLink Token",
     "symbol": "LINK",
     "decimals": 18,
-    "logoURI": "https://raw.githubusercontent.com/sushiswap/icons/master/token/link.jpg"
+    "logoURI": "https://raw.githubusercontent.com/list/master/logos/token-logos/token/link.jpg"
   },
   {
     "chainId": 42161,
@@ -61,7 +61,7 @@
     "name": "Premia",
     "symbol": "PREMIA",
     "decimals": 18,
-    "logoURI": "https://raw.githubusercontent.com/sushiswap/icons/master/token/premia.jpg"
+    "logoURI": "https://raw.githubusercontent.com/list/master/logos/token-logos/token/premia.jpg"
   },
   {
     "chainId": 42161,
@@ -69,7 +69,7 @@
     "name": "Stake DAO Token",
     "symbol": "SDT",
     "decimals": 18,
-    "logoURI": "https://raw.githubusercontent.com/sushiswap/icons/master/token/sdt.jpg"
+    "logoURI": "https://raw.githubusercontent.com/list/master/logos/token-logos/token/sdt.jpg"
   },
   {
     "chainId": 42161,
@@ -77,7 +77,7 @@
     "name": "USD Coin",
     "symbol": "USDC",
     "decimals": 6,
-    "logoURI": "https://raw.githubusercontent.com/sushiswap/icons/master/token/usdc.jpg"
+    "logoURI": "https://raw.githubusercontent.com/list/master/logos/token-logos/token/usdc.jpg"
   },
   {
     "chainId": 42161,
@@ -85,7 +85,7 @@
     "name": "Wrapped BTC",
     "symbol": "WBTC",
     "decimals": 8,
-    "logoURI": "https://raw.githubusercontent.com/sushiswap/icons/master/token/btc.jpg"
+    "logoURI": "https://raw.githubusercontent.com/list/master/logos/token-logos/token/btc.jpg"
   },
   {
     "chainId": 42161,
@@ -93,7 +93,7 @@
     "name": "yearn.finance",
     "symbol": "YFI",
     "decimals": 18,
-    "logoURI": "https://raw.githubusercontent.com/sushiswap/icons/master/token/yfi.jpg"
+    "logoURI": "https://raw.githubusercontent.com/list/master/logos/token-logos/token/yfi.jpg"
   },
   {
     "chainId": 42161,
@@ -101,7 +101,7 @@
     "name": "Synth sUSD",
     "symbol": "sUSD",
     "decimals": 18,
-    "logoURI": "https://raw.githubusercontent.com/sushiswap/icons/master/token/susd.jpg"
+    "logoURI": "https://raw.githubusercontent.com/list/master/logos/token-logos/token/susd.jpg"
   },
   {
     "chainId": 42161,
@@ -109,7 +109,7 @@
     "name": "Magic Internet Money",
     "symbol": "MIM",
     "decimals": 18,
-    "logoURI": "https://raw.githubusercontent.com/sushiswap/icons/master/token/mim.jpg"
+    "logoURI": "https://raw.githubusercontent.com/list/master/logos/token-logos/token/mim.jpg"
   },
   {
     "chainId": 42161,
@@ -189,7 +189,7 @@
     "name": "Frax",
     "symbol": "FRAX",
     "decimals": 18,
-    "logoURI": "https://raw.githubusercontent.com/sushiswap/icons/master/token/frax.jpg"
+    "logoURI": "https://raw.githubusercontent.com/list/master/logos/token-logos/token/frax.jpg"
   },
   {
     "address": "0x9d2F299715D94d8A7E6F5eaa8E654E8c74a988A7",
@@ -197,7 +197,7 @@
     "name": "Frax Share",
     "symbol": "FXS",
     "decimals": 18,
-    "logoURI": "https://raw.githubusercontent.com/sushiswap/icons/master/token/fxs.jpg"
+    "logoURI": "https://raw.githubusercontent.com/list/master/logos/token-logos/token/fxs.jpg"
   },
   {
     "address": "0xb96B904ba83DdEeCE47CAADa8B40EE6936D92091",

@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { useRouter } from 'next/router';
+import React, { useState, useEffect } from 'react'
+import { useRouter } from 'next/router'
 import {
   Paper,
   Typography,
@@ -11,51 +11,49 @@ import {
   Dialog,
   MenuItem,
   IconButton,
-  Select,
-} from '@mui/material';
-import { Add, Search, ArrowBack, DeleteOutline } from '@mui/icons-material';
-import BigNumber from 'bignumber.js';
-import { formatCurrency } from '../../utils';
-import classes from './ssBribeCreate.module.css';
+  Select
+} from '@mui/material'
+import { Add, Search, ArrowBack, DeleteOutline } from '@mui/icons-material'
+import BigNumber from 'bignumber.js'
+import { formatCurrency } from '../../utils'
+import classes from './ssBribeCreate.module.css'
 
 import stores from '../../stores'
-import {
-  ACTIONS,
-  ETHERSCAN_URL
-} from '../../stores/constants';
+import { ACTIONS, ETHERSCAN_URL } from '../../stores/constants'
 
-export default function ssBribeCreate() {
+console.log('dunksstores: ', stores)
 
-  const router = useRouter();
-  const [ createLoading, setCreateLoading ] = useState(false)
+export default function ssBribeCreate () {
+  const router = useRouter()
+  const [createLoading, setCreateLoading] = useState(false)
 
-  const [ amount, setAmount ] = useState('')
-  const [ amountError, setAmountError ] = useState(false)
-  const [ asset, setAsset ] = useState(null)
-  const [ assetOptions, setAssetOptions ] = useState([])
-  const [ gauge, setGauge ] = useState(null)
-  const [ gaugeOptions, setGaugeOptions ] = useState([])
+  const [amount, setAmount] = useState('')
+  const [amountError, setAmountError] = useState(false)
+  const [asset, setAsset] = useState(null)
+  const [assetOptions, setAssetOptions] = useState([])
+  const [gauge, setGauge] = useState(null)
+  const [gaugeOptions, setGaugeOptions] = useState([])
 
   const ssUpdated = async () => {
     const storeAssetOptions = stores.stableSwapStore.getStore('baseAssets')
-    let filteredStoreAssetOptions = storeAssetOptions.filter((option) => {
+    let filteredStoreAssetOptions = storeAssetOptions.filter(option => {
       return option.address !== 'ETH'
     })
     const storePairs = stores.stableSwapStore.getStore('pairs')
     setAssetOptions(filteredStoreAssetOptions)
     setGaugeOptions(storePairs)
 
-    if(filteredStoreAssetOptions.length > 0 && asset == null) {
+    if (filteredStoreAssetOptions.length > 0 && asset == null) {
       setAsset(filteredStoreAssetOptions[0])
     }
 
-    if(storePairs.length > 0 && gauge == null) {
+    if (storePairs.length > 0 && gauge == null) {
       setGauge(storePairs[0])
     }
   }
 
   useEffect(() => {
-    const createReturned = (res) => {
+    const createReturned = res => {
       setCreateLoading(false)
       setAmount('')
 
@@ -68,7 +66,7 @@ export default function ssBribeCreate() {
 
     const assetsUpdated = () => {
       const baseAsset = stores.stableSwapStore.getStore('baseAssets')
-      let filteredStoreAssetOptions = baseAsset.filter((option) => {
+      let filteredStoreAssetOptions = baseAsset.filter(option => {
         return option.address !== 'ETH'
       })
       setAssetOptions(filteredStoreAssetOptions)
@@ -86,13 +84,16 @@ export default function ssBribeCreate() {
       stores.emitter.removeListener(ACTIONS.BRIBE_CREATED, createReturned)
       stores.emitter.removeListener(ACTIONS.ERROR, errorReturned)
       stores.emitter.removeListener(ACTIONS.BASE_ASSETS_UPDATED, assetsUpdated)
-    };
-  }, []);
+    }
+  }, [])
 
   const setAmountPercent = (input, percent) => {
     setAmountError(false)
-    if(input === 'amount') {
-      let am = BigNumber(asset.balance).times(percent).div(100).toFixed(asset.decimals)
+    if (input === 'amount') {
+      let am = BigNumber(asset.balance)
+        .times(percent)
+        .div(100)
+        .toFixed(asset.decimals)
       setAmount(am)
     }
   }
@@ -102,14 +103,18 @@ export default function ssBribeCreate() {
 
     let error = false
 
-    if(!amount || amount === '' || isNaN(amount)) {
+    if (!amount || amount === '' || isNaN(amount)) {
       setAmountError('From amount is required')
       error = true
     } else {
-      if(!asset.balance || isNaN(asset.balance) || BigNumber(asset.balance).lte(0))  {
+      if (
+        !asset.balance ||
+        isNaN(asset.balance) ||
+        BigNumber(asset.balance).lte(0)
+      ) {
         setAmountError('Invalid balance')
         error = true
-      } else if(BigNumber(amount).lt(0)) {
+      } else if (BigNumber(amount).lt(0)) {
         setAmountError('Invalid amount')
         error = true
       } else if (asset && BigNumber(amount).gt(asset.balance)) {
@@ -121,22 +126,25 @@ export default function ssBribeCreate() {
       }
     }
 
-    if(!asset || asset === null) {
+    if (!asset || asset === null) {
       setAmountError('From asset is required')
       error = true
     }
 
-    if(!error) {
+    if (!error) {
       setCreateLoading(true)
-      stores.dispatcher.dispatch({ type: ACTIONS.CREATE_BRIBE, content: {
-        asset: asset,
-        amount: amount,
-        gauge: gauge
-      } })
+      stores.dispatcher.dispatch({
+        type: ACTIONS.CREATE_BRIBE,
+        content: {
+          asset: asset,
+          amount: amount,
+          gauge: gauge
+        }
+      })
     }
   }
 
-  const amountChanged = (event) => {
+  const amountChanged = event => {
     setAmountError(false)
     setAmount(event.target.value)
   }
@@ -146,51 +154,77 @@ export default function ssBribeCreate() {
     setAsset(value)
   }
 
-  const onGagugeSelect = (event) => {
+  const onGagugeSelect = event => {
     setGauge(event.target.value)
   }
 
   const renderMassiveGaugeInput = (type, value, error, options, onChange) => {
     return (
-      <div className={ classes.textField}>
-        <div className={ `${classes.massiveInputContainer} ${ (error) && classes.error }` }>
-          <div className={ classes.massiveInputAmount }>
+      <div className={classes.textField}>
+        <div
+          className={`${classes.massiveInputContainer} ${
+            error && classes.error
+          }`}
+        >
+          <div className={classes.massiveInputAmount}>
             <Select
               fullWidth
-              value={ value }
-              onChange={ onChange }
+              value={value}
+              onChange={onChange}
               InputProps={{
-                className: classes.largeInput,
+                className: classes.largeInput
               }}
             >
-              { options && options.map((option) => {
-                return (
-                  <MenuItem key={option.id} value={option}>
-                    <div className={ classes.menuOption }>
-                      <div className={ classes.doubleImages }>
-                        <img
-                          className={ `${classes.someIcon} ${classes.img1Logo}` }
-                          alt=""
-                          src={ (option && option.token0) ? `${option.token0.logoURI}` : '' }
-                          height='70px'
-                          onError={(e)=>{e.target.onerror = null; e.target.src="/tokens/unknown-logo.png"}}
-                        />
-                        <img
-                          className={ `${classes.someIcon} ${classes.img2Logo}` }
-                          alt=""
-                          src={ (option && option.token1) ? `${option.token1.logoURI}` : '' }
-                          height='70px'
-                          onError={(e)=>{e.target.onerror = null; e.target.src="/tokens/unknown-logo.png"}}
-                        />
+              {options &&
+                options.map(option => {
+                  return (
+                    <MenuItem key={option.id} value={option}>
+                      <div className={classes.menuOption}>
+                        <div className={classes.doubleImages}>
+                          <img
+                            className={`${classes.someIcon} ${classes.img1Logo}`}
+                            alt=''
+                            src={
+                              option && option.token0
+                                ? `${option.token0.logoURI}`
+                                : ''
+                            }
+                            height='70px'
+                            onError={e => {
+                              e.target.onerror = null
+                              e.target.src = '/tokens/unknown-logo.png'
+                            }}
+                          />
+                          <img
+                            className={`${classes.someIcon} ${classes.img2Logo}`}
+                            alt=''
+                            src={
+                              option && option.token1
+                                ? `${option.token1.logoURI}`
+                                : ''
+                            }
+                            height='70px'
+                            onError={e => {
+                              e.target.onerror = null
+                              e.target.src = '/tokens/unknown-logo.png'
+                            }}
+                          />
+                        </div>
+                        <div>
+                          <Typography className={classes.fillerText}>
+                            {option.token0.symbol}/{option.token1.symbol}
+                          </Typography>
+                          <Typography
+                            color='textSecondary'
+                            className={classes.smallerText}
+                          >
+                            {option?.isStable ? 'Stable Pool' : 'Volatile Pool'}
+                          </Typography>
+                        </div>
                       </div>
-                      <div>
-                        <Typography className={ classes.fillerText }>{option.token0.symbol}/{option.token1.symbol}</Typography>
-                        <Typography color='textSecondary' className={ classes.smallerText }>{ option?.isStable ? 'Stable Pool' : 'Volatile Pool' }</Typography>
-                      </div>
-                    </div>
-                  </MenuItem>
-                )
-              })}
+                    </MenuItem>
+                  )
+                })}
             </Select>
           </div>
         </div>
@@ -198,40 +232,63 @@ export default function ssBribeCreate() {
     )
   }
 
-  const renderMassiveInput = (type, amountValue, amountError, amountChanged, assetValue, assetError, assetOptions, onAssetSelect) => {
+  const renderMassiveInput = (
+    type,
+    amountValue,
+    amountError,
+    amountChanged,
+    assetValue,
+    assetError,
+    assetOptions,
+    onAssetSelect
+  ) => {
     return (
-      <div className={ classes.textField}>
-        <div className={ classes.inputTitleContainer }>
-          <div className={ classes.inputBalance }>
-            <Typography className={ classes.inputBalanceText } noWrap onClick={ () => {
-              setAmountPercent(type, 100)
-            }}>
+      <div className={classes.textField}>
+        <div className={classes.inputTitleContainer}>
+          <div className={classes.inputBalance}>
+            <Typography
+              className={classes.inputBalanceText}
+              noWrap
+              onClick={() => {
+                setAmountPercent(type, 100)
+              }}
+            >
               Balance:
-              { (assetValue && assetValue.balance) ?
-                ' ' +   formatCurrency(assetValue.balance) :
-                ''
-              }
+              {assetValue && assetValue.balance
+                ? ' ' + formatCurrency(assetValue.balance)
+                : ''}
             </Typography>
           </div>
         </div>
-        <div className={ `${classes.massiveInputContainer} ${ (amountError || assetError) && classes.error }` }>
-          <div className={ classes.massiveInputAssetSelect }>
-            <AssetSelect type={type} value={ assetValue } assetOptions={ assetOptions } onSelect={ onAssetSelect } />
+        <div
+          className={`${classes.massiveInputContainer} ${
+            (amountError || assetError) && classes.error
+          }`}
+        >
+          <div className={classes.massiveInputAssetSelect}>
+            <AssetSelect
+              type={type}
+              value={assetValue}
+              assetOptions={assetOptions}
+              onSelect={onAssetSelect}
+            />
           </div>
-          <div className={ `${classes.massiveInputAmount} ${classes.p_4}` }>
+          <div className={`${classes.massiveInputAmount} ${classes.p_4}`}>
             <TextField
               placeholder='0.00'
               fullWidth
-              error={ amountError }
-              helperText={ amountError }
-              value={ amount }
-              onChange={ amountChanged }
-              disabled={ createLoading }
+              error={amountError}
+              helperText={amountError}
+              value={amount}
+              onChange={amountChanged}
+              disabled={createLoading}
               InputProps={{
                 className: classes.largeInput
               }}
             />
-            <Typography color='textSecondary' className={ classes.smallerText }>{ asset?.symbol }</Typography>
+            <Typography color='textSecondary' className={classes.smallerText}>
+              {asset?.symbol}
+            </Typography>
           </div>
         </div>
       </div>
@@ -239,86 +296,119 @@ export default function ssBribeCreate() {
   }
 
   const onBack = () => {
-    router.back();
+    router.back()
   }
 
   const renderCreateInfo = () => {
     return (
-      <div className={ classes.depositInfoContainer }>
-        <Typography className={ classes.depositInfoHeading } >You are creating a bribe of <span className={classes.highlight}>{ formatCurrency(amount) } { asset?.symbol }</span> to incentivize Vesters to vote for the <span className={classes.highlight}>{ gauge?.token0?.symbol }/{ gauge?.token1?.symbol } Pool</span></Typography>
+      <div className={classes.depositInfoContainer}>
+        <Typography className={classes.depositInfoHeading}>
+          You are creating a bribe of{' '}
+          <span className={classes.highlight}>
+            {formatCurrency(amount)} {asset?.symbol}
+          </span>{' '}
+          to incentivize Vesters to vote for the{' '}
+          <span className={classes.highlight}>
+            {gauge?.token0?.symbol}/{gauge?.token1?.symbol} Pool
+          </span>
+        </Typography>
       </div>
     )
   }
 
   return (
     <div className={classes.retain}>
-      <Paper elevation={0} className={ classes.container }>
-        <div className={ classes.titleSection }>
-          <Tooltip placement="top" title="Back to Voting">
-          <IconButton className={ classes.backButton } onClick={ onBack }>
-            <ArrowBack className={ classes.backIcon } />
-          </IconButton>
+      <Paper elevation={0} className={classes.container}>
+        <div className={classes.titleSection}>
+          <Tooltip placement='top' title='Back to Voting'>
+            <IconButton className={classes.backButton} onClick={onBack}>
+              <ArrowBack className={classes.backIcon} />
+            </IconButton>
           </Tooltip>
-          <Typography className={ classes.titleText }>Create Bribe</Typography>
+          <Typography className={classes.titleText}>Create Bribe</Typography>
         </div>
-        <div className={ classes.reAddPadding }>
-          <div className={ classes.inputsContainer }>
-            { renderMassiveGaugeInput('gauge', gauge, null, gaugeOptions, onGagugeSelect) }
-            { renderMassiveInput('amount', amount, amountError, amountChanged, asset, null, assetOptions, onAssetSelect) }
-            { renderCreateInfo() }
+        <div className={classes.reAddPadding}>
+          <div className={classes.inputsContainer}>
+            {renderMassiveGaugeInput(
+              'gauge',
+              gauge,
+              null,
+              gaugeOptions,
+              onGagugeSelect
+            )}
+            {renderMassiveInput(
+              'amount',
+              amount,
+              amountError,
+              amountChanged,
+              asset,
+              null,
+              assetOptions,
+              onAssetSelect
+            )}
+            {renderCreateInfo()}
           </div>
-          <div className={ classes.actionsContainer }>
+          <div className={classes.actionsContainer}>
             <Button
               variant='contained'
               size='large'
-              className={ (createLoading) ? classes.multiApprovalButton : classes.buttonOverride }
+              className={
+                createLoading
+                  ? classes.multiApprovalButton
+                  : classes.buttonOverride
+              }
               color='primary'
-              disabled={ createLoading }
-              onClick={ onCreate }
-              >
-              <Typography className={ classes.actionButtonText }>{ createLoading ? `Creating` : `Create Bribe` }</Typography>
-              { createLoading && <CircularProgress size={10} className={ classes.loadingCircle } /> }
+              disabled={createLoading}
+              onClick={onCreate}
+            >
+              <Typography className={classes.actionButtonText}>
+                {createLoading ? `Creating` : `Create Bribe`}
+              </Typography>
+              {createLoading && (
+                <CircularProgress size={10} className={classes.loadingCircle} />
+              )}
             </Button>
           </div>
         </div>
       </Paper>
     </div>
-  );
+  )
 }
 
-function AssetSelect({ type, value, assetOptions, onSelect }) {
+function AssetSelect ({ type, value, assetOptions, onSelect }) {
+  const [open, setOpen] = useState(false)
+  const [search, setSearch] = useState('')
+  const [filteredAssetOptions, setFilteredAssetOptions] = useState([])
 
-  const [ open, setOpen ] = useState(false);
-  const [ search, setSearch ] = useState('')
-  const [ filteredAssetOptions, setFilteredAssetOptions ] = useState([])
-
-  const [ manageLocal, setManageLocal ] = useState(false)
+  const [manageLocal, setManageLocal] = useState(false)
 
   const openSearch = () => {
     setOpen(true)
     setSearch('')
-  };
+  }
 
-  useEffect(function() {
+  useEffect(
+    function () {
+      let ao = assetOptions.filter(asset => {
+        if (search && search !== '') {
+          return (
+            asset.address.toLowerCase().includes(search.toLowerCase()) ||
+            asset.symbol.toLowerCase().includes(search.toLowerCase()) ||
+            asset.name.toLowerCase().includes(search.toLowerCase())
+          )
+        } else {
+          return true
+        }
+      })
 
-    let ao = assetOptions.filter((asset) => {
-      if(search && search !== '') {
-        return asset.address.toLowerCase().includes(search.toLowerCase()) ||
-          asset.symbol.toLowerCase().includes(search.toLowerCase()) ||
-          asset.name.toLowerCase().includes(search.toLowerCase())
-      } else {
-        return true
-      }
-    })
+      setFilteredAssetOptions(ao)
 
-    setFilteredAssetOptions(ao)
+      return () => {}
+    },
+    [assetOptions, search]
+  )
 
-    return () => {
-    }
-  },[assetOptions, search]);
-
-
-  const onSearchChanged = async (event) => {
+  const onSearchChanged = async event => {
     setSearch(event.target.value)
   }
 
@@ -339,37 +429,54 @@ function AssetSelect({ type, value, assetOptions, onSelect }) {
     setManageLocal(!manageLocal)
   }
 
-  const deleteOption = (token) => {
+  const deleteOption = token => {
     stores.stableSwapStore.removeBaseAsset(token)
   }
 
-  const viewOption = (token) => {
+  const viewOption = token => {
     window.open(`${ETHERSCAN_URL}token/${token.address}`, '_blank')
   }
 
   const renderManageOption = (type, asset, idx) => {
     return (
-      <MenuItem val={ asset.address } key={ asset.address+'_'+idx } className={ classes.assetSelectMenu } >
-        <div className={ classes.assetSelectMenuItem }>
-          <div className={ classes.displayDualIconContainerSmall }>
+      <MenuItem
+        val={asset.address}
+        key={asset.address + '_' + idx}
+        className={classes.assetSelectMenu}
+      >
+        <div className={classes.assetSelectMenuItem}>
+          <div className={classes.displayDualIconContainerSmall}>
             <img
-              className={ classes.displayAssetIconSmall }
-              alt=""
-              src={ asset ? `${asset.logoURI}` : '' }
+              className={classes.displayAssetIconSmall}
+              alt=''
+              src={asset ? `${asset.logoURI}` : ''}
               height='60px'
-              onError={(e)=>{e.target.onerror = null; e.target.src="/tokens/unknown-logo.png"}}
+              onError={e => {
+                e.target.onerror = null
+                e.target.src = '/tokens/unknown-logo.png'
+              }}
             />
           </div>
         </div>
-        <div className={ classes.assetSelectIconName }>
-          <Typography variant='h5'>{ asset ? asset.symbol : '' }</Typography>
-          <Typography variant='subtitle1' color='textSecondary'>{ asset ? asset.name : '' }</Typography>
+        <div className={classes.assetSelectIconName}>
+          <Typography variant='h5'>{asset ? asset.symbol : ''}</Typography>
+          <Typography variant='subtitle1' color='textSecondary'>
+            {asset ? asset.name : ''}
+          </Typography>
         </div>
-        <div className={ classes.assetSelectActions}>
-          <IconButton onClick={ () => { deleteOption(asset) } }>
+        <div className={classes.assetSelectActions}>
+          <IconButton
+            onClick={() => {
+              deleteOption(asset)
+            }}
+          >
             <DeleteOutline />
           </IconButton>
-          <IconButton onClick={ () => { viewOption(asset) } }>
+          <IconButton
+            onClick={() => {
+              viewOption(asset)
+            }}
+          >
             ↗
           </IconButton>
         </div>
@@ -379,25 +486,41 @@ function AssetSelect({ type, value, assetOptions, onSelect }) {
 
   const renderAssetOption = (type, asset, idx) => {
     return (
-      <MenuItem val={ asset.address } key={ asset.address+'_'+idx } className={ classes.assetSelectMenu } onClick={ () => { onLocalSelect(type, asset) } }>
-        <div className={ classes.assetSelectMenuItem }>
-          <div className={ classes.displayDualIconContainerSmall }>
+      <MenuItem
+        val={asset.address}
+        key={asset.address + '_' + idx}
+        className={classes.assetSelectMenu}
+        onClick={() => {
+          onLocalSelect(type, asset)
+        }}
+      >
+        <div className={classes.assetSelectMenuItem}>
+          <div className={classes.displayDualIconContainerSmall}>
             <img
-              className={ classes.displayAssetIconSmall }
-              alt=""
-              src={ asset ? `${asset.logoURI}` : '' }
+              className={classes.displayAssetIconSmall}
+              alt=''
+              src={asset ? `${asset.logoURI}` : ''}
               height='60px'
-              onError={(e)=>{e.target.onerror = null; e.target.src="/tokens/unknown-logo.png"}}
+              onError={e => {
+                e.target.onerror = null
+                e.target.src = '/tokens/unknown-logo.png'
+              }}
             />
           </div>
         </div>
-        <div className={ classes.assetSelectIconName }>
-          <Typography variant='h5'>{ asset ? asset.symbol : '' }</Typography>
-          <Typography variant='subtitle1' color='textSecondary'>{ asset ? asset.name : '' }</Typography>
+        <div className={classes.assetSelectIconName}>
+          <Typography variant='h5'>{asset ? asset.symbol : ''}</Typography>
+          <Typography variant='subtitle1' color='textSecondary'>
+            {asset ? asset.name : ''}
+          </Typography>
         </div>
-        <div className={ classes.assetSelectBalance}>
-          <Typography variant='h5'>{ (asset && asset.balance) ? formatCurrency(asset.balance) : '0.00' }</Typography>
-          <Typography variant='subtitle1' color='textSecondary'>{ 'Balance' }</Typography>
+        <div className={classes.assetSelectBalance}>
+          <Typography variant='h5'>
+            {asset && asset.balance ? formatCurrency(asset.balance) : '0.00'}
+          </Typography>
+          <Typography variant='subtitle1' color='textSecondary'>
+            {'Balance'}
+          </Typography>
         </div>
       </MenuItem>
     )
@@ -406,38 +529,38 @@ function AssetSelect({ type, value, assetOptions, onSelect }) {
   const renderManageLocal = () => {
     return (
       <>
-        <div className={ classes.searchContainer }>
-          <div className={ classes.searchInline }>
+        <div className={classes.searchContainer}>
+          <div className={classes.searchInline}>
             <TextField
               autoFocus
-              variant="outlined"
+              variant='outlined'
               fullWidth
-              placeholder="WETH, MIM, 0x..."
-              value={ search }
-              onChange={ onSearchChanged }
+              placeholder='WETH, MIM, 0x...'
+              value={search}
+              onChange={onSearchChanged}
               InputProps={{
-                startAdornment: <InputAdornment position="start">
-                  <Search />
-                </InputAdornment>,
+                startAdornment: (
+                  <InputAdornment position='start'>
+                    <Search />
+                  </InputAdornment>
+                )
               }}
             />
           </div>
-          <div className={ classes.assetSearchResults }>
-            {
-              filteredAssetOptions ? filteredAssetOptions.filter((option) => {
-                return option.local === true
-              }).map((asset, idx) => {
-                return renderManageOption(type, asset, idx)
-              }) : []
-            }
+          <div className={classes.assetSearchResults}>
+            {filteredAssetOptions
+              ? filteredAssetOptions
+                  .filter(option => {
+                    return option.local === true
+                  })
+                  .map((asset, idx) => {
+                    return renderManageOption(type, asset, idx)
+                  })
+              : []}
           </div>
         </div>
-        <div className={ classes.manageLocalContainer }>
-          <Button
-            onClick={ toggleLocal }
-            >
-            Back to Assets
-          </Button>
+        <div className={classes.manageLocalContainer}>
+          <Button onClick={toggleLocal}>Back to Assets</Button>
         </div>
       </>
     )
@@ -446,42 +569,44 @@ function AssetSelect({ type, value, assetOptions, onSelect }) {
   const renderOptions = () => {
     return (
       <>
-        <div className={ classes.searchContainer }>
-          <div className={ classes.searchInline }>
+        <div className={classes.searchContainer}>
+          <div className={classes.searchInline}>
             <TextField
               autoFocus
-              variant="outlined"
+              variant='outlined'
               fullWidth
-              placeholder="WETH, MIM, 0x..."
-              value={ search }
-              onChange={ onSearchChanged }
+              placeholder='WETH, MIM, 0x...'
+              value={search}
+              onChange={onSearchChanged}
               InputProps={{
-                startAdornment: <InputAdornment position="start">
-                  <Search />
-                </InputAdornment>,
+                startAdornment: (
+                  <InputAdornment position='start'>
+                    <Search />
+                  </InputAdornment>
+                )
               }}
             />
           </div>
-          <div className={ classes.assetSearchResults }>
-            {
-              filteredAssetOptions ? filteredAssetOptions.sort((a, b) => {
-                if(BigNumber(a.balance).lt(b.balance)) return 1;
-                if(BigNumber(a.balance).gt(b.balance)) return -1;
-                if(a.symbol.toLowerCase()<b.symbol.toLowerCase()) return -1;
-                if(a.symbol.toLowerCase()>b.symbol.toLowerCase()) return 1;
-                return 0;
-              }).map((asset, idx) => {
-                return renderAssetOption(type, asset, idx)
-              }) : []
-            }
+          <div className={classes.assetSearchResults}>
+            {filteredAssetOptions
+              ? filteredAssetOptions
+                  .sort((a, b) => {
+                    if (BigNumber(a.balance).lt(b.balance)) return 1
+                    if (BigNumber(a.balance).gt(b.balance)) return -1
+                    if (a.symbol.toLowerCase() < b.symbol.toLowerCase())
+                      return -1
+                    if (a.symbol.toLowerCase() > b.symbol.toLowerCase())
+                      return 1
+                    return 0
+                  })
+                  .map((asset, idx) => {
+                    return renderAssetOption(type, asset, idx)
+                  })
+              : []}
           </div>
         </div>
-        <div className={ classes.manageLocalContainer }>
-          <Button
-            onClick={ toggleLocal }
-            >
-            Manage Local Assets
-          </Button>
+        <div className={classes.manageLocalContainer}>
+          <Button onClick={toggleLocal}>Manage Local Assets</Button>
         </div>
       </>
     )
@@ -489,22 +614,34 @@ function AssetSelect({ type, value, assetOptions, onSelect }) {
 
   return (
     <React.Fragment>
-      <div className={ classes.displaySelectContainer } onClick={ () => { openSearch() } }>
-        <div className={ classes.assetSelectMenuItem }>
-          <div className={ classes.displayDualIconContainer }>
+      <div
+        className={classes.displaySelectContainer}
+        onClick={() => {
+          openSearch()
+        }}
+      >
+        <div className={classes.assetSelectMenuItem}>
+          <div className={classes.displayDualIconContainer}>
             <img
-              className={ classes.displayAssetIcon }
-              alt=""
-              src={ value ? `${value.logoURI}` : '' }
+              className={classes.displayAssetIcon}
+              alt=''
+              src={value ? `${value.logoURI}` : ''}
               height='100px'
-              onError={(e)=>{e.target.onerror = null; e.target.src="/tokens/unknown-logo.png"}}
+              onError={e => {
+                e.target.onerror = null
+                e.target.src = '/tokens/unknown-logo.png'
+              }}
             />
           </div>
         </div>
       </div>
-      <Dialog onClose={ onClose } aria-labelledby="simple-dialog-title" open={ open } >
-        { !manageLocal && renderOptions() }
-        { manageLocal && renderManageLocal() }
+      <Dialog
+        onClose={onClose}
+        aria-labelledby='simple-dialog-title'
+        open={open}
+      >
+        {!manageLocal && renderOptions()}
+        {manageLocal && renderManageLocal()}
       </Dialog>
     </React.Fragment>
   )
