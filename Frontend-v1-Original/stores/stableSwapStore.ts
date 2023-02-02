@@ -534,7 +534,7 @@ class Store {
           gaugeContract.methods.balanceOf(account.address).call(),
           gaugesContract.methods.bribes(gaugeAddress).call(),
         ]);
-        // NOTE: this bribe contract is ExternalBribe so we can ask rewardRate directly (line 536)
+        // FIXME: this is external bribe in python and internal in express
         const bribeContract = new web3.eth.Contract(
           CONTRACTS.BRIBE_ABI as AbiItem[],
           bribeAddress
@@ -1344,7 +1344,7 @@ class Store {
                   gaugeContract.methods.balanceOf(account.address),
                   gaugesContract.methods.weights(pair.address),
                 ]);
-              // NOTE: this bribe contract is wrapped external bribe, so we can't ask directly for reward rate
+              // FIXME: this is external bribe in python and internal in express
               // const bribeContract = new web3.eth.Contract(
               //   CONTRACTS.BRIBE_ABI,
               //   pair.gauge.bribeAddress
@@ -1365,7 +1365,6 @@ class Store {
               //     return bribe;
               //   })
               // );
-              // FIXME: this is unnecessary as we can just use the rewardAmmount from the python api in frontend
               const bribes = pair.gauge.bribes.map((bribe) => {
                 bribe.rewardAmount = bribe.rewardAmmount;
                 return bribe;
@@ -5106,7 +5105,7 @@ class Store {
         filteredPairs.map(async (pair) => {
           const bribesEarned = await Promise.all(
             pair.gauge.bribes.map(async (bribe) => {
-              // NOTE: this bribe contract is wrapped external bribe
+              // FIXME: this is external bribe in python and internal in express
               const bribeContract = new web3.eth.Contract(
                 CONTRACTS.BRIBE_ABI as AbiItem[],
                 pair.gauge.bribeAddress
@@ -5180,7 +5179,7 @@ class Store {
           filteredPairs.map(async (pair) => {
             const bribesEarned = await Promise.all(
               pair.gauge.bribes.map(async (bribe) => {
-                // NOTE: this bribe contract is wrapped external bribe
+                // FIXME: this is external bribe in python and internal in express
                 const bribeContract = new web3.eth.Contract(
                   CONTRACTS.BRIBE_ABI as AbiItem[],
                   pair.gauge.bribeAddress
