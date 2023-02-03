@@ -88,6 +88,14 @@
     "logoURI": "https://raw.githubusercontent.com/list/master/logos/token-logos/token/btc.jpg"
   },
   {
+    "address": "0x1d05e4e72cD994cdF976181CfB0707345763564d",
+    "chainId": 42170,
+    "decimals": 8,
+    "logoURI": "https://raw.githubusercontent.com/sushiswap/list/master/logos/token-logos/token/btc.jpg",
+    "name": "Wrapped Bitcoin",
+    "symbol": "WBTC"
+  },
+  {
     "chainId": 42161,
     "address": "0x82e3A8F066a6989666b031d916c43672085b1582",
     "name": "yearn.finance",
@@ -238,5 +246,21 @@
     "symbol": "HND",
     "decimals": 18,
     "logoURI": "https://github.com/hundred-finance/hundred-interface/blob/main/public/logo200.png"
+  },
+  {
+    "address": "0x10010078a54396F62c96dF8532dc2B4847d47ED3",
+    "chainId": 42161,
+    "name": "AmpliFi",
+    "symbol": "AGG",
+    "decimals": 18,
+    "logoURI": "https://cre8r.vip/wp-content/uploads/2023/02/favicon.png"
+  },
+  {
+    "address": "0x13Ad51ed4F1B7e9Dc168d8a00cB3f4dDD85EfA60",
+    "chainId": 42161,
+    "name": "Lido Governance Token",
+    "symbol": "LDO",
+    "decimals": 18,
+    "logoURI": "https://arbiscan.io/token/images/lidodao_32.png"
   }
 ]

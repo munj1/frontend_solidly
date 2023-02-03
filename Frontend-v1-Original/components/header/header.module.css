@@ -44,12 +44,12 @@
 
 .logoContainer {
   cursor: pointer;
-  width: 260px;
+  width: 300px;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  background-color: #040105;
+  /* background-color: #040105; */
   border-radius: 40px;
   padding-top: 4px;
   padding-bottom: 4px;

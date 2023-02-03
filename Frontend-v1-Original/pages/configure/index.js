@@ -1,15 +1,15 @@
-import Image from "next/image";
-import { withTheme } from "@mui/styles";
-import classes from "./configure.module.css";
+import Image from 'next/image'
+import { withTheme } from '@mui/styles'
+import classes from './configure.module.css'
 
-function Configure({ theme }) {
+function Configure ({ theme }) {
   return (
     <div className={classes.configureContainer}>
-      <Image src='/images/_vcm_logo.jpg' width='100%' height='100%' />
+      <Image src='/images/vcm1.jpg' width='100%' height='100%' />
       <div className={classes.greyGlow} />
       <div className={classes.greenGlow} />
     </div>
-  );
+  )
 }
 
-export default withTheme(Configure);
+export default withTheme(Configure)
