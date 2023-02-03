@@ -14,6 +14,18 @@
   border-radius: 0 !important;
 }
 
+html:not([data-scroll="0"]) .headerContainer {
+  position: fixed;
+  top: 0;
+  flex-direction: row;
+  align-items: center;
+  /* background-color: #fff; */
+  opacity: 0.9;
+  background-color: rgba(0, 0, 0, 0.774);
+  box-shadow: 0 0 0.2em rgba(14, 233, 222, 0.993);
+  transition: 0.4s linear;
+}
+
 .hidden {
   display: none !important;
 }
