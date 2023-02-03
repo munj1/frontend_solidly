@@ -1,31 +1,24 @@
-import {
-  Typography,
-  Button,
-  Paper,
-  SvgIcon,
-  Grid,
-  Avatar,
-} from "@mui/material";
+import { Typography, Button, Paper, SvgIcon, Grid, Avatar } from '@mui/material'
 
-import { useScrollTo } from "react-use-window-scroll";
+import { useScrollTo } from 'react-use-window-scroll'
 
-import classes from "./home.module.css";
+import classes from './home.module.css'
 
-import React, { useState, useEffect } from "react";
-import { useRouter } from "next/router";
+import React, { useState, useEffect } from 'react'
+import { useRouter } from 'next/router'
 
-function Transition(props) {
-  return <Slide direction='up' {...props} />;
+function Transition (props) {
+  return <Slide direction='up' {...props} />
 }
 
-function Home({ changeTheme }) {
-  function handleNavigate(route) {
-    router.push(route);
+function Home ({ changeTheme }) {
+  function handleNavigate (route) {
+    router.push(route)
   }
 
-  const router = useRouter();
+  const router = useRouter()
 
-  const scrollTo = useScrollTo();
+  const scrollTo = useScrollTo()
 
   return (
     <div className={classes.ffContainer}>
@@ -33,7 +26,7 @@ function Home({ changeTheme }) {
         <Grid container spacing={2} className={classes.homeContentMain}>
           <Grid item lg={12} md={12} sm={12} xs={12}>
             <Typography variant='h1' className={classes.preTitle}>
-              0.01% fee
+              Arbitrum Liquidity Layer
             </Typography>
           </Grid>
           <Grid item lg={12} md={12} sm={12} xs={12}>
@@ -47,7 +40,7 @@ function Home({ changeTheme }) {
                 <Button
                   className={classes.buttonInfo}
                   onClick={() =>
-                    scrollTo({ top: 1000, left: 0, behavior: "smooth" })
+                    scrollTo({ top: 1000, left: 0, behavior: 'smooth' })
                   }
                 >
                   Learn More
@@ -56,7 +49,7 @@ function Home({ changeTheme }) {
               <Grid item lg={6} md={6} sm={12} xs={12}>
                 <Button
                   className={classes.buttonEnter}
-                  onClick={() => router.push("/swap")}
+                  onClick={() => router.push('/swap')}
                 >
                   Enter App
                 </Button>
@@ -81,8 +74,7 @@ function Home({ changeTheme }) {
               goal of fair and balanced access to DeFi. Velocimeter is a
               decentralized exchange that has launched on the Arbitrum network
               with low fees, near 0 slippage on correlated assets and a strong
-              focus on secondary markets for tokenized locks as NFT’s (veToken =
-              lpNFTs).
+              focus on secondary markets for tokenized locks as NFT’s.
             </Typography>
             <Typography variant='body2' className={classes.secDescription}>
               One segment of the cryptocurrency landscape that has shown
@@ -94,7 +86,7 @@ function Home({ changeTheme }) {
           <Grid item lg={12} md={12} sm={12} xs={12}>
             <Button
               className={classes.buttonEnterSingle}
-              onClick={() => router.push("/swap")}
+              onClick={() => router.push('/swap')}
             >
               Enter App
             </Button>
@@ -102,7 +94,7 @@ function Home({ changeTheme }) {
         </Grid>
       </div>
     </div>
-  );
+  )
 }
 
-export default Home;
+export default Home
