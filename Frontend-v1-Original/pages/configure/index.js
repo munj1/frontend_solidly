@@ -5,7 +5,7 @@ import classes from './configure.module.css'
 function Configure ({ theme }) {
   return (
     <div className={classes.configureContainer}>
-      <Image src='/images/vcm1.jpg' width='100%' height='100%' />
+      <Image src='/images/vcm1.png' width='100%' height='100%' />
       <div className={classes.greyGlow} />
       <div className={classes.greenGlow} />
     </div>

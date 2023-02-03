@@ -21,7 +21,7 @@ function SiteLogo (props) {
   return (
     <Image
       className={className}
-      src='/images/vcm1.jpg'
+      src='/images/vcm1.png'
       height={48}
       width={48}
     />
