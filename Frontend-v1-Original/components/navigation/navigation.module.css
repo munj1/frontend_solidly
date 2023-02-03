@@ -5,7 +5,9 @@
   background: #040105;
   border-radius: 12px;
   border: 0 !important;
-  padding: 3px;
+  padding: 10px;
+  box-shadow: 0 0 0.2em rgba(14, 233, 222, 0.993);
+  
 }
 
 
@@ -312,9 +314,10 @@ a.linkz {
 } /* Transparent border to eliminate position jittering from Active state */
 
 .testChange {
-  border: 1px solid #06d3d7 !important;
+  box-shadow: 0 0 0.2em rgba(30, 131, 126, 0.993);
   background-color: rgba(0, 0, 0, 0) !important;
   color: #fff !important;
+
 }
 
 @media screen and (max-width: 1200px) {
