@@ -32,7 +32,7 @@ export const ETH_LOGO =
 export const FACTORY_ADDRESS = '0x9f7fdaB9317f1442808B90B819Ed0a4eF4f74994' // pretty sure on this one not 100% tho..
 export const FACTORY_ABI = abis.factoryABI
 
-export const ROUTER_ADDRESS = '0xffCC209120a8fb388140689ea1235e4eD78620d5' // done
+export const ROUTER_ADDRESS = '0x52A18b2386D6221Cf9DbcD4790456a23249e5279' // done
 export const ROUTER_ABI = abis.routerABI
 
 export const VE_DIST_ADDRESS = '0xffCC209120a8fb388140689ea1235e4eD78620d5' // done
