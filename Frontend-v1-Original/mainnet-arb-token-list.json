@@ -205,7 +205,7 @@
     "name": "CRE8R DAO",
     "symbol": "CRE8R",
     "decimals": 18,
-    "logoURI": "https://assets.coingecko.com/coins/images/22568/small/cropped-FINALwithbrick-2-1-1.png?1642060468"
+    "logoURI": "https://raw.githubusercontent.com/balancer-labs/assets/refactor-for-multichain/assets/0xb96b904ba83ddeece47caada8b40ee6936d92091.png"
   },
   {
     "address": "0x178412e79c25968a32e89b11f63B33F733770c2A",
@@ -278,5 +278,13 @@
     "logoURI": "https://arbiscan.io/token/images/camelotexchange_32.png",
     "name": "Flow",
     "symbol": "VELO"
+  },
+  {
+    "address": "0x10393c20975cF177a3513071bC110f7962CD67da",
+    "chainId": 42161,
+    "decimals": 18,
+    "logoURI": "https://raw.githubusercontent.com/sushiswap/list/master/logos/token-logos/network/arbitrum/0x10393c20975cF177a3513071bC110f7962CD67da.jpg",
+    "name": "Jones DAO",
+    "symbol": "JONES"
   }
 ]
