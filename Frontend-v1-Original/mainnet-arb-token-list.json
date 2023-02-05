@@ -275,9 +275,9 @@
     "address": "0x944AF7785d57bcfC00e95388453B93DAD373216e",
     "chainId": 42161,
     "decimals": 18,
-    "logoURI": "https://arbiscan.io/token/images/camelotexchange_32.png",
+    "logoURI": "",
     "name": "Flow",
-    "symbol": "VELO"
+    "symbol": "FLOW"
   },
   {
     "address": "0x10393c20975cF177a3513071bC110f7962CD67da",
