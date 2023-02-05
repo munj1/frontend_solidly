@@ -72,6 +72,7 @@ class Store {
 
     dispatcher.register(
       function (payload) {
+        console.log("<< Payload of dispatched function from fe <<", payload);
         switch (payload.type) {
           case ACTIONS.CONFIGURE_SS:
             this.configure(payload);
@@ -1556,8 +1557,15 @@ class Store {
         return null;
       }
 
-      const { token0, token1, amount0, amount1, stable, token, slippage } =
-        payload.content;
+      const {
+        token0,
+        token1,
+        amount0,
+        amount1,
+        isStable: stable,
+        token,
+        slippage,
+      } = payload.content;
 
       let toki0 = token0.address;
       let toki1 = token1.address;
@@ -1991,8 +1999,14 @@ class Store {
         return null;
       }
 
-      const { token0, token1, amount0, amount1, stable, slippage } =
-        payload.content;
+      const {
+        token0,
+        token1,
+        amount0,
+        amount1,
+        isStable: stable,
+        slippage,
+      } = payload.content;
 
       let toki0 = token0.address;
       let toki1 = token1.address;
