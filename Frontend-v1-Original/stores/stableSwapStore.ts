@@ -32,7 +32,8 @@ interface BaseAsset {
   isWhitelisted?: boolean;
   listingFee?: string | number;
 }
-
+// FIXME: everything bribe related is using Internal Bribe ABI so address has to be internal bribe which is set to fees_address
+// double check bribe related stuff
 class Store {
   dispatcher: Dispatcher<any>;
   emitter: EventEmitter;
@@ -4245,7 +4246,7 @@ class Store {
 
           this.emitter.emit(ACTIONS.SWAP_RETURNED);
         },
-        sendValue // TODO: any chance all sendValue being out of scope is intentional? like maybe made on purpose to be null everywhere?
+        sendValue
       );
     } catch (ex) {
       console.error(ex);
