@@ -50,6 +50,7 @@ class Store {
       fees: any[];
       rewards: any[];
     };
+    updateDate: number;
   };
 
   constructor(dispatcher: Dispatcher<any>, emitter: EventEmitter) {
@@ -69,6 +70,7 @@ class Store {
         fees: [],
         rewards: [],
       },
+      updateDate: 0,
     };
 
     dispatcher.register(
@@ -962,7 +964,7 @@ class Store {
             .div(10 ** newBaseAsset.decimals)
             .toFixed(newBaseAsset.decimals);
         }
-      } // GET BACK HERE
+      }
 
       //only save when a user adds it. don't for when we lookup a pair and find he asset.
       if (save) {
@@ -997,6 +999,7 @@ class Store {
       this.setStore({ routeAssets: await this._getRouteAssets() });
       this.setStore({ pairs: await this._getPairs() });
       this.setStore({ swapAssets: this._getSwapAssets() });
+      this.setStore({ updateDate: await this._getActivePeriod() });
 
       this.emitter.emit(ACTIONS.UPDATED);
       this.emitter.emit(ACTIONS.CONFIGURED_SS);
@@ -1076,7 +1079,13 @@ class Store {
         }
       );
       const pairsCall = await response.json();
-      return pairsCall.data;
+      const ignoredPairs = ["0xf9e9e9c918a90e126249095de0c8d6560d0b6535"]; // this pair from canto blockchain sneaked inside arbitrum api
+      const filteredPairs = pairsCall.data.filter((pair) => {
+        return !ignoredPairs.includes(pair.address);
+      });
+      return process.env.NEXT_PUBLIC_CHAINID !== "7700"
+        ? filteredPairs
+        : pairsCall.data;
     } catch (ex) {
       console.log(ex);
       return [];
@@ -1110,6 +1119,24 @@ class Store {
     );
     this.setStore({ swapAssets: baseAssetsWeSwap });
     this.emitter.emit(ACTIONS.SWAP_ASSETS_UPDATED, baseAssetsWeSwap);
+  };
+
+  _getActivePeriod = async () => {
+    try {
+      const week = 604800;
+      const web3 = await stores.accountStore.getWeb3Provider();
+      const minterContract = new web3.eth.Contract(
+        CONTRACTS.MINTER_ABI as AbiItem[],
+        CONTRACTS.MINTER_ADDRESS
+      );
+      const activePeriod = await minterContract.methods.active_period().call();
+      const activePeriodEnd = parseInt(activePeriod) + week;
+      return activePeriodEnd;
+    } catch (ex) {
+      console.log("EXCEPTION. ACTIVE PERIOD ERROR");
+      console.log(ex);
+      return 0;
+    }
   };
 
   _getGovTokenBase = () => {

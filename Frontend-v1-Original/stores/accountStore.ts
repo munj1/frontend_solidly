@@ -2,6 +2,9 @@ import async from "async";
 import { ACTIONS, CONTRACTS } from "./constants/constants";
 import Multicall from "@dopex-io/web3-multicall";
 
+import { Dispatcher } from "flux";
+import EventEmitter from "events";
+
 import {
   injected,
   walletconnect,
@@ -16,9 +19,9 @@ type EthWindow = Window &
     ethereum?: any;
   };
 
-interface Store {
-  dispatcher: any;
-  emitter: any;
+class Store {
+  dispatcher: Dispatcher<any>;
+  emitter: EventEmitter;
   store: {
     account: null | string;
     chainInvalid: boolean;
@@ -38,10 +41,8 @@ interface Store {
     };
     gasSpeed: string;
   };
-}
 
-class Store {
-  constructor(dispatcher, emitter) {
+  constructor(dispatcher: Dispatcher<any>, emitter: EventEmitter) {
     this.dispatcher = dispatcher;
     this.emitter = emitter;
 

@@ -1,16 +1,27 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { Paper, Typography, Button, CircularProgress, InputAdornment, TextField, MenuItem, Select, Grid } from '@mui/material';
-import BigNumber from 'bignumber.js';
-import { Search } from '@mui/icons-material';
+import React, { useState, useEffect, useCallback } from "react";
+import {
+  Paper,
+  Typography,
+  Button,
+  CircularProgress,
+  InputAdornment,
+  TextField,
+  MenuItem,
+  Select,
+  Grid,
+} from "@mui/material";
+import BigNumber from "bignumber.js";
+import { Search } from "@mui/icons-material";
 import { useRouter } from "next/router";
 
-import classes from './ssVotes.module.css';
-import { formatCurrency } from '../../utils';
+import classes from "./ssVotes.module.css";
+import { formatCurrency } from "../../utils";
 
-import GaugesTable from './ssVotesTable.js'
+import GaugesTable from "./ssVotesTable.js";
+import Timer from "./timer";
 
-import stores from '../../stores'
-import { ACTIONS } from '../../stores/constants';
+import stores from "../../stores";
+import { ACTIONS } from "../../stores/constants";
 
 const initialEmptyToken = {
   id: "0",
@@ -20,160 +31,210 @@ const initialEmptyToken = {
 };
 
 export default function ssVotes() {
-  const router = useRouter()
+  const router = useRouter();
 
   const [, updateState] = useState();
   const forceUpdate = useCallback(() => updateState({}), []);
 
-  const [ gauges, setGauges ] = useState([])
-  const [ voteLoading, setVoteLoading ] = useState(false)
-  const [ votes, setVotes ] = useState([])
-  const [ veToken, setVeToken ] = useState(null)
-  const [ token, setToken ] = useState(initialEmptyToken)
-  const [ vestNFTs, setVestNFTs ] = useState([])
-  const [search, setSearch] = useState('');
-
+  const [gauges, setGauges] = useState([]);
+  const [voteLoading, setVoteLoading] = useState(false);
+  const [votes, setVotes] = useState([]);
+  const [veToken, setVeToken] = useState(null);
+  const [token, setToken] = useState(initialEmptyToken);
+  const [vestNFTs, setVestNFTs] = useState([]);
+  const [search, setSearch] = useState("");
+  const [updateDate, setUpdateDate] = useState(0);
 
   const ssUpdated = () => {
-    setVeToken(stores.stableSwapStore.getStore('veToken'))
-    const as = stores.stableSwapStore.getStore('pairs');
+    const _updateDate = stores.stableSwapStore.getStore("updateDate");
+    if (_updateDate) {
+      setUpdateDate(_updateDate);
+    }
+
+    setVeToken(stores.stableSwapStore.getStore("veToken"));
+    const as = stores.stableSwapStore.getStore("pairs");
 
     const filteredAssets = as.filter((asset) => {
-      return asset.gauge && asset.gauge.address
-    })
-    setGauges(filteredAssets)
+      return asset.gauge && asset.gauge.address;
+    });
+    setGauges(filteredAssets);
 
+    const nfts = stores.stableSwapStore.getStore("vestNFTs");
+    setVestNFTs(nfts);
 
-    const nfts = stores.stableSwapStore.getStore('vestNFTs');
-    setVestNFTs(nfts)
-
-    if(nfts && nfts.length > 0) {
+    if (nfts && nfts.length > 0) {
       setToken(nfts[0]);
     }
 
-    if(nfts && nfts.length > 0 && filteredAssets && filteredAssets.length > 0) {
-      stores.dispatcher.dispatch({ type: ACTIONS.GET_VEST_VOTES, content: { tokenID: nfts[0].id } })
-      stores.dispatcher.dispatch({ type: ACTIONS.GET_VEST_BALANCES, content: { tokenID: nfts[0].id } })
+    if (
+      nfts &&
+      nfts.length > 0 &&
+      filteredAssets &&
+      filteredAssets.length > 0
+    ) {
+      stores.dispatcher.dispatch({
+        type: ACTIONS.GET_VEST_VOTES,
+        content: { tokenID: nfts[0].id },
+      });
+      stores.dispatcher.dispatch({
+        type: ACTIONS.GET_VEST_BALANCES,
+        content: { tokenID: nfts[0].id },
+      });
     }
 
-    forceUpdate()
-  }
+    forceUpdate();
+  };
 
   useEffect(() => {
     const vestVotesReturned = (vals) => {
-      setVotes(vals.map((asset) => {
-        return {
-          address: asset?.address,
-          value: BigNumber((asset && asset.votePercent) ? asset.votePercent : 0).toNumber(0)
-        }
-      }))
-      forceUpdate()
-    }
+      setVotes(
+        vals.map((asset) => {
+          return {
+            address: asset?.address,
+            value: BigNumber(
+              asset && asset.votePercent ? asset.votePercent : 0
+            ).toNumber(0),
+          };
+        })
+      );
+      forceUpdate();
+    };
 
     const vestBalancesReturned = (vals) => {
-      setGauges(vals)
-      forceUpdate()
-    }
+      setGauges(vals);
+      forceUpdate();
+    };
 
     const stableSwapUpdated = () => {
-      ssUpdated()
-    }
+      ssUpdated();
+    };
 
     const voteReturned = () => {
-      setVoteLoading(false)
-    }
+      setVoteLoading(false);
+    };
 
-    ssUpdated()
+    ssUpdated();
 
     // stores.dispatcher.dispatch({ type: ACTIONS.GET_VEST_NFTS, content: {} })
 
     stores.emitter.on(ACTIONS.UPDATED, stableSwapUpdated);
     stores.emitter.on(ACTIONS.VOTE_RETURNED, voteReturned);
     stores.emitter.on(ACTIONS.ERROR, voteReturned);
-    stores.emitter.on(ACTIONS.VEST_VOTES_RETURNED, vestVotesReturned)
+    stores.emitter.on(ACTIONS.VEST_VOTES_RETURNED, vestVotesReturned);
     // stores.emitter.on(ACTIONS.VEST_NFTS_RETURNED, vestNFTsReturned)
-    stores.emitter.on(ACTIONS.VEST_BALANCES_RETURNED, vestBalancesReturned)
+    stores.emitter.on(ACTIONS.VEST_BALANCES_RETURNED, vestBalancesReturned);
 
     return () => {
       stores.emitter.removeListener(ACTIONS.UPDATED, stableSwapUpdated);
       stores.emitter.removeListener(ACTIONS.VOTE_RETURNED, voteReturned);
       stores.emitter.removeListener(ACTIONS.ERROR, voteReturned);
-      stores.emitter.removeListener(ACTIONS.VEST_VOTES_RETURNED, vestVotesReturned)
+      stores.emitter.removeListener(
+        ACTIONS.VEST_VOTES_RETURNED,
+        vestVotesReturned
+      );
       // stores.emitter.removeListener(ACTIONS.VEST_NFTS_RETURNED, vestNFTsReturned)
-      stores.emitter.removeListener(ACTIONS.VEST_BALANCES_RETURNED, vestBalancesReturned)
+      stores.emitter.removeListener(
+        ACTIONS.VEST_BALANCES_RETURNED,
+        vestBalancesReturned
+      );
     };
   }, []);
 
   const onVote = () => {
-    setVoteLoading(true)
-    stores.dispatcher.dispatch({ type: ACTIONS.VOTE, content: { votes, tokenID: token.id }})
-  }
+    setVoteLoading(true);
+    stores.dispatcher.dispatch({
+      type: ACTIONS.VOTE,
+      content: { votes, tokenID: token.id },
+    });
+  };
 
-  let totalVotes = votes.reduce((acc, curr) => { return BigNumber(acc).plus(BigNumber(curr.value).lt(0) ? (curr.value*-1) : curr.value).toNumber() }, 0 )
+  let totalVotes = votes.reduce((acc, curr) => {
+    return BigNumber(acc)
+      .plus(BigNumber(curr.value).lt(0) ? curr.value * -1 : curr.value)
+      .toNumber();
+  }, 0);
 
   const handleChange = (event) => {
     setToken(event.target.value);
-    stores.dispatcher.dispatch({ type: ACTIONS.GET_VEST_VOTES, content: { tokenID: event.target.value.id } })
-  }
+    stores.dispatcher.dispatch({
+      type: ACTIONS.GET_VEST_VOTES,
+      content: { tokenID: event.target.value.id },
+    });
+  };
 
   const onSearchChanged = (event) => {
     setSearch(event.target.value);
   };
 
   const onBribe = () => {
-    router.push('/bribe/create')
-  }
+    router.push("/bribe/create");
+  };
 
   const renderMediumInput = (value, options) => {
     return (
-      <div className={ classes.textField}>
-        <div className={ classes.mediumInputContainer}>
+      <div className={classes.textField}>
+        <div className={classes.mediumInputContainer}>
           <Grid container>
-            <Grid item lg='auto' md='auto' sm={12} xs={12}>
-              <Typography variant="body2" className={ classes.smallText }>Please select your veNFT:</Typography>
+            <Grid item lg="auto" md="auto" sm={12} xs={12}>
+              <Typography variant="body2" className={classes.smallText}>
+                Please select your veNFT:
+              </Typography>
             </Grid>
 
             <Grid item lg={6} md={6} sm={12} xs={12}>
-              <div className={ classes.mediumInputAmount }>
+              <div className={classes.mediumInputAmount}>
                 <Select
                   fullWidth
-                  value={ value }
+                  value={value}
                   onChange={handleChange}
                   InputProps={{
                     className: classes.mediumInput,
                   }}
                 >
-                  { options && options.map((option) => {
-                    return (
-                      <MenuItem key={option.id} value={option}>
-                        <div className={ classes.menuOption }>
-                          <Typography>Token #{option.id}</Typography>
-                          <div>
-                            <Typography align='right' className={ classes.smallerText }>{ formatCurrency(option.lockValue) }</Typography>
-                            <Typography color='textSecondary' className={ classes.smallerText }>{veToken?.symbol}</Typography>
+                  {options &&
+                    options.map((option) => {
+                      return (
+                        <MenuItem key={option.id} value={option}>
+                          <div className={classes.menuOption}>
+                            <Typography>Token #{option.id}</Typography>
+                            <div>
+                              <Typography
+                                align="right"
+                                className={classes.smallerText}
+                              >
+                                {formatCurrency(option.lockValue)}
+                              </Typography>
+                              <Typography
+                                color="textSecondary"
+                                className={classes.smallerText}
+                              >
+                                {veToken?.symbol}
+                              </Typography>
+                            </div>
                           </div>
-                        </div>
-                      </MenuItem>
-                    )
-                  })}
+                        </MenuItem>
+                      );
+                    })}
                 </Select>
               </div>
             </Grid>
           </Grid>
         </div>
       </div>
-    )
-  }
+    );
+  };
 
   return (
     <div className={classes.container}>
-      <div className={classes.descriptionBox}>
-        <Typography variant='h1'>Vest</Typography>
-        <Typography variant='body2'>
-          Lock FLOW into veFLOW to earn and govern. Vote with veFLOW to earn
-          bribes and trading fees. veFLOW can be transferred, merged and split.
-          You can hold multiple positions.
-        </Typography>
+      <div className={classes.descriptionTimerBox}>
+        <div className={classes.descriptionBox}>
+          <Typography variant="h1">Vote</Typography>
+          <Typography variant="body2">
+            Select your veNFT and use 100% of your votes for one or more pools
+            to earn bribes and trading fees.
+          </Typography>
+        </div>
+        <Timer deadline={updateDate} />
       </div>
       <div className={classes.topBarContainer}>
         <Grid container spacing={1}>
@@ -196,21 +257,21 @@ export default function ssVotes() {
           <Grid item lg={true} md={true} sm={12} xs={12}>
             <TextField
               className={classes.searchContainer}
-              variant='outlined'
+              variant="outlined"
               fullWidth
-              placeholder='ETH, MIM, 0x...'
+              placeholder="ETH, MIM, 0x..."
               value={search}
               onChange={onSearchChanged}
               InputProps={{
                 startAdornment: (
-                  <InputAdornment position='start'>
+                  <InputAdornment position="start">
                     <Search sx={{ fill: "white" }} />
                   </InputAdornment>
                 ),
               }}
             />
           </Grid>
-          <Grid item lg='auto' sm={12} xs={12}>
+          <Grid item lg="auto" sm={12} xs={12}>
             <div className={classes.tokenIDContainer}>
               {renderMediumInput(token, vestNFTs)}
             </div>
@@ -263,9 +324,9 @@ export default function ssVotes() {
         <div>
           <Button
             className={classes.buttonOverrideFixed}
-            variant='contained'
-            size='large'
-            color='primary'
+            variant="contained"
+            size="large"
+            color="primary"
             disabled={
               voteLoading ||
               BigNumber(totalVotes).eq(0) ||
