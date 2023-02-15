@@ -111,10 +111,10 @@ function Setup() {
       };
 
       const assetsUpdated = () => {
-        const baseAsset = stores.stableSwapStore.getStore("baseAssets");
+        const swapAssets = stores.stableSwapStore.getStore("swapAssets");
 
-        setToAssetOptions(baseAsset);
-        setFromAssetOptions(baseAsset);
+        setToAssetOptions(swapAssets);
+        setFromAssetOptions(swapAssets);
       };
 
       const swapReturned = (event) => {
