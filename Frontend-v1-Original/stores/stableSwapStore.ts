@@ -18,20 +18,11 @@ import {
 } from "./constants/constants";
 
 import tokenlist from "../mainnet-arb-token-list.json";
+import type { BaseAsset, PairFromAPI, RouteAsset } from "./types/types";
+
 // import tokenlist from '../token-list.json';
 // import tokenlist from '../goerli-arb-token-list.json'
 
-interface BaseAsset {
-  address: string;
-  symbol: string;
-  name: string;
-  decimals: number;
-  logoURI: string | null;
-  local: true;
-  balance: string | null;
-  isWhitelisted?: boolean;
-  listingFee?: string | number;
-}
 // FIXME: everything bribe related is using Internal Bribe ABI so address has to be internal bribe which is set to fees_address
 // double check bribe related stuff
 class Store {
@@ -40,10 +31,10 @@ class Store {
   store: {
     baseAssets: BaseAsset[];
     swapAssets: BaseAsset[];
-    routeAssets: any[];
+    routeAssets: RouteAsset[];
     govToken: Omit<BaseAsset, "local"> & { balanceOf: string };
     veToken: Omit<BaseAsset, "balance" | "local">;
-    pairs: any[];
+    pairs: PairFromAPI[];
     vestNFTs: any[];
     rewards: {
       bribes: any[];
@@ -538,10 +529,10 @@ class Store {
           gaugeContract.methods.balanceOf(account.address).call(),
           gaugesContract.methods.bribes(gaugeAddress).call(),
         ]);
-        // FIXME: this is external bribe in python and internal in express
+        // FIXME: this is external bribe in python and internal in express ++
         const bribeContract = new web3.eth.Contract(
           CONTRACTS.BRIBE_ABI as AbiItem[],
-          bribeAddress
+          thePair.gauge.wrapped_bribe_address
         );
 
         const tokensLength = await bribeContract.methods
@@ -796,7 +787,7 @@ class Store {
         // NOTE: this bribe contract is ExternalBribe so we can ask rewardRate directly (line 791)
         const bribeContract = new web3.eth.Contract(
           CONTRACTS.BRIBE_ABI as AbiItem[],
-          bribeAddress
+          thePair.gauge.wrapped_bribe_address
         );
 
         const tokensLength = await bribeContract.methods
@@ -5150,7 +5141,7 @@ class Store {
               // FIXME: this is external bribe in python and internal in express
               const bribeContract = new web3.eth.Contract(
                 CONTRACTS.BRIBE_ABI as AbiItem[],
-                pair.gauge.bribeAddress
+                pair.gauge.wrapped_bribe_address
               );
 
               const [earned] = await Promise.all([
@@ -5224,7 +5215,7 @@ class Store {
                 // FIXME: this is external bribe in python and internal in express
                 const bribeContract = new web3.eth.Contract(
                   CONTRACTS.BRIBE_ABI as AbiItem[],
-                  pair.gauge.bribeAddress
+                  pair.gauge.wrapped_bribe_address
                 );
 
                 const [earned] = await Promise.all([
