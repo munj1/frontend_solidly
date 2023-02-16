@@ -5038,7 +5038,7 @@ class Store {
             web3,
             tokenContract,
             "approve",
-            [gauge.gauge.bribeAddress, MAX_UINT256],
+            [gauge.gauge.wrapped_bribe_address, MAX_UINT256],
             account,
             gasPrice,
             null,
@@ -5063,7 +5063,7 @@ class Store {
       // SUBMIT BRIBE TRANSACTION
       const bribeContract = new web3.eth.Contract(
         CONTRACTS.BRIBE_ABI as AbiItem[],
-        gauge.gauge.bribeAddress
+        gauge.gauge.wrapped_bribe_address
       );
 
       const sendAmount = BigNumber(amount)
@@ -5103,7 +5103,7 @@ class Store {
         token.address
       );
       const allowance = await tokenContract.methods
-        .allowance(account.address, pair.gauge.bribeAddress)
+        .allowance(account.address, pair.gauge.wrapped_bribe_address)
         .call();
       return BigNumber(allowance)
         .div(10 ** token.decimals)
