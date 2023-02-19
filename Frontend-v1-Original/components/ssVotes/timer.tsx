@@ -27,7 +27,6 @@ function useTimer(deadline: number, interval = SECOND) {
   useEffect(() => {
     setTimeLeft(deadline * 1000 - Date.now());
     const intervalId = setInterval(() => {
-      console.log("got inside set interval");
       setTimeLeft(deadline * 1000 - Date.now());
     }, interval);
 

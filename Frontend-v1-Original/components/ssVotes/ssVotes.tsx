@@ -15,13 +15,13 @@ import { Search } from "@mui/icons-material";
 import { useRouter } from "next/router";
 
 import classes from "./ssVotes.module.css";
-import { formatCurrency } from "../../utils";
+import { formatCurrency } from "../../utils/utils";
 
-import GaugesTable from "./ssVotesTable.js";
+import GaugesTable from "./ssVotesTable";
 import Timer from "./timer";
 
 import stores from "../../stores";
-import { ACTIONS } from "../../stores/constants";
+import { ACTIONS } from "../../stores/constants/constants";
 
 const initialEmptyToken = {
   id: "0",
@@ -33,7 +33,7 @@ const initialEmptyToken = {
 export default function ssVotes() {
   const router = useRouter();
 
-  const [, updateState] = useState();
+  const [, updateState] = useState<{}>();
   const forceUpdate = useCallback(() => updateState({}), []);
 
   const [gauges, setGauges] = useState([]);
@@ -93,7 +93,7 @@ export default function ssVotes() {
             address: asset?.address,
             value: BigNumber(
               asset && asset.votePercent ? asset.votePercent : 0
-            ).toNumber(0),
+            ).toNumber(),
           };
         })
       );
@@ -187,6 +187,7 @@ export default function ssVotes() {
                   fullWidth
                   value={value}
                   onChange={handleChange}
+                  // @ts-expect-error This is because of how material-ui works
                   InputProps={{
                     className: classes.mediumInput,
                   }}
@@ -259,7 +260,7 @@ export default function ssVotes() {
               className={classes.searchContainer}
               variant="outlined"
               fullWidth
-              placeholder="ETH, MIM, 0x..."
+              placeholder="WETH, MIM, 0x..."
               value={search}
               onChange={onSearchChanged}
               InputProps={{
@@ -327,11 +328,7 @@ export default function ssVotes() {
             variant="contained"
             size="large"
             color="primary"
-            disabled={
-              voteLoading ||
-              BigNumber(totalVotes).eq(0) ||
-              BigNumber(totalVotes).gt(100)
-            }
+            disabled={voteLoading || !BigNumber(totalVotes).eq(100)}
             onClick={onVote}
           >
             <Typography className={classes.actionButtonText}>

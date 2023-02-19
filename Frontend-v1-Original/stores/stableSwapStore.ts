@@ -4927,16 +4927,16 @@ class Store {
         return gaugesContract.methods.votes(tokenID, pair.address);
       });
 
-      const voteCounts = await multicall.aggregate(calls);
+      const voteCounts = (await multicall.aggregate(calls)) as string[];
 
       let votes = [];
-      //FIXME: might be a mistake here
+
       const totalVotes = voteCounts.reduce((curr, acc) => {
         let num = BigNumber(acc).gt(0)
-          ? acc
-          : BigNumber(acc).times(-1).toNumber();
+          ? BigNumber(acc)
+          : BigNumber(acc).times(-1);
         return BigNumber(curr).plus(num);
-      }, 0);
+      }, BigNumber(0));
 
       for (let i = 0; i < voteCounts.length; i++) {
         votes.push({
