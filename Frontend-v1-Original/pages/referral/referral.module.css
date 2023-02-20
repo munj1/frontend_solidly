@@ -1,0 +1,96 @@
+.ffContainer {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  margin-top: 0px;
+  padding-top: 106px;
+  position: relative;
+}
+
+.notConnectedContent {
+  width: calc(100%) !important;
+  background: rgba(17, 23, 41, 0.2) !important;
+  text-align: center;
+  padding: 50px;
+  height: calc(100vh);
+  box-shadow: none !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  flex-direction: column;
+  border-radius: 0 !important;
+  position: fixed;
+  top: 0;
+}
+
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap");
+
+.mainHeadingNC {
+  text-align: center !important;
+  font-size: 30px !important;
+  font-family: "Monument" !important;
+  font-weight: 100 !important;
+  color: #fff;
+}
+
+.mainDescNC {
+  margin: 30px auto !important;
+  text-align: center !important;
+  color: #7e99b0;
+  font-size: 18px !important;
+  max-width: 800px;
+  line-height: 1.8rem !important;
+}
+
+.buttonConnect {
+  background: rgba(6, 211, 215, 0.3) !important;
+  color: rgba(6, 211, 215, 1) !important;
+  border-radius: 60px !important;
+  padding: 12px 24px 14px 24px !important;
+  font-weight: 700 !important;
+  text-transform: none !important;
+  border: 1px solid rgba(6, 211, 215, 1) !important;
+  transform: scale(0.85);
+  -webkit-transition: all 300ms ease-out;
+  -moz-transition: all 300ms ease-out;
+  -ms-transition: all 300ms ease-out;
+  -o-transition: all 300ms ease-out;
+  transition: all 300ms ease-out;
+}
+
+.buttonConnect:hover {
+  background: rgba(6, 211, 215, 1) !important;
+  color: #040105 !important;
+  text-transform: none !important;
+  border: 1px solid rgba(6, 211, 215, 1) !important;
+  transform: scale(0.9);
+  -webkit-transition: all 300ms ease-out;
+  -moz-transition: all 300ms ease-out;
+  -ms-transition: all 300ms ease-out;
+  -o-transition: all 300ms ease-out;
+  transition: all 300ms ease-out;
+}
+
+@media screen and (max-width: 1200px) {
+  .ffContainer {
+    padding-top: 80px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .mainHeadingNC {
+    text-align: center !important;
+    font-size: 24px !important;
+  }
+
+  .mainDescNC {
+    font-size: 15px !important;
+    line-height: 1.4rem !important;
+  }
+
+  .ffContainer {
+    padding-top: 30px;
+  }
+}
