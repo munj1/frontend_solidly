@@ -7,7 +7,7 @@ import Unlock from "../../components/unlock";
 import stores from "../../stores";
 import { ACTIONS } from "../../stores/constants";
 
-import classes from "./rewards.module.css";
+import classes from "./referral.module.css";
 
 function Referral() {
   const accountStore = stores.accountStore.getStore("account");
