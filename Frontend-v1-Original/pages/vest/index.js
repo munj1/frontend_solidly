@@ -53,13 +53,12 @@ function Vesting ({ changeTheme }) {
         </div>
       ) : (
         <Paper className={classes.notConnectedContent}>
-          <div className={classes.sphere}></div>
           <div className={classes.contentFloat}>
             <Typography className={classes.mainHeadingNC} variant='h1'>
               Vesting NFTs
             </Typography>
             <Typography className={classes.mainDescNC} variant='body2'>
-              Lock your Solid to earn rewards and governance rights. Each locked
+              Lock your FLOW to earn rewards and governance rights. Each locked
               position is created and represented as an NFT, meaning you can
               hold multiple locked positions.
             </Typography>

@@ -31,20 +31,6 @@
   z-index: 9;
 }
 
-.sphere {
-  position: absolute;
-  top: 20%;
-  left: 20%;
-  transform: translate(-50%, -50%);
-  width: 420px;
-  height: 420px;
-  background-image: url('../../images/s.png');
-  background-size: contain;
-  background-position: center;
-  background-repeat: no-repeat;
-  opacity: 0.42;
-}
-
 .overviewIcon {
   font-size: 110px !important;
   margin-bottom: 30px;

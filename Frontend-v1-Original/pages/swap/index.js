@@ -44,11 +44,10 @@ function Swap({ changeTheme }) {
         <SwapComponent />
          :
          <Paper className={classes.notConnectedContent}>
-            <div className={classes.sphere}></div>
             <div className={classes.contentFloat}>
            <Typography className={classes.mainHeadingNC} variant='h1'>Swap</Typography>
            <Typography className={classes.mainDescNC} variant='body2'>
-             Swap between Solidly supported stable and volatile assets.
+             Swap between Velocimeter supported stable and volatile assets.
            </Typography>
            <Button
              disableElevation
