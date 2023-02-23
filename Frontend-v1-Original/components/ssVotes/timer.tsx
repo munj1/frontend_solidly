@@ -9,6 +9,7 @@ const DAY = HOUR * 24;
 
 export default function Timer({ deadline }: { deadline: number }) {
   const { days, hours, minutes, seconds } = useTimer(deadline, MINUTE);
+
   return (
     <div className={classes.timerBox}>
       <div className={classes.timerBox_title}>Epoch timer</div>
